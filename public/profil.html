@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Profil & pengaturan akun ARUNA.">
+  <title>ARUNA — Profil</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("aruna-theme");
+        if (!t) t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) { document.documentElement.setAttribute("data-theme", "light"); }
+    })();
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body data-page="profil">
+
+  <div class="app">
+    <main class="app-main">
+      <div class="app-content">
+
+        <header class="topbar">
+          <div class="greet page-head">
+            <span class="eyebrow">Profil</span>
+            <h1>Akun &amp; Pengaturan</h1>
+            <p>Kelola identitas dan preferensi aplikasi</p>
+          </div>
+          <div class="topbar-actions">
+            <button class="neu-btn icon-only theme-toggle" data-theme-toggle aria-label="Ganti mode terang/gelap">
+              <svg class="ic ic-sun"><use href="#i-sun"/></svg>
+              <svg class="ic ic-moon"><use href="#i-moon"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="row-2col">
+          <!-- Kartu identitas -->
+          <section class="card glass" style="align-self:start">
+            <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+              <span class="avatar" style="width:72px;height:72px;font-size:1.6rem">M</span>
+              <div style="flex:1;min-width:160px">
+                <h3 style="font-size:1.1rem;font-weight:800" data-user-name>Memuat…</h3>
+                <p class="muted" style="font-size:.82rem" data-user-email>—</p>
+                <p class="muted" style="font-size:.78rem" data-user-school>—</p>
+              </div>
+              <button class="neu-btn" style="font-size:.8rem" data-toast="Edit profil tersimpan ke Firestore pada tahap integrasi ✏️">
+                Edit Profil
+              </button>
+            </div>
+
+            <div class="card-title" style="margin-top:20px"><h3 style="font-size:.85rem">Ringkasan</h3></div>
+            <div class="row-item">
+              <span class="coin" style="width:38px;height:38px"><svg class="ic ic-sm"><use href="#i-cpu"/></svg></span>
+              <div class="row-meta"><b>1 Perangkat</b><span>BIOSYNC Unit-01 (ARN-2201)</span></div>
+            </div>
+            <div class="row-item">
+              <span class="coin" style="width:38px;height:38px"><svg class="ic ic-sm"><use href="#i-book"/></svg></span>
+              <div class="row-meta"><b>2 dari 9 Materi</b><span>Ensiklopedia sudah dibaca</span></div>
+            </div>
+            <div class="row-item">
+              <span class="coin" style="width:38px;height:38px"><svg class="ic ic-sm"><use href="#i-leaf"/></svg></span>
+              <div class="row-meta"><b>±14,2 kg Sampah Terolah</b><span>sejak alat diklaim minggu lalu</span></div>
+            </div>
+          </section>
+
+          <!-- Pengaturan -->
+          <section class="card glass" style="align-self:start">
+            <div class="card-title"><h3>Pengaturan</h3></div>
+
+            <div class="row-item">
+              <span class="coin" style="width:38px;height:38px"><svg class="ic ic-sm"><use href="#i-moon"/></svg></span>
+              <div class="row-meta"><b>Mode Gelap</b><span>Ikuti preferensi atau atur manual</span></div>
+              <label class="switch">
+                <input type="checkbox" id="swTema" aria-label="Mode gelap">
+                <span class="track"></span>
+              </label>
+            </div>
+
+            <div class="row-item">
+              <span class="coin" style="width:38px;height:38px"><svg class="ic ic-sm"><use href="#i-bell"/></svg></span>
+              <div class="row-meta"><b>Notifikasi Alat</b><span>Peringatan suhu &amp; gas di luar ambang</span></div>
+              <label class="switch">
+                <input type="checkbox" checked data-toast-change="Preferensi notifikasi tersimpan 🔔" aria-label="Notifikasi alat">
+                <span class="track"></span>
+              </label>
+            </div>
+
+            <div class="row-item">
+              <span class="coin" style="width:38px;height:38px"><svg class="ic ic-sm"><use href="#i-monitor"/></svg></span>
+              <div class="row-meta"><b>Laporan Mingguan</b><span>Ringkasan email tiap Senin pagi</span></div>
+              <label class="switch">
+                <input type="checkbox" data-toast-change="Preferensi laporan tersimpan 📬" aria-label="Laporan mingguan">
+                <span class="track"></span>
+              </label>
+            </div>
+
+            <div style="display:grid;gap:10px;margin-top:20px">
+              <button class="btn-ghost" data-toast="Kata sandi diubah lewat Firebase Auth pada tahap integrasi 🔒">
+                Ubah Kata Sandi
+              </button>
+              <a class="btn-accent" href="index.html" data-logout style="background:linear-gradient(135deg,var(--critical),#a02c2c);box-shadow:0 10px 22px rgba(208,59,59,.35), inset 0 1.5px 0 rgba(255,255,255,.3)">
+                <svg class="ic ic-sm"><use href="#i-logout"/></svg> Keluar
+              </a>
+            </div>
+          </section>
+        </div>
+
+        <p class="muted" style="text-align:center;font-size:.72rem;margin-top:20px">
+          ARUNA v0.2 · Anaerobic Recycling and Upcycling of Nutrient-rich Food Waste
+        </p>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/theme.js"></script>
+  <script type="module" src="assets/js/auth.js"></script>
+  <script>
+    (function () {
+      "use strict";
+      // Saklar tema tersinkron dua arah dengan toggle di topbar
+      var sw = document.getElementById("swTema");
+      function sync() {
+        sw.checked = document.documentElement.getAttribute("data-theme") === "dark";
+      }
+      sw.addEventListener("change", function () {
+        var theme = sw.checked ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", theme);
+        try { localStorage.setItem("aruna-theme", theme); } catch (e) {}
+        document.dispatchEvent(new CustomEvent("aruna:themechange", { detail: { theme: theme } }));
+      });
+      document.addEventListener("aruna:themechange", sync);
+      sync();
+
+      // Saklar dengan toast konfirmasi
+      document.querySelectorAll("[data-toast-change]").forEach(function (el) {
+        el.addEventListener("change", function () {
+          window.arunaToast(el.getAttribute("data-toast-change"));
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

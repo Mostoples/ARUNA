@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Profil: hanya pemilik akun
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Konten publik (dikelola admin lewat console / Admin SDK)
+    match /articles/{id} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+    match /researches/{id} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    // Riwayat chat AI Edukator: privat per pengguna
+    match /chats/{uid}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

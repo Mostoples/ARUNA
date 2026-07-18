@@ -1,0 +1,154 @@
+/* ============================================================
+   ARUNA — Halaman Home / Dashboard (home.css) · v2 Neu-Glass
+   ============================================================ */
+
+/* ---------- Entrance berjenjang (stagger) ---------- */
+.topbar        { animation: cardIn .55s var(--ease-out) backwards; }
+.device-card   { animation: cardIn .6s var(--ease-out) .06s backwards; }
+.stat-tile     { animation: cardIn .6s var(--ease-out) backwards; }
+.stats-grid .stat-tile:nth-child(1) { animation-delay: .12s; }
+.stats-grid .stat-tile:nth-child(2) { animation-delay: .18s; }
+.stats-grid .stat-tile:nth-child(3) { animation-delay: .24s; }
+.stats-grid .stat-tile:nth-child(4) { animation-delay: .30s; }
+.chart-card    { animation: cardIn .65s var(--ease-out) .36s backwards; }
+.phase-card    { animation: cardIn .65s var(--ease-out) .42s backwards; }
+.yield-card    { animation: cardIn .65s var(--ease-out) .48s backwards; }
+.quick-title   { animation: cardIn .6s var(--ease-out) .52s backwards; }
+.quick-item    { animation: cardIn .6s var(--ease-out) backwards; }
+.quick-grid .quick-item:nth-child(1) { animation-delay: .56s; }
+.quick-grid .quick-item:nth-child(2) { animation-delay: .62s; }
+.quick-grid .quick-item:nth-child(3) { animation-delay: .68s; }
+.quick-grid .quick-item:nth-child(4) { animation-delay: .74s; }
+
+/* Hover mengangkat kartu statistik */
+.stat-tile:hover { transform: translateY(-3px); }
+
+/* (Topbar & avatar pindah ke style.css — dipakai semua halaman) */
+
+/* ---------- Kartu perangkat ---------- */
+.device-card {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px;
+  padding: 16px 18px; margin-bottom: 16px;
+}
+.device-meta { flex: 1; min-width: 150px; }
+.device-meta h2 { font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.device-meta p  { font-size: .78rem; color: var(--ink-3); }
+.pulse-dot {
+  width: 9px; height: 9px; border-radius: 50%; background: var(--good); flex: none;
+  box-shadow: 0 0 0 0 rgba(12,163,12,.5); animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(12,163,12,.45); }
+  70% { box-shadow: 0 0 0 9px rgba(12,163,12,0); }
+  100% { box-shadow: 0 0 0 0 rgba(12,163,12,0); }
+}
+.device-conn { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+/* ---------- Grid statistik ---------- */
+.stats-grid {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(2, 1fr);
+  margin-bottom: 16px;
+}
+@media (min-width: 720px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.stat-tile { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.stat-head { display: flex; align-items: center; gap: 10px; font-size: .76rem; font-weight: 600; color: var(--ink-3); }
+.stat-head .coin { width: 36px; height: 36px; }
+.stat-head .ic { width: 18px; height: 18px; }
+.stat-value {
+  font-size: 1.6rem; font-weight: 800; line-height: 1;
+  background: linear-gradient(120deg, var(--ink-1) 30%, var(--accent) 130%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.stat-value small { font-size: .85rem; font-weight: 600; }
+.stat-note { font-size: .72rem; color: var(--ink-3); }
+.stat-note.up { color: var(--good-text); font-weight: 600; }
+
+/* Cincin level digester */
+.stat-tile--ring { flex-direction: row; align-items: center; justify-content: space-between; }
+.ring { width: 78px; height: 78px; flex: none; border-radius: 50%; padding: 2px; }
+.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring .track { stroke: var(--grid); }
+.ring .bar   { stroke: var(--accent); transition: stroke-dashoffset .8s ease;
+               filter: drop-shadow(0 0 4px var(--accent-glow)); }
+.ring-wrap { position: relative; }
+.ring-label {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-size: .95rem; font-weight: 800;
+}
+
+/* ---------- Baris kartu: grafik + samping ---------- */
+.row-2col { display: grid; gap: 16px; margin-bottom: 16px; }
+@media (min-width: 900px) { .row-2col { grid-template-columns: 1.6fr 1fr; } }
+
+/* ---------- Kartu grafik ---------- */
+.chart-card { padding: 18px; }
+.card-title { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+.card-title h3 { font-size: .98rem; font-weight: 700; }
+.card-title .muted { font-size: .75rem; }
+.chart-sub { font-size: .75rem; color: var(--ink-3); margin-bottom: 10px; }
+/* grafik duduk di sumur cekung — kontras neu di dalam kaca */
+.chart-box { position: relative; height: 224px; padding: 10px 6px 4px; }
+.chart-box canvas { width: 100%; height: 100%; touch-action: pan-y; }
+.chart-tip {
+  position: absolute; z-index: 5; pointer-events: none;
+  background: var(--card-strong);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border: 1px solid var(--bevel-hi); border-radius: 10px;
+  padding: 6px 10px; font-size: .75rem; white-space: nowrap;
+  box-shadow: 0 8px 20px var(--neu-lo);
+  opacity: 0; transform: translate(-50%, -8px);
+  transition: opacity .12s ease;
+}
+.chart-tip.show { opacity: 1; }
+.chart-tip .t-val { font-weight: 800; font-size: .88rem; }
+.chart-legend { display: flex; gap: 14px; margin-top: 12px; font-size: .72rem; color: var(--ink-3); flex-wrap: wrap; }
+.chart-legend .key { display: inline-flex; align-items: center; gap: 6px; }
+.chart-legend .swatch { width: 14px; height: 3px; border-radius: 2px; background: var(--chart-line); }
+.chart-legend .swatch--band { width: 14px; height: 10px; border-radius: 3px; background: var(--accent-soft); }
+
+/* ---------- Kolom samping: fase + hasil ---------- */
+.side-col { display: flex; flex-direction: column; gap: 16px; }
+
+.phase-card { padding: 18px; }
+.phase-bar {
+  height: 14px; border-radius: 999px; margin: 14px 0 8px;
+  background: var(--well);
+  box-shadow: var(--inset-shadow);
+  overflow: hidden;
+}
+.phase-bar span {
+  display: block; height: 100%; width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.35), 0 0 8px var(--accent-glow);
+  transition: width .8s ease;
+}
+.phase-meta { display: flex; justify-content: space-between; font-size: .74rem; color: var(--ink-3); }
+
+.yield-card { padding: 18px; }
+.yield-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+.yield-item { display: flex; align-items: center; gap: 12px; }
+.yield-ic { width: 40px; height: 40px; }
+.yield-ic--fire  { color: var(--serious); }
+.yield-ic--drop  { color: var(--chart-line); }
+.yield-ic--leaf  { color: var(--good-text); }
+.yield-meta { flex: 1; }
+.yield-meta b { font-size: .88rem; display: block; }
+.yield-meta span { font-size: .72rem; color: var(--ink-3); }
+.yield-val { font-weight: 800; font-size: .95rem; }
+
+/* ---------- Menu cepat ---------- */
+.quick-title { font-size: .98rem; font-weight: 700; margin: 4px 0 12px; }
+.quick-grid { display: grid; gap: 14px; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 720px) { .quick-grid { grid-template-columns: repeat(4, 1fr); } }
+.quick-item {
+  padding: 16px 14px; display: flex; flex-direction: column; gap: 10px;
+  transition: transform .15s ease;
+}
+.quick-item:hover { transform: translateY(-3px); }
+.quick-item:active { transform: scale(.98); }
+.quick-item b { font-size: .86rem; }
+.quick-item span { font-size: .72rem; color: var(--ink-3); }

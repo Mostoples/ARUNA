@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Ensiklopedia & silabus ARUNA — materi biogas, fermentasi anaerob, kompos, dan ekonomi sirkular.">
+  <title>ARUNA — Ensiklopedia</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("aruna-theme");
+        if (!t) t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) { document.documentElement.setAttribute("data-theme", "light"); }
+    })();
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body data-page="ensiklopedia">
+
+  <div class="app">
+    <main class="app-main">
+      <div class="app-content">
+
+        <header class="topbar">
+          <div class="greet page-head">
+            <span class="eyebrow">Ensiklopedia</span>
+            <h1>Silabus &amp; Materi</h1>
+            <p>Belajar dari alat yang bekerja sungguhan</p>
+          </div>
+          <div class="topbar-actions">
+            <button class="neu-btn icon-only theme-toggle" data-theme-toggle aria-label="Ganti mode terang/gelap">
+              <svg class="ic ic-sun"><use href="#i-sun"/></svg>
+              <svg class="ic ic-moon"><use href="#i-moon"/></svg>
+            </button>
+            <a class="avatar" href="profil.html" title="Profil">M</a>
+          </div>
+        </header>
+
+        <!-- Pencarian -->
+        <div class="input-wrap section-gap">
+          <svg class="ic ic-sm"><use href="#i-book"/></svg>
+          <input class="input" id="searchInput" type="search" placeholder="Cari materi… (mis. biogas, metana, kompos)">
+        </div>
+
+        <!-- Filter kategori -->
+        <div class="chip-row" id="catRow">
+          <button class="chip-btn is-active" data-cat="semua">Semua</button>
+          <button class="chip-btn" data-cat="biogas">Biogas</button>
+          <button class="chip-btn" data-cat="fermentasi">Fermentasi</button>
+          <button class="chip-btn" data-cat="kompos">Kompos</button>
+          <button class="chip-btn" data-cat="lingkungan">Lingkungan</button>
+        </div>
+
+        <!-- Kartu materi -->
+        <div class="article-grid" id="artGrid"></div>
+        <p class="muted" id="emptyMsg" hidden style="text-align:center;padding:32px 0">
+          Tidak ada materi yang cocok dengan pencarian 😔
+        </p>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/theme.js"></script>
+  <script type="module" src="assets/js/auth.js"></script>
+  <script>
+    /* Konten dummy — nanti diambil dari Firestore koleksi `articles` */
+    (function () {
+      "use strict";
+      var ARTIKEL = [
+        { cat: "biogas", bab: "Bab 1", menit: 6, dibaca: true,
+          judul: "Apa Itu Biogas?",
+          isi: "Pengertian biogas, komposisi metana (CH₄) dan CO₂, serta mengapa sisa makanan bisa menjadi sumber energi." },
+        { cat: "biogas", bab: "Bab 2", menit: 8, dibaca: true,
+          judul: "Dari Sampah ke Api Kompor",
+          isi: "Perjalanan biogas dari digester ke kompor: penampungan, tekanan, dan cara menghitung energi yang dihasilkan." },
+        { cat: "fermentasi", bab: "Bab 3", menit: 10, dibaca: false,
+          judul: "Fermentasi Anaerob Tahap demi Tahap",
+          isi: "Hidrolisis, asidogenesis, asetogenesis, dan metanogenesis — empat tahap penguraian bahan organik tanpa oksigen." },
+        { cat: "fermentasi", bab: "Bab 4", menit: 7, dibaca: false,
+          judul: "Mengapa Suhu 30–40 °C Penting?",
+          isi: "Peran bakteri mesofilik, dampak suhu terlalu rendah/tinggi, dan cara alat menjaga suhu optimal." },
+        { cat: "fermentasi", bab: "Bab 5", menit: 5, dibaca: false,
+          judul: "Membaca Sensor: MQ-4, Load Cell, & Ultrasonik",
+          isi: "Cara kerja sensor gas metana, sensor berat, dan sensor level yang dipakai alat — plus cara membaca datanya di aplikasi." },
+        { cat: "kompos", bab: "Bab 6", menit: 6, dibaca: false,
+          judul: "Pupuk Cair vs Kompos Padat",
+          isi: "Perbedaan kandungan hara, cara aplikasi ke tanaman, dan takaran aman untuk kebun sekolah." },
+        { cat: "kompos", bab: "Bab 7", menit: 9, dibaca: false,
+          judul: "Panen & Pengemasan Kompos",
+          isi: "Kapan kompos siap dipanen, ciri kompos matang, dan ide pengemasan sebagai produk kewirausahaan sekolah." },
+        { cat: "lingkungan", bab: "Bab 8", menit: 8, dibaca: false,
+          judul: "Ekonomi Sirkular di Sekolah",
+          isi: "Konsep circular economy: menutup lingkaran dari kantin → biodigester → kebun → kembali ke kantin." },
+        { cat: "lingkungan", bab: "Bab 9", menit: 6, dibaca: false,
+          judul: "Sampah Makanan & Gas Rumah Kaca",
+          isi: "Bagaimana food waste di TPA menghasilkan metana liar, dan seberapa besar dampak biodigester menguranginya." }
+      ];
+
+      var grid = document.getElementById("artGrid");
+      var cari = "", kategori = "semua";
+
+      function render() {
+        var q = cari.toLowerCase();
+        var rows = ARTIKEL.filter(function (a) {
+          return (kategori === "semua" || a.cat === kategori) &&
+                 (!q || (a.judul + " " + a.isi).toLowerCase().indexOf(q) !== -1);
+        });
+        document.getElementById("emptyMsg").hidden = rows.length > 0;
+        grid.innerHTML = rows.map(function (a, i) {
+          return '<a class="article-card glass anim-in" href="#" style="animation-delay:' + (i * 50) + 'ms" ' +
+            'data-toast="Konten lengkap dimuat dari Firestore pada tahap integrasi 📖">' +
+            '<div class="art-top"><span class="chip">' + a.bab + "</span>" +
+            (a.dibaca ? '<span class="chip chip--good"><span class="dot"></span> Dibaca</span>' : "") +
+            "</div>" +
+            "<h3>" + a.judul + "</h3><p>" + a.isi + "</p>" +
+            '<div class="art-meta"><svg class="ic ic-sm"><use href="#i-book"/></svg> ' + a.menit + " menit baca · " +
+            a.cat.charAt(0).toUpperCase() + a.cat.slice(1) + "</div></a>";
+        }).join("");
+      }
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        cari = this.value; render();
+      });
+      document.querySelectorAll("[data-cat]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          kategori = btn.getAttribute("data-cat");
+          document.querySelectorAll("[data-cat]").forEach(function (b) {
+            b.classList.toggle("is-active", b === btn);
+          });
+          render();
+        });
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>

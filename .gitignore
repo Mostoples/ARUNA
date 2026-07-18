@@ -1,0 +1,11 @@
+# Kredensial — JANGAN pernah di-commit / di-hosting
+secrets/
+*-service-account.json
+
+# Firebase
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+
+# Node
+node_modules/

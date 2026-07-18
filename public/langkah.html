@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Langkah-langkah kerja sistem biodigester ARUNA beserta SOP dan checklist harian.">
+  <title>ARUNA — Langkah Sistem</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("aruna-theme");
+        if (!t) t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) { document.documentElement.setAttribute("data-theme", "light"); }
+    })();
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body data-page="langkah">
+
+  <div class="app">
+    <main class="app-main">
+      <div class="app-content">
+
+        <header class="topbar">
+          <div class="greet page-head">
+            <span class="eyebrow">Langkah Sistem</span>
+            <h1>Alur Kerja Alat</h1>
+            <p>Dari sisa makanan sampai panen hasil — beserta SOP harian</p>
+          </div>
+          <div class="topbar-actions">
+            <button class="neu-btn icon-only theme-toggle" data-theme-toggle aria-label="Ganti mode terang/gelap">
+              <svg class="ic ic-sun"><use href="#i-sun"/></svg>
+              <svg class="ic ic-moon"><use href="#i-moon"/></svg>
+            </button>
+            <a class="avatar" href="profil.html" title="Profil">M</a>
+          </div>
+        </header>
+
+        <div class="row-2col" style="display:grid;gap:16px">
+
+          <!-- Stepper -->
+          <section class="card glass">
+            <div class="card-title" style="margin-bottom:16px">
+              <h3>Tahapan Proses</h3>
+              <span class="chip chip--good"><span class="dot"></span> Fase 3 berjalan</span>
+            </div>
+
+            <div class="steps">
+              <div class="step is-done">
+                <span class="coin"><svg class="ic"><use href="#i-scale"/></svg></span>
+                <div class="step-body">
+                  <span class="step-num">LANGKAH 1 · SELESAI</span>
+                  <h3>Input Smart Hopper</h3>
+                  <p>Sisa makanan dimasukkan lewat hopper. Sensor berat (load cell) dan kamera
+                     mencatat jenis serta jumlah sampah secara otomatis ke aplikasi.</p>
+                </div>
+              </div>
+
+              <div class="step is-done">
+                <span class="coin"><svg class="ic"><use href="#i-cpu"/></svg></span>
+                <div class="step-body">
+                  <span class="step-num">LANGKAH 2 · SELESAI</span>
+                  <h3>Pencacahan (Shredder)</h3>
+                  <p>Sampah dicacah menjadi potongan kecil oleh motor pencacah agar luas permukaan
+                     bertambah dan fermentasi berjalan lebih cepat dan efisien.</p>
+                </div>
+              </div>
+
+              <div class="step is-active">
+                <span class="coin"><svg class="ic"><use href="#i-flask"/></svg></span>
+                <div class="step-body">
+                  <span class="step-num" style="color:var(--accent)">LANGKAH 3 · SEDANG BERJALAN — HARI KE-5</span>
+                  <h3>Fermentasi Anaerob <span class="chip chip--good" style="font-size:.68rem"><span class="dot"></span> 30–40 °C</span></h3>
+                  <p>Di dalam digester 80 L tanpa oksigen, mikroorganisme mengurai bahan organik
+                     selama 7–14 hari. Sensor suhu, gas (MQ-4), dan level memantau prosesnya
+                     secara real-time.</p>
+                </div>
+              </div>
+
+              <div class="step">
+                <span class="coin"><svg class="ic"><use href="#i-drop"/></svg></span>
+                <div class="step-body">
+                  <span class="step-num">LANGKAH 4 · MENUNGGU</span>
+                  <h3>Penyimpanan Hasil</h3>
+                  <p>Hasil fermentasi dipisahkan ke tiga outlet: biogas ke penampung gas,
+                     pupuk cair ke tangki, dan kompos padat ke wadah panen.</p>
+                </div>
+              </div>
+
+              <div class="step">
+                <span class="coin"><svg class="ic"><use href="#i-flame"/></svg></span>
+                <div class="step-body">
+                  <span class="step-num">LANGKAH 5 · MENUNGGU</span>
+                  <h3>Pemanfaatan</h3>
+                  <p>Biogas dipakai untuk kompor kantin, pupuk cair dan kompos untuk kebun
+                     sekolah — datanya tercatat sebagai bahan pembelajaran siswa.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SOP & keselamatan -->
+          <div class="side-col" style="display:flex;flex-direction:column;gap:16px">
+            <section class="card glass">
+              <div class="card-title">
+                <h3>Checklist Harian</h3>
+                <span class="muted" id="checkCount">0/5</span>
+              </div>
+              <div id="checkList">
+                <label class="check-item">
+                  <input type="checkbox" data-check="c1">
+                  <span class="check-box"><svg viewBox="0 0 24 24"><path d="m5 13 4 4 10-11"/></svg></span>
+                  <span class="check-label">Pastikan hopper tertutup rapat setelah input</span>
+                </label>
+                <label class="check-item">
+                  <input type="checkbox" data-check="c2">
+                  <span class="check-box"><svg viewBox="0 0 24 24"><path d="m5 13 4 4 10-11"/></svg></span>
+                  <span class="check-label">Cek suhu digester (30–40 °C) di aplikasi</span>
+                </label>
+                <label class="check-item">
+                  <input type="checkbox" data-check="c3">
+                  <span class="check-box"><svg viewBox="0 0 24 24"><path d="m5 13 4 4 10-11"/></svg></span>
+                  <span class="check-label">Periksa selang gas — tidak ada kebocoran</span>
+                </label>
+                <label class="check-item">
+                  <input type="checkbox" data-check="c4">
+                  <span class="check-box"><svg viewBox="0 0 24 24"><path d="m5 13 4 4 10-11"/></svg></span>
+                  <span class="check-label">Kosongkan penampung pupuk cair bila penuh</span>
+                </label>
+                <label class="check-item">
+                  <input type="checkbox" data-check="c5">
+                  <span class="check-box"><svg viewBox="0 0 24 24"><path d="m5 13 4 4 10-11"/></svg></span>
+                  <span class="check-label">Catat berat sampah masuk hari ini</span>
+                </label>
+              </div>
+            </section>
+
+            <section class="card glass">
+              <div class="card-title"><h3>Keselamatan</h3></div>
+              <div class="row-item">
+                <span class="coin" style="color:var(--critical)"><svg class="ic"><use href="#i-flame"/></svg></span>
+                <div class="row-meta">
+                  <b>Jauhkan api terbuka</b>
+                  <span>Biogas mudah terbakar — dilarang merokok/menyalakan api di dekat alat.</span>
+                </div>
+              </div>
+              <div class="row-item">
+                <span class="coin" style="color:var(--warning)"><svg class="ic"><use href="#i-wind"/></svg></span>
+                <div class="row-meta">
+                  <b>Ventilasi cukup</b>
+                  <span>Tempatkan alat di area berventilasi; perhatikan notifikasi gas &gt; 800 ppm.</span>
+                </div>
+              </div>
+              <div class="row-item">
+                <span class="coin"><svg class="ic"><use href="#i-cpu"/></svg></span>
+                <div class="row-meta">
+                  <b>Jangan buka digester saat proses</b>
+                  <span>Oksigen yang masuk menghentikan fermentasi anaerob.</span>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/theme.js"></script>
+  <script type="module" src="assets/js/auth.js"></script>
+  <script>
+    // Checklist harian: tersimpan per-tanggal di localStorage
+    (function () {
+      "use strict";
+      var key = "aruna-sop-" + new Date().toISOString().slice(0, 10);
+      var saved = {};
+      try { saved = JSON.parse(localStorage.getItem(key) || "{}"); } catch (e) {}
+      var boxes = document.querySelectorAll("[data-check]");
+      function updateCount() {
+        var n = 0;
+        boxes.forEach(function (b) { if (b.checked) n++; });
+        document.getElementById("checkCount").textContent = n + "/" + boxes.length;
+        if (n === boxes.length) window.arunaToast("Checklist harian selesai — kerja bagus! 🌱");
+      }
+      boxes.forEach(function (b) {
+        b.checked = !!saved[b.getAttribute("data-check")];
+        b.addEventListener("change", function () {
+          saved[b.getAttribute("data-check")] = b.checked;
+          try { localStorage.setItem(key, JSON.stringify(saved)); } catch (e) {}
+          updateCount();
+        });
+      });
+      updateCount();
+    })();
+  </script>
+</body>
+</html>

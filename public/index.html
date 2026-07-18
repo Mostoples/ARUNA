@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="ARUNA — platform biodigester pintar untuk sekolah. Ubah sisa makanan program MBG menjadi biogas, pupuk, dan media belajar dengan monitoring IoT real-time.">
+  <title>ARUNA — Platform Biodigester Pintar untuk Sekolah</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("aruna-theme");
+        if (!t) t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) { document.documentElement.setAttribute("data-theme", "light"); }
+    })();
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/landing.css">
+</head>
+<body data-page="landing">
+
+  <!-- ===== Navbar ===== -->
+  <header class="land-nav glass">
+    <span class="brand-logo"><svg class="ic"><use href="#i-leaf"/></svg></span>
+    <div><div class="brand-name">ARUNA</div></div>
+    <nav class="land-links" aria-label="Navigasi landing">
+      <a href="#fitur">Fitur</a>
+      <a href="#cara-kerja">Cara Kerja</a>
+      <a href="#testimoni">Testimoni</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="land-cta">
+      <button class="neu-btn icon-only theme-toggle" data-theme-toggle aria-label="Ganti mode terang/gelap">
+        <svg class="ic ic-sun"><use href="#i-sun"/></svg>
+        <svg class="ic ic-moon"><use href="#i-moon"/></svg>
+      </button>
+      <a class="neu-btn" href="login.html">Masuk</a>
+      <a class="btn-accent" href="login.html#daftar">Coba Gratis</a>
+    </div>
+  </header>
+
+  <main class="land-main">
+
+    <!-- ===== Hero ===== -->
+    <section class="hero-center">
+      <span class="hero-pill"><span class="tag">BARU</span> AI Edukator — tanya apa saja soal biodigester 🤖</span>
+      <h1>Sisa Makanan Hari Ini,<br><span class="grad">Energi Sekolah Esok Hari.</span></h1>
+      <p class="lead">
+        ARUNA mengubah sisa makanan program MBG menjadi biogas, pupuk, dan bahan ajar —
+        lengkap dengan monitoring IoT real-time, kurikulum, dan asisten AI dalam satu platform.
+      </p>
+      <div class="hero-actions">
+        <a class="btn-accent" href="login.html#daftar">Mulai Gratis <svg class="ic ic-sm"><use href="#i-spark"/></svg></a>
+        <a class="btn-ghost" href="login.html">Lihat Demo</a>
+      </div>
+      <p class="hero-micro">Gratis untuk sekolah program MBG · Tanpa instalasi · Cukup buka browser</p>
+    </section>
+
+    <!-- Mockup produk -->
+    <div class="mock-window glass">
+      <div class="mock-bar">
+        <span class="mock-dots"><i></i><i></i><i></i></span>
+        <span class="mock-url">🔒 aruna-id.web.app/home</span>
+        <span style="width:47px"></span>
+      </div>
+      <div class="mock-body">
+        <div class="mock-side" aria-hidden="true">
+          <div class="mock-nav act"></div>
+          <div class="mock-nav"></div>
+          <div class="mock-nav"></div>
+          <div class="mock-nav"></div>
+          <div class="mock-nav"></div>
+        </div>
+        <div class="mock-main">
+          <div class="mock-stats">
+            <div class="mock-tile"><div class="t">BERAT HARI INI</div><div class="v">2,35 <small>kg</small></div></div>
+            <div class="mock-tile"><div class="t">SUHU DIGESTER</div><div class="v">35,6 <small>°C</small></div></div>
+            <div class="mock-tile"><div class="t">GAS (METANA)</div><div class="v" style="color:var(--good-text)">Normal</div></div>
+            <div class="mock-tile"><div class="t">LEVEL</div><div class="v">75 <small>%</small></div></div>
+          </div>
+          <div class="mock-chart" aria-hidden="true">
+            <svg viewBox="0 0 600 120" preserveAspectRatio="none">
+              <rect class="band" x="0" y="28" width="600" height="52"/>
+              <path class="area" d="M0 72 L60 64 L120 68 L180 55 L240 60 L300 46 L360 52 L420 40 L480 47 L540 38 L600 43 L600 120 L0 120 Z"/>
+              <path class="line" d="M0 72 L60 64 L120 68 L180 55 L240 60 L300 46 L360 52 L420 40 L480 47 L540 38 L600 43"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Pita angka ===== -->
+    <section class="num-band glass reveal">
+      <div class="num-item"><b data-count="500">0</b><span>porsi MBG/hari yang bisa diolah</span></div>
+      <div class="num-item"><b data-count="80">0</b><span>liter volume digester per unit</span></div>
+      <div class="num-item"><b data-count="9">0</b><span>materi belajar siap pakai</span></div>
+      <div class="num-item"><b data-count="24">0</b><span>jam monitoring tanpa henti</span></div>
+    </section>
+
+    <!-- ===== Fitur (bento) ===== -->
+    <section class="land-sec" id="fitur">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Platform Lengkap</span>
+        <h2>Semua yang Sekolah Butuhkan, Satu Aplikasi</h2>
+        <p>Dari memantau alat sampai mengajar di kelas — tanpa aplikasi tambahan.</p>
+      </div>
+      <div class="bento">
+        <div class="bento-card bento-mon glass reveal">
+          <span class="coin"><svg class="ic"><use href="#i-monitor"/></svg></span>
+          <h3>Monitoring IoT Real-time</h3>
+          <p>Berat sampah, suhu, gas metana, dan level digester langsung dari ESP32 —
+             dengan grafik riwayat, ambang peringatan, dan notifikasi.</p>
+          <div class="bento-visual mini-bars" aria-hidden="true">
+            <i style="height:45%;animation-delay:.05s"></i><i style="height:70%;animation-delay:.1s"></i>
+            <i style="height:52%;animation-delay:.15s"></i><i style="height:85%;animation-delay:.2s"></i>
+            <i style="height:63%;animation-delay:.25s"></i><i style="height:92%;animation-delay:.3s"></i>
+            <i style="height:74%;animation-delay:.35s"></i>
+          </div>
+        </div>
+        <div class="bento-card bento-ai glass reveal">
+          <span class="coin"><svg class="ic"><use href="#i-bot"/></svg></span>
+          <h3>AI Edukator</h3>
+          <p>Asisten belajar yang paham data alatmu — siswa bertanya, AI menjawab dengan konteks nyata.</p>
+          <div class="bento-visual mini-chat" aria-hidden="true">
+            <span class="mini-msg q">Kenapa suhu harus 30–40 °C?</span>
+            <span class="mini-msg a">Itu zona nyaman bakteri mesofilik! Suhu alatmu 35,6 °C — optimal ✅</span>
+          </div>
+        </div>
+        <div class="bento-card bento-st glass reveal">
+          <span class="coin"><svg class="ic"><use href="#i-steps"/></svg></span>
+          <h3>Langkah Sistem</h3>
+          <p>SOP interaktif, fase proses live, dan checklist harian untuk operator.</p>
+        </div>
+        <div class="bento-card bento-bk glass reveal">
+          <span class="coin"><svg class="ic"><use href="#i-book"/></svg></span>
+          <h3>Ensiklopedia</h3>
+          <p>Silabus biogas–kompos–ekonomi sirkular yang selaras dengan pembelajaran.</p>
+        </div>
+        <div class="bento-card bento-fl glass reveal">
+          <span class="coin"><svg class="ic"><use href="#i-flask"/></svg></span>
+          <h3>Daftar Penelitian</h3>
+          <p>Referensi riset untuk karya ilmiah siswa dan pengembangan alat.</p>
+        </div>
+        <div class="bento-card bento-bt glass reveal">
+          <span class="coin"><svg class="ic"><use href="#i-bt"/></svg></span>
+          <p><b>Multi perangkat &amp; Bluetooth.</b> Kelola beberapa unit sekaligus dan atur WiFi alat
+             langsung dari browser lewat koneksi BLE ke ESP32 — tanpa aplikasi tambahan.</p>
+          <a class="btn-ghost" href="login.html" style="flex:none">Coba Sekarang</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Cara kerja ===== -->
+    <section class="land-sec" id="cara-kerja">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Cara Kerja</span>
+        <h2>Dari Piring Kembali ke Bumi</h2>
+        <p>Empat tahap yang berjalan otomatis — kamu tinggal memantau.</p>
+      </div>
+      <div class="how-grid how-flow">
+        <div class="how-card glass reveal">
+          <span class="coin"><svg class="ic"><use href="#i-leaf"/></svg></span>
+          <h3>Masukkan</h3>
+          <p>Smart hopper menimbang &amp; mencatat sampah otomatis.</p>
+        </div>
+        <div class="how-card glass reveal">
+          <span class="coin"><svg class="ic"><use href="#i-cpu"/></svg></span>
+          <h3>Dicacah</h3>
+          <p>Shredder memperkecil ukuran agar fermentasi cepat.</p>
+        </div>
+        <div class="how-card glass reveal">
+          <span class="coin"><svg class="ic"><use href="#i-flask"/></svg></span>
+          <h3>Fermentasi</h3>
+          <p>7–14 hari tanpa oksigen, dipantau sensor 24 jam.</p>
+        </div>
+        <div class="how-card glass reveal">
+          <span class="coin"><svg class="ic"><use href="#i-flame"/></svg></span>
+          <h3>Panen</h3>
+          <p>Biogas, pupuk cair, dan kompos siap dimanfaatkan.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Testimoni ===== -->
+    <section class="land-sec" id="testimoni">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Kata Mereka</span>
+        <h2>Disukai Guru, Siswa, &amp; Operator</h2>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card glass reveal">
+          <span class="testi-stars" aria-label="5 dari 5 bintang">★★★★★</span>
+          <q>Dulu sisa makanan kantin cuma jadi masalah bau. Sekarang jadi bahan praktikum IPA
+             paling ditunggu siswa — datanya real-time, bukan simulasi.</q>
+          <div class="testi-who">
+            <span class="avatar">R</span>
+            <div><b>Bu Ratna</b><span>Guru IPA · SMKN 1 Nusantara</span></div>
+          </div>
+        </div>
+        <div class="testi-card glass reveal">
+          <span class="testi-stars" aria-label="5 dari 5 bintang">★★★★★</span>
+          <q>Checklist harian dan notifikasi gasnya sangat membantu. Saya tahu kondisi alat
+             bahkan sebelum sampai sekolah.</q>
+          <div class="testi-who">
+            <span class="avatar">D</span>
+            <div><b>Pak Dedi</b><span>Operator Alat · Kantin MBG</span></div>
+          </div>
+        </div>
+        <div class="testi-card glass reveal">
+          <span class="testi-stars" aria-label="5 dari 5 bintang">★★★★★</span>
+          <q>Aku suka nanya-nanya ke AI-nya, jawabannya nyambung sama alat di sekolah.
+             Laporan proyekku juga pakai grafik dari aplikasi ini!</q>
+          <div class="testi-who">
+            <span class="avatar">S</span>
+            <div><b>Salsa</b><span>Siswi Kelas XI · Tim Riset Sekolah</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="land-sec" id="faq">
+      <div class="sec-head reveal">
+        <span class="eyebrow">FAQ</span>
+        <h2>Pertanyaan yang Sering Diajukan</h2>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item glass reveal">
+          <summary>Apakah ARUNA gratis untuk sekolah?</summary>
+          <p>Ya. Aplikasi ARUNA gratis untuk sekolah peserta program MBG. Biaya hanya untuk
+             perangkat keras biodigester BIOSYNC (satu kali).</p>
+        </details>
+        <details class="faq-item glass reveal">
+          <summary>Perlu instal aplikasi di HP?</summary>
+          <p>Tidak. ARUNA berjalan di browser (HP maupun laptop) dan otomatis menyesuaikan tampilan.
+             Cukup buka aruna-id.web.app dan masuk.</p>
+        </details>
+        <details class="faq-item glass reveal">
+          <summary>Bagaimana alat terhubung ke internet?</summary>
+          <p>Unit BIOSYNC memakai ESP32 dengan WiFi sekolah. Pengaturan WiFi dilakukan sekali
+             lewat Bluetooth langsung dari browser — tanpa kabel, tanpa aplikasi tambahan.</p>
+        </details>
+        <details class="faq-item glass reveal">
+          <summary>Apakah biogasnya aman untuk sekolah?</summary>
+          <p>Aman jika SOP diikuti: alat dilengkapi sensor gas MQ-4 dengan ambang peringatan otomatis,
+             dan aplikasi menyediakan checklist keselamatan harian untuk operator.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ===== CTA akhir ===== -->
+    <section class="cta-final reveal">
+      <h2>Mulai Ubah Sampah Jadi Manfaat Hari Ini</h2>
+      <p>Buat akun gratis, sambungkan alatmu, dan biarkan data yang mengajar.</p>
+      <a class="btn-light" href="login.html#daftar">Buat Akun Gratis <svg class="ic ic-sm"><use href="#i-spark"/></svg></a>
+    </section>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="foot-cols">
+      <div class="foot-brand">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span class="brand-logo"><svg class="ic"><use href="#i-leaf"/></svg></span>
+          <span class="brand-name">ARUNA</span>
+        </div>
+        <p>Anaerobic Recycling and Upcycling of Nutrient-rich Food Waste —
+           platform biodigester pintar untuk sekolah program MBG.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Produk</h4>
+        <a href="#fitur">Fitur</a>
+        <a href="#cara-kerja">Cara Kerja</a>
+        <a href="login.html">Masuk</a>
+        <a href="login.html#daftar">Daftar</a>
+      </div>
+      <div class="foot-col">
+        <h4>Belajar</h4>
+        <a href="login.html">Ensiklopedia</a>
+        <a href="login.html">Daftar Penelitian</a>
+        <a href="login.html">AI Edukator</a>
+      </div>
+      <div class="foot-col">
+        <h4>Bantuan</h4>
+        <a href="#faq">FAQ</a>
+        <a href="mailto:mersif.storage1@gmail.com">Kontak Tim</a>
+      </div>
+    </div>
+    <div class="foot-bottom">© 2026 Tim ARUNA · Dibangun dengan 💚 untuk sekolah Indonesia</div>
+  </footer>
+
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/theme.js"></script>
+  <script>
+    (function () {
+      "use strict";
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Scroll reveal
+      if ("IntersectionObserver" in window && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+          });
+        }, { threshold: 0.15 });
+        document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+      } else {
+        document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
+      }
+
+      // Angka menghitung naik saat terlihat
+      function countUp(el) {
+        var target = parseInt(el.getAttribute("data-count"), 10);
+        if (reduce) { el.textContent = target + "+"; return; }
+        var t0 = performance.now(), dur = 1400;
+        requestAnimationFrame(function step(t) {
+          var p = Math.min(1, (t - t0) / dur);
+          p = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * p) + (p === 1 ? "+" : "");
+          if (p < 1) requestAnimationFrame(step);
+        });
+      }
+      if ("IntersectionObserver" in window) {
+        var io2 = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) { countUp(en.target); io2.unobserve(en.target); }
+          });
+        }, { threshold: 0.6 });
+        document.querySelectorAll("[data-count]").forEach(function (el) { io2.observe(el); });
+      } else {
+        document.querySelectorAll("[data-count]").forEach(countUp);
+      }
+    })();
+  </script>
+</body>
+</html>

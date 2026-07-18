@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="ARUNA — Anaerobic Recycling and Upcycling of Nutrient-rich Food Waste. Dashboard monitoring smart biodigester.">
+  <title>ARUNA — Beranda</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+  <!-- Pasang tema sedini mungkin agar tidak berkedip -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("aruna-theme");
+        if (!t) t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) { document.documentElement.setAttribute("data-theme", "light"); }
+    })();
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/home.css">
+</head>
+<body data-page="home">
+
+  <div class="app">
+
+    <!-- ===== Konten utama (navigasi disuntik layout.js) ===== -->
+    <main class="app-main">
+      <div class="app-content">
+
+        <!-- Topbar -->
+        <header class="topbar">
+          <div class="greet">
+            <h1 id="greeting">Selamat datang! 👋</h1>
+            <p id="today">—</p>
+          </div>
+          <div class="topbar-actions">
+            <button class="neu-btn icon-only theme-toggle" data-theme-toggle aria-label="Ganti mode terang/gelap">
+              <svg class="ic ic-sun"><use href="#i-sun"/></svg>
+              <svg class="ic ic-moon"><use href="#i-moon"/></svg>
+            </button>
+            <button class="neu-btn icon-only" data-toast="Belum ada notifikasi baru" aria-label="Notifikasi">
+              <svg class="ic"><use href="#i-bell"/></svg>
+            </button>
+            <span class="avatar" title="Mersif">M</span>
+          </div>
+        </header>
+
+        <!-- Kartu perangkat aktif -->
+        <section class="device-card glass" aria-label="Perangkat aktif">
+          <span class="coin"><svg class="ic"><use href="#i-cpu"/></svg></span>
+          <div class="device-meta">
+            <h2>BIOSYNC Unit-01 <span class="pulse-dot" title="Online"></span></h2>
+            <p>ID: ARN-2201 · <span id="lastUpdate">Diperbarui baru saja</span></p>
+          </div>
+          <div class="device-conn">
+            <span class="chip chip--good"><svg class="ic ic-sm"><use href="#i-wifi"/></svg> WiFi Terhubung</span>
+            <a class="neu-btn" href="perangkat.html" style="min-height:36px;font-size:.78rem;font-weight:600">
+              <svg class="ic ic-sm"><use href="#i-bt"/></svg> Bluetooth
+            </a>
+          </div>
+        </section>
+
+        <!-- Statistik utama -->
+        <section class="stats-grid" aria-label="Data real-time">
+          <div class="stat-tile glass">
+            <div class="stat-head"><span class="coin"><svg class="ic"><use href="#i-scale"/></svg></span> Berat Hari Ini</div>
+            <div class="stat-value" id="statWeight">2,35<small>kg</small></div>
+            <div class="stat-note up">▲ 0,4 kg dari kemarin</div>
+          </div>
+
+          <div class="stat-tile glass">
+            <div class="stat-head"><span class="coin"><svg class="ic"><use href="#i-thermo"/></svg></span> Suhu Digester</div>
+            <div class="stat-value" id="statTemp">35,6<small>°C</small></div>
+            <div class="stat-note" id="tempNote">Rentang optimal (30–40 °C)</div>
+          </div>
+
+          <div class="stat-tile glass">
+            <div class="stat-head"><span class="coin"><svg class="ic"><use href="#i-wind"/></svg></span> Gas (Metana)</div>
+            <div><span class="chip chip--good" id="statGasChip"><span class="dot"></span> <b>Normal</b></span></div>
+            <div class="stat-note" id="statGasPpm">452 ppm</div>
+          </div>
+
+          <div class="stat-tile glass stat-tile--ring">
+            <div>
+              <div class="stat-head"><span class="coin"><svg class="ic"><use href="#i-gauge"/></svg></span> Level Digester</div>
+              <div class="stat-note" style="margin-top:8px">Kapasitas 80 L</div>
+            </div>
+            <div class="ring ring-wrap neu-well">
+              <svg viewBox="0 0 68 68" role="img" aria-label="Level digester">
+                <circle class="track" cx="34" cy="34" r="30" fill="none" stroke-width="7"/>
+                <circle class="bar" id="ringBar" cx="34" cy="34" r="30" fill="none" stroke-width="7"
+                        stroke-linecap="round" stroke-dasharray="188.5" stroke-dashoffset="188.5"/>
+              </svg>
+              <span class="ring-label" id="ringLabel">75%</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Grafik + kolom samping -->
+        <section class="row-2col">
+          <div class="chart-card glass">
+            <div class="card-title">
+              <h3>Suhu Digester</h3>
+              <span class="muted">24 jam terakhir</span>
+            </div>
+            <p class="chart-sub">Arahkan kursor / sentuh grafik untuk melihat detail per jam.</p>
+            <div class="chart-box neu-well">
+              <canvas id="tempChart" aria-label="Grafik suhu digester 24 jam terakhir" role="img"></canvas>
+              <div class="chart-tip" id="chartTip"></div>
+            </div>
+            <div class="chart-legend">
+              <span class="key"><span class="swatch"></span> Suhu (°C)</span>
+              <span class="key"><span class="swatch swatch--band"></span> Rentang optimal 30–40 °C</span>
+            </div>
+          </div>
+
+          <div class="side-col">
+            <div class="phase-card glass">
+              <div class="card-title">
+                <h3>Fase Fermentasi</h3>
+                <span class="chip chip--good"><span class="dot"></span> Aktif</span>
+              </div>
+              <div class="phase-bar"><span id="phaseFill"></span></div>
+              <div class="phase-meta">
+                <span id="phaseDay">Hari ke-5</span>
+                <span>Estimasi 7–14 hari</span>
+              </div>
+            </div>
+
+            <div class="yield-card glass">
+              <div class="card-title">
+                <h3>Hasil Produksi</h3>
+                <span class="muted">estimasi total</span>
+              </div>
+              <div class="yield-list">
+                <div class="yield-item">
+                  <span class="coin yield-ic yield-ic--fire"><svg class="ic"><use href="#i-flame"/></svg></span>
+                  <div class="yield-meta"><b>Biogas</b><span>untuk kompor / energi</span></div>
+                  <span class="yield-val" id="yieldBiogas">0,42 m³</span>
+                </div>
+                <div class="yield-item">
+                  <span class="coin yield-ic yield-ic--drop"><svg class="ic"><use href="#i-drop"/></svg></span>
+                  <div class="yield-meta"><b>Pupuk Cair</b><span>untuk tanaman sekolah</span></div>
+                  <span class="yield-val" id="yieldPupuk">1,8 L</span>
+                </div>
+                <div class="yield-item">
+                  <span class="coin yield-ic yield-ic--leaf"><svg class="ic"><use href="#i-leaf"/></svg></span>
+                  <div class="yield-meta"><b>Kompos Padat</b><span>media tanam</span></div>
+                  <span class="yield-val" id="yieldKompos">0,9 kg</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Akses cepat -->
+        <section aria-label="Akses cepat">
+          <h3 class="quick-title">Akses Cepat</h3>
+          <div class="quick-grid">
+            <a class="quick-item glass" href="langkah.html">
+              <span class="coin"><svg class="ic"><use href="#i-steps"/></svg></span>
+              <b>Langkah Sistem</b>
+              <span>Alur kerja alat tahap demi tahap</span>
+            </a>
+            <a class="quick-item glass" href="ensiklopedia.html">
+              <span class="coin"><svg class="ic"><use href="#i-book"/></svg></span>
+              <b>Ensiklopedia</b>
+              <span>Materi & silabus biodigester</span>
+            </a>
+            <a class="quick-item glass" href="ai-edukator.html">
+              <span class="coin"><svg class="ic"><use href="#i-bot"/></svg></span>
+              <b>AI Edukator</b>
+              <span>Tanya jawab seputar biogas</span>
+            </a>
+            <a class="quick-item glass" href="penelitian.html">
+              <span class="coin"><svg class="ic"><use href="#i-flask"/></svg></span>
+              <b>Penelitian</b>
+              <span>Kumpulan riset & jurnal</span>
+            </a>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/theme.js"></script>
+  <script type="module" src="assets/js/auth.js"></script>
+  <script type="module" src="assets/js/live.js"></script>
+  <script src="assets/js/home.js"></script>
+</body>
+</html>
