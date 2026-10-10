@@ -1,5 +1,5 @@
 /* ARUNA app — service worker sederhana: cache aset statis, jaringan dulu untuk sisanya. */
-const VERSION = "aruna-app-v2";
+const VERSION = "aruna-app-v3";
 const ASSETS = ["./", "index.html", "app.css", "app.js", "img/mesin.png", "img/icon-192.png", "manifest.webmanifest"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(VERSION).then((c) => c.addAll(ASSETS))); self.skipWaiting(); });
 self.addEventListener("activate", (e) => {

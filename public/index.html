@@ -123,7 +123,7 @@ body{background:#F5F8F6 radial-gradient(rgba(21,138,82,.07) 1.2px,transparent 1.
 .hero .art{isolation:isolate}
 .hero .art::after{content:"";position:absolute;width:300px;height:300px;right:8%;top:4%;border-radius:42% 58% 63% 37%/45% 41% 59% 55%;background:linear-gradient(135deg,#FFD166,#F2A93B);opacity:.35;z-index:-1;animation:morph 12s ease-in-out infinite}
 @keyframes morph{50%{border-radius:58% 42% 37% 63%/55% 59% 41% 45%;transform:rotate(8deg) scale(1.04)}}
-.orbit{position:absolute;z-index:3;width:96px;filter:drop-shadow(0 16px 18px rgba(16,32,26,.22));animation:bob 6s ease-in-out infinite}
+.hero .art img.orbit{position:absolute;z-index:3;width:96px;height:auto;bottom:auto;filter:drop-shadow(0 16px 18px rgba(16,32,26,.22));animation:bob 6s ease-in-out infinite}
 .stats{background:linear-gradient(90deg,#EAF7EF,#FFF4E6 50%,#E9F3FD)}
 .stats div{display:grid;grid-template-columns:1fr auto;column-gap:10px;align-items:start}
 .stats div > *{grid-column:1}
@@ -177,7 +177,7 @@ body{background:#F5F8F6 radial-gradient(rgba(21,138,82,.07) 1.2px,transparent 1.
   <div class="art">
     <img src="assets/img/hero.png" alt="Mesin ARUNA di samping penggunanya">
     <img class="orbit" src="assets/3d/flame-anim.webp" alt="" style="right:0;top:0">
-    <img class="orbit" src="assets/3d/drop-anim.webp" alt="" style="right:42%;bottom:2%;width:78px;animation-delay:1s">
+    <img class="orbit" src="assets/3d/drop-anim.webp" alt="" style="right:42%;top:auto;bottom:2%;width:78px;animation-delay:1s">
     <img class="orbit" src="assets/3d/leaf-anim.webp" alt="" style="left:36%;top:-2%;width:84px;animation-delay:2s">
     <div class="float" style="left:2%;top:18%"><span class="ic b"><svg class="i"><use href="#i-flame"/></svg></span><div><b>±43 menit</b>masak / hari*</div></div>
     <div class="float" style="left:6%;bottom:16%;animation-delay:1.4s"><span class="ic g"><svg class="i"><use href="#i-drop"/></svg></span><div><b>Pupuk cair</b>+ kompos padat</div></div>
