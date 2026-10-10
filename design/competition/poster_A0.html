@@ -1,0 +1,250 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@page{size:841mm 1189mm;margin:0}
+@font-face{font-family:"ISerif";src:url(_poster/fonts/InstrumentSerif-Regular.ttf)}
+@font-face{font-family:"ISerif";font-style:italic;src:url(_poster/fonts/InstrumentSerif-Italic.ttf)}
+@font-face{font-family:"ISans";src:url(_poster/fonts/InstrumentSans-Regular.ttf)}
+@font-face{font-family:"ISans";font-weight:700;src:url(_poster/fonts/InstrumentSans-Bold.ttf)}
+@font-face{font-family:"GMono";src:url(_poster/fonts/GeistMono-Regular.ttf)}
+@font-face{font-family:"GMono";font-weight:700;src:url(_poster/fonts/GeistMono-Bold.ttf)}
+:root{--forest:#0C3B2E;--forest2:#124A3A;--paper:#F6F2E9;--ink:#16241E;--ink2:#34413A;--mute:#5F6C64;--rule:#CFC8B6;
+--saff:#E89B2D;--sage:#8FB9A0;--serif:"ISerif",Georgia,serif;--sans:"ISans","Segoe UI",sans-serif;--mono:"GMono",Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{height:3394px;overflow:hidden}
+body{width:2400px;height:3394px;overflow:hidden;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.wrap{display:flex;flex-direction:column}
+.idx{font-family:var(--mono);font-size:30.0px;letter-spacing:.12em;color:var(--saff);font-weight:700}
+.lab{font-family:var(--mono);font-size:22.0px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.sh{display:flex;align-items:baseline;gap:24px;padding-bottom:18px;border-bottom:3px solid var(--ink);margin-bottom:34px}
+.sh h2{font-family:var(--serif);font-weight:400;font-size:114.4px;line-height:1;letter-spacing:-.01em}
+.dark .sh{border-color:rgba(246,242,233,.55)} .dark .sh h2{color:var(--paper)}
+p{font-size:33.0px;line-height:1.38;color:var(--ink2)}
+.ph{background:#F4E2B8;color:#6A4A10;padding:0 8px;border-radius:4px;font-weight:700}
+/* header */
+.band{background:var(--forest);color:var(--paper);padding:64px 96px 70px;display:grid;grid-template-columns:560px 1fr 560px;gap:56px;align-items:center;position:relative}
+.band::after{content:"";position:absolute;left:96px;right:96px;bottom:0;height:12px;background:linear-gradient(90deg,var(--saff) 0 22%,var(--sage) 22% 100%)}
+.logo{height:300px;background:#fff;border-radius:22px;display:grid;place-items:center;padding:26px 30px;box-shadow:0 20px 40px -20px rgba(0,0,0,.6)}
+.logo img{max-width:100%;max-height:100%;object-fit:contain}
+.ttl{text-align:center}
+.ttl .country{display:inline-flex;align-items:center;gap:18px;font-family:var(--mono);font-size:30.0px;letter-spacing:.3em;color:rgba(246,242,233,.9)}
+.flag{width:78px;height:52px;display:inline-block;background:linear-gradient(#E8281F 50%,#fff 50%)}
+.ttl h1{font-family:var(--serif);font-weight:400;font-size:145.2px;line-height:.96;letter-spacing:-.015em;margin:24px 0 18px}
+.ttl h1 em{color:var(--saff)}
+.ttl .sub{font-size:36.0px;color:rgba(246,242,233,.88);line-height:1.3}
+.ttl .auth{margin-top:20px;font-family:var(--mono);font-size:24.0px;letter-spacing:.06em}
+/* rows */
+.row{display:grid;gap:84px;padding:84px 96px 0;position:relative}
+.big{display:flex;align-items:flex-end;gap:28px}
+.big b{font-family:var(--serif);font-weight:400;font-size:330.0px;line-height:.78;color:var(--forest);letter-spacing:-.03em}
+.big b sup{font-size:99.0px;vertical-align:top;color:var(--saff)}
+.big > span{font-size:48.4px;line-height:1.22;color:var(--ink);padding-bottom:20px}
+.stats3{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin:30px 0 34px}
+.stats3 div{padding:22px 22px 24px 0}
+.stats3 div+div{padding-left:24px;border-left:1px solid var(--rule)}
+.stats3 b{display:block;font-family:var(--serif);font-weight:400;font-size:121.0px;line-height:1;color:var(--forest)}
+.stats3 span{display:block;font-size:31.0px;line-height:1.28;color:var(--ink2);margin-top:10px}
+.stats3 i{display:block;font-style:normal;margin-top:10px}
+ol.num{list-style:none;counter-reset:g;display:grid;gap:18px;margin-top:16px}
+ol.num li{counter-increment:g;font-size:38.0px;line-height:1.32;color:var(--ink2);padding-left:70px;position:relative}
+ol.num li::before{content:counter(g,decimal-leading-zero);position:absolute;left:0;top:4px;font-family:var(--mono);font-size:26.0px;color:var(--saff);font-weight:700}
+ol.num b{color:var(--forest)}
+.path{display:grid;grid-template-columns:repeat(4,1fr);margin:40px 0 0;position:relative}
+.path::before{content:"";position:absolute;left:30px;right:30px;top:29px;height:3px;background:var(--forest)}
+.path div{position:relative;padding-right:12px}
+.path i{display:block;width:60px;height:60px;border-radius:50%;background:var(--paper);border:3px solid var(--forest);margin-bottom:16px;position:relative}
+.path div:last-child i{background:var(--forest)}
+.path div:last-child i::after{content:"";position:absolute;inset:15px;border-radius:50%;background:var(--saff)}
+.path b{font-size:35.0px;display:block} .path span{font-family:var(--mono);font-size:24.0px;color:var(--mute)}
+.hyp{margin-top:40px;padding-top:26px;border-top:1px solid var(--rule)}
+.hyp p{font-family:var(--serif);font-size:63.8px;line-height:1.16;color:var(--forest);margin-top:10px}
+.hyp p em{color:var(--saff);font-style:normal}
+.sdg{display:flex;gap:12px;margin-top:34px;align-items:center}
+.sdg span.sq{width:84px;height:84px;display:grid;place-items:center;color:#fff;font-family:var(--mono);font-weight:700;font-size:32.0px}
+/* method */
+.dark{background:var(--forest);color:var(--paper);padding:56px 60px 64px;position:relative}
+.dark p{color:rgba(246,242,233,.85)}
+.rail{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(246,242,233,.3)}
+.rail div{padding:24px 20px 6px 0}
+.rail div+div{padding-left:22px;border-left:1px solid rgba(246,242,233,.18)}
+.rail .lab{color:var(--saff)} .rail b{display:block;font-family:var(--serif);font-weight:400;font-size:68.2px;margin:6px 0 8px}
+.rail span{font-size:26.0px;line-height:1.3;color:rgba(246,242,233,.82);display:block}
+.mgrid{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;margin-top:40px;align-items:start}
+.xray{position:relative;margin:30px auto 0}
+.xray img{width:100%;display:block;filter:drop-shadow(0 30px 40px rgba(0,0,0,.45))}
+.xray svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.xd{position:absolute;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:var(--saff);box-shadow:0 0 0 8px rgba(232,155,45,.28)}
+.xl{position:absolute;transform:translateY(-50%);white-space:nowrap;font-family:var(--mono);font-size:25.0px;color:var(--paper)}
+.dark .lab{color:rgba(246,242,233,.65)}
+.flow div{padding:18px 0 18px 40px;border-left:3px solid rgba(246,242,233,.35);position:relative}
+.flow div::before{content:"";position:absolute;left:-11px;top:28px;width:19px;height:19px;border-radius:50%;background:var(--paper)}
+.flow div.out::before{background:var(--saff)}
+.flow b{display:block;font-size:35.0px} .flow span{font-family:var(--mono);font-size:22.0px;color:rgba(246,242,233,.75)}
+.eqs{display:grid;grid-template-columns:1fr 1fr;margin-top:44px;border-top:1px solid rgba(246,242,233,.3)}
+.eqs div{padding:22px 24px 18px 0} .eqs div:nth-child(even){padding-left:26px;border-left:1px solid rgba(246,242,233,.18)} .eqs div:nth-child(n+3){border-top:1px solid rgba(246,242,233,.18)}
+.eqs code{display:block;font-family:var(--serif);font-style:italic;font-size:50.6px;line-height:1.22;margin-top:8px}
+.exp{display:grid;grid-template-columns:repeat(3,1fr);margin-top:38px;background:var(--forest2)}
+.exp div{padding:26px 26px 30px} .exp div+div{border-left:1px solid rgba(246,242,233,.12)}
+.exp .lab{color:var(--saff)}
+.exp ul{list-style:none;margin-top:12px;display:grid;gap:8px}
+.exp li{font-size:28.0px;line-height:1.3;color:rgba(246,242,233,.9)}
+/* data */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--rule);margin-bottom:40px}
+.kpis div{padding:0 20px 28px 0} .kpis div+div{padding-left:24px;border-left:1px solid var(--rule)}
+.kpis b{display:block;font-family:var(--serif);font-weight:400;font-size:165.0px;line-height:.92;color:var(--forest)}
+.kpis b small{font-size:57.2px} .kpis div:first-child b{color:var(--saff)}
+.kpis span{display:block;font-size:32.0px;color:var(--ink2);margin-top:12px}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+figure{margin:0}
+figure > img{width:100%;height:620px;object-fit:contain;display:block}
+figcaption{display:flex;gap:16px;align-items:baseline;border-top:2px solid var(--ink);padding-top:14px;margin-bottom:10px}
+figcaption b{font-size:38.0px}
+.disc{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:40px}
+.disc p{font-size:37.0px}
+.disc p b{color:var(--forest)}
+table.t{width:100%;border-collapse:collapse;font-size:31.0px}
+table.t th{font-family:var(--mono);font-size:20.0px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:400;text-align:left;padding:0 10px 12px;border-bottom:3px solid var(--ink)}
+table.t td{padding:11px 10px;border-bottom:1px solid var(--rule);color:var(--ink2)}
+table.t td:not(:first-child),table.t th:not(:first-child){text-align:right;font-family:var(--mono);font-size:28.0px}
+.dtab table.t{color:var(--paper)} .dtab table.t th{color:rgba(246,242,233,.6);border-color:rgba(246,242,233,.6)}
+.dtab table.t td{color:rgba(246,242,233,.9);border-color:rgba(246,242,233,.15);font-size:26.0px}
+.dtab table.t td:not(:first-child){font-size:23.0px}
+table.t.calc td:nth-child(3){color:var(--forest);font-weight:700;background:rgba(143,185,160,.25)}
+.sota table.t td:not(:first-child){text-align:center;font-size:30.0px} .sota table.t th:not(:first-child){text-align:center}
+.sota tr:last-child td{background:rgba(143,185,160,.25)}
+/* conclusion with breakout hero */
+.concl{position:relative}
+.hero{position:absolute;right:-150px;top:-380px;width:1150px;height:1560px;pointer-events:none;z-index:2}
+.hero::before{content:"";position:absolute;left:120px;top:330px;width:980px;height:980px;border-radius:50%;background:radial-gradient(circle at 50% 45%,#E2EDE2 0%,#D7E5D8 55%,rgba(215,229,216,0) 71%)}
+.hero img{position:absolute;right:0;bottom:0;height:1560px;width:auto;filter:drop-shadow(0 40px 50px rgba(12,59,46,.35))}
+.concl .content{position:relative;z-index:3;padding-top:1310px}
+.novelty{font-family:var(--serif);font-size:59.4px;line-height:1.12;color:var(--forest);border-left:8px solid var(--saff);padding-left:30px;margin:0 0 34px}
+.qr{display:flex;gap:28px;align-items:center;margin-top:40px;padding-top:30px;border-top:1px solid var(--rule)}
+.qr img{width:190px}
+.qr b{font-family:var(--serif);font-weight:400;font-size:66.0px;color:var(--forest);display:block}
+/* strip */
+.strip{display:grid;grid-template-columns:repeat(5,1fr);gap:24px}
+.strip img{width:100%;height:270px;object-fit:cover;display:block}
+.strip figcaption{border:0;padding:14px 0 0}
+.strip figcaption b{font-size:36.0px}
+.recs{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;margin-top:24px}
+.recs div{border-top:5px solid var(--forest);padding-top:16px} .recs div:first-child{border-color:var(--saff)}
+.recs p{font-size:33.0px;line-height:1.3}
+.refs{columns:4;column-gap:46px;list-style:none;counter-reset:r}
+.refs li{counter-increment:r;font-size:21.0px;line-height:1.36;color:var(--ink2);break-inside:avoid;margin-bottom:6px;padding-left:38px;position:relative;font-family:var(--serif)}
+.refs li::before{content:counter(r);position:absolute;left:0;font-family:var(--mono);font-size:17.0px;color:var(--mute)}
+.foot{display:flex;justify-content:space-between;padding:26px 96px 52px;font-family:var(--mono);font-size:18.0px;letter-spacing:.06em;color:var(--mute);text-transform:uppercase}
+</style></head><body><div class="wrap">
+<header class="band">
+  <div class="logo"><img src="_poster/logo_isif.png" alt="ISIF"></div>
+  <div class="ttl">
+    <div class="country"><span class="flag"></span>INDONESIA</div>
+    <h1>ARUNA: a kinetically sized, <em>sensor-guided</em> home digester</h1>
+    <div class="sub">IoT-enabled household anaerobic digester converting food waste into biogas and biofertilizer</div>
+    <div class="auth"><span class="ph">[Author 1]</span> · <span class="ph">[Author 2]</span> · <span class="ph">[Author 3]</span> — <span class="ph">[Supervisor]</span> · <span class="ph">[Institution]</span></div>
+  </div>
+  <div class="logo"><img src="_poster/logo_iysa.png" alt="IYSA"></div>
+</header>
+
+<section class="row" style="grid-template-columns:.9fr 1.1fr">
+  <div style="padding-top:56px">
+    <div class="sh"><span class="idx">01</span><h2>Introduction</h2></div>
+    <div class="big"><b>53<sup>kg</sup></b><span>of food wasted per person, per year, in Indonesian homes<br><span class="lab">UNEP Food Waste Index 2024</span></span></div>
+    <div class="stats3"><div><b>14.7 Mt</b><span>household food waste per year in Indonesia</span><i class="lab">UNEP 2024</i></div><div><b>≈ 40 %</b><span>of municipal solid waste is food</span><i class="lab">SIPSN 2023</i></div><div><b>1.7 Gt</b><span>CO₂e from food loss &amp; waste, 2000–19</span><i class="lab">Bappenas 2021</i></div></div>
+    <span class="lab">Research questions</span>
+    <ol class="num" style="margin-bottom:26px">
+      <li>Which volume, OLR and HRT keep household food-waste digestion <b>stable</b>?</li>
+      <li>How much <b>biogas, cooking time and CO₂e</b> can one unit deliver?</li>
+      <li>Can sensor feedback make it <b>usable</b> for non-experts?</li></ol>
+    <span class="lab">Research gap</span>
+    <ol class="num">
+      <li>Home digesters are bulky, manure-fed and <b>unmonitored</b>.</li>
+      <li>Food waste acidifies fast: VFA build-up halts methane.</li>
+      <li>Cheap MQ sensors read ppm leaks, <b>not biogas CH₄ %</b>.</li></ol>
+    <div class="path"><div><i></i><b>Hydrolysis</b><span>→ monomers</span></div><div><i></i><b>Acidogenesis</b><span>→ VFA, H₂</span></div><div><i></i><b>Acetogenesis</b><span>→ acetate</span></div><div><i></i><b>Methanogenesis</b><span>→ CH₄ + CO₂</span></div></div>
+    <div class="hyp"><span class="lab">Hypothesis</span>
+      <p>A shredded, stirred 100 L digester at OLR ≤ <em>3.4</em> reaches <em>≥ 50 % CH₄</em>, and sensor guidance keeps usability at SUS ≥ 68.</p></div>
+    <div class="sdg"><span class="lab" style="margin-right:10px">SDG</span><span class="sq" style="background:#C89A08">7</span><span class="sq" style="background:#E08010">11</span><span class="sq" style="background:#A07426">12</span><span class="sq" style="background:#3F7E44">13</span></div>
+    <figure style="margin-top:44px"><figcaption><span class="idx">!</span><b>State of the art</b><span class="lab" style="margin-left:auto">household options</span></figcaption>
+      <div class="sota"><table class="t "><thead><tr><th style="width:36%">Approach</th><th style="width:16%">Energy</th><th style="width:16%">Fertilizer</th><th style="width:16%">Monitoring</th><th style="width:16%">Indoor</th></tr></thead><tbody><tr><td>Electric recycler (Lomi)</td><td><span style="color:#C8443A">✕</span></td><td><span style="color:#E89B2D">◐</span></td><td><span style="color:#E89B2D">◐</span></td><td><b style="color:#158A52">✓</b></td></tr><tr><td>HomeBiogas 2</td><td><b style="color:#158A52">✓</b></td><td><b style="color:#158A52">✓</b></td><td><span style="color:#C8443A">✕</span></td><td><span style="color:#C8443A">✕</span></td></tr><tr><td>Fixed dome (BIRU)</td><td><b style="color:#158A52">✓</b></td><td><b style="color:#158A52">✓</b></td><td><span style="color:#C8443A">✕</span></td><td><span style="color:#C8443A">✕</span></td></tr><tr><td>IoT digester pilots</td><td><b style="color:#158A52">✓</b></td><td><span style="color:#E89B2D">◐</span></td><td><b style="color:#158A52">✓</b></td><td><span style="color:#C8443A">✕</span></td></tr><tr><td><b>ARUNA</b></td><td><b style="color:#158A52">✓</b></td><td><b style="color:#158A52">✓</b></td><td><b style="color:#158A52">✓</b></td><td><b style="color:#158A52">✓</b></td></tr></tbody></table></div>
+      <p style="font-size:22.0px;margin-top:10px;color:var(--mute)">Lomi 0.6–1.0 kWh/cycle · HomeBiogas 2: 2.0 m³, 2.4 m² · BIRU: 25,157 units (2021) · IoT pilots: Prasetyono et al. (2026)</p></figure>
+    <figure style="margin-top:40px"><figcaption><span class="idx">i</span><b>Feedstock: household food waste</b><span class="lab" style="margin-left:auto">literature</span></figcaption>
+      <table class="t "><thead><tr><th style="width:40%">Property</th><th style="width:30%">Typical value</th><th style="width:30%">Source</th></tr></thead><tbody><tr><td>Total solids (TS)</td><td>23–27 %</td><td>Xu et al., 2018</td></tr><tr><td>Volatile solids (VS/TS)</td><td>90–95 %</td><td>Xu et al., 2018</td></tr><tr><td>C/N ratio</td><td>12–26</td><td>Zhang et al., 2007</td></tr><tr><td>BMP (measured)</td><td>330–490 mL CH₄/g VS</td><td>Zhang et al., 2007</td></tr><tr><td>Theoretical CH₄</td><td>≈ 643 mL/g VS</td><td>Buswell &amp; Mueller, 1952</td></tr></tbody></table></figure>
+  </div>
+
+  <div class="dark">
+    <div class="sh"><span class="idx">02</span><h2>Method</h2><span class="lab" style="margin-left:auto">R&amp;D · 4D model</span></div>
+    <div class="rail"><div><span class="lab">Stage 1</span><b>Define</b><span>waste audit · user needs</span></div><div><span class="lab">Stage 2</span><b>Design</b><span>CAD · sizing · IoT</span></div><div><span class="lab">Stage 3</span><b>Develop</b><span>prototype · lab tests</span></div><div><span class="lab">Stage 4</span><b>Disseminate</b><span>field test · SUS</span></div></div>
+    <div class="mgrid">
+      <div><span class="lab">X-ray of the digital twin</span><div class="xray" style="width:560px"><img src="_poster/xray_big.png"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points="28.383333333333333,23.705882352941178 -2,4.0 -4,4.0" fill="none" stroke="#E89B2D" style="stroke-width:1.6px" vector-effect="non-scaling-stroke"/><polyline points="46.04999999999999,25.37647058823529 -2,22.4 -4,22.4" fill="none" stroke="#E89B2D" style="stroke-width:1.6px" vector-effect="non-scaling-stroke"/><polyline points="48.03333333333333,29.98823529411765 -2,40.8 -4,40.8" fill="none" stroke="#E89B2D" style="stroke-width:1.6px" vector-effect="non-scaling-stroke"/><polyline points="32.133333333333326,42.5529411764706 -2,59.199999999999996 -4,59.199999999999996" fill="none" stroke="#E89B2D" style="stroke-width:1.6px" vector-effect="non-scaling-stroke"/><polyline points="41.48333333333333,59.48235294117647 -2,77.6 -4,77.6" fill="none" stroke="#E89B2D" style="stroke-width:1.6px" vector-effect="non-scaling-stroke"/><polyline points="35.749999999999986,79.5764705882353 -2,96.0 -4,96.0" fill="none" stroke="#E89B2D" style="stroke-width:1.6px" vector-effect="non-scaling-stroke"/><polyline points="46.68333333333333,31.400000000000006 102,4.0 104,4.0" fill="none" stroke="#E89B2D" style="stroke-width:1.6px" vector-effect="non-scaling-stroke"/><polyline points="54.29999999999999,33.7529411764706 102,27.0 104,27.0" fill="none" stroke="#E89B2D" style="stroke-width:1.6px" vector-effect="non-scaling-stroke"/><polyline points="49.69999999999999,40.2235294117647 102,50.0 104,50.0" fill="none" stroke="#E89B2D" style="stroke-width:1.6px" vector-effect="non-scaling-stroke"/><polyline points="70.94999999999999,40.74117647058823 102,73.0 104,73.0" fill="none" stroke="#E89B2D" style="stroke-width:1.6px" vector-effect="non-scaling-stroke"/><polyline points="61.48333333333331,41.352941176470594 102,96.0 104,96.0" fill="none" stroke="#E89B2D" style="stroke-width:1.6px" vector-effect="non-scaling-stroke"/></svg><span class="xd" style="left:28.383333333333333%;top:23.705882352941178%"></span><div class="xl" style="right:105%;text-align:right;top:4.0%">Panel · ESP32-S3</div><span class="xd" style="left:46.04999999999999%;top:25.37647058823529%"></span><div class="xl" style="right:105%;text-align:right;top:22.4%">Twin-shaft shredder</div><span class="xd" style="left:48.03333333333333%;top:29.98823529411765%"></span><div class="xl" style="right:105%;text-align:right;top:40.8%">Load cell · HX711</div><span class="xd" style="left:32.133333333333326%;top:42.5529411764706%"></span><div class="xl" style="right:105%;text-align:right;top:59.199999999999996%">Temperature · DS18B20</div><span class="xd" style="left:41.48333333333333%;top:59.48235294117647%"></span><div class="xl" style="right:105%;text-align:right;top:77.6%">Liquid digestate tap</div><span class="xd" style="left:35.749999999999986%;top:79.5764705882353%"></span><div class="xl" style="right:105%;text-align:right;top:96.0%">Compost drawer</div><span class="xd" style="left:46.68333333333333%;top:31.400000000000006%"></span><div class="xl" style="left:105%;top:4.0%">Ultrasonic level</div><span class="xd" style="left:54.29999999999999%;top:33.7529411764706%"></span><div class="xl" style="left:105%;top:27.0%">CH₄ · NDIR MH-440D</div><span class="xd" style="left:49.69999999999999%;top:40.2235294117647%"></span><div class="xl" style="left:105%;top:50.0%">Stirrer · 5 min / 2 h</div><span class="xd" style="left:70.94999999999999%;top:40.74117647058823%"></span><div class="xl" style="left:105%;top:73.0%">Gas gauge + valve</div><span class="xd" style="left:61.48333333333331%;top:41.352941176470594%"></span><div class="xl" style="left:105%;top:96.0%">pH probe</div></div></div>
+      <div><span class="lab">Daily mass balance</span><div class="flow" style="margin-top:24px"><div class=""><b>Food waste</b><span>1.5 kg/d · TS 25 %</span></div><div class=""><b>Weigh + shred</b><span>particles < 10 mm</span></div><div class=""><b>Digest 100 L</b><span>OLR 3.4 · HRT 34 d</span></div><div class="out"><b>Biogas</b><span>214 L/d</span></div><div class="out"><b>Liquid digestate</b><span>fertilizer 1 : 10</span></div><div class="out"><b>Solid digestate</b><span>compost</span></div></div></div>
+    </div>
+    <div class="eqs"><div><span class="lab">Loading &amp; retention</span><code>OLR = F·TS·(VS/TS) / V<sub>w</sub> · HRT = V<sub>w</sub>/Q</code></div><div><span class="lab">Kinetics · modified Gompertz</span><code>M(t) = P·exp{−exp[(R<sub>m</sub>e/P)(λ−t)+1]}</code></div><div><span class="lab">Energy &amp; cooking time</span><code>E = V<sub>CH₄</sub> × 35.8 MJ/m³ ;  t<sub>cook</sub> = V<sub>bg</sub> / q<sub>stove</sub></code></div><div><span class="lab">Avoided landfill CH₄ · IPCC 2006</span><code>W × DOC × DOC<sub>f</sub> × MCF × F × 16/12 × (1−OX)</code></div></div>
+    <div class="exp"><div><span class="lab">Experiments</span><ul><li>BMP · VDI 4630 · 37 °C</li><li>OLR 2.0 / 3.4 / 4.5 × 3</li><li>Field · <span class="ph">[n]</span> homes × 30 d</li></ul></div><div><span class="lab">Measurements</span><ul><li>TS / VS · APHA 2540</li><li>pH · FOS/TAC < 0.4</li><li>CH₄ % (NDIR) · L/d</li></ul></div><div><span class="lab">Analysis</span><ul><li>Gompertz fit · R²</li><li>ANOVA + Tukey</li><li>SUS (Brooke 1996)</li></ul></div></div>
+    <div class="mgrid" style="grid-template-columns:1.15fr .85fr;margin-top:40px">
+      <div><span class="lab">Instrumentation</span><div class="dtab" style="margin-top:14px"><table class="t "><thead><tr><th style="width:27%">Parameter</th><th style="width:29%">Sensor</th><th style="width:23%">Range</th><th style="width:21%">Accuracy</th></tr></thead><tbody><tr><td>Temperature</td><td>DS18B20</td><td>−55–125 °C</td><td>±0.5 °C</td></tr><tr><td>CH₄ in biogas</td><td>NDIR MH-440D</td><td>0–100 %</td><td>T90 < 30 s</td></tr><tr><td>CH₄ leak</td><td>MQ-4</td><td>300–10k ppm</td><td>alarm</td></tr><tr><td>pH</td><td>glass probe</td><td>0–14</td><td>3-pt cal.</td></tr><tr><td>Level</td><td>ultrasonic</td><td>0–100 %</td><td>±1 cm</td></tr><tr><td>Input mass</td><td>load cell HX711</td><td>0–5 kg</td><td>24-bit</td></tr></tbody></table></div></div>
+      <div><span class="lab">Control interlocks · every 15 min</span><div class="flow" style="margin-top:14px"><div class="out"><b style="font-size:29.0px">Leak > 5,000 ppm</b><span>close gas valve + alarm</span></div><div class="out"><b style="font-size:29.0px">pH < 6.5</b><span>pause feeding · alert</span></div><div class="out"><b style="font-size:29.0px">T < 30 °C</b><span>insulation alert</span></div><div class="out"><b style="font-size:29.0px">Level > 90 %</b><span>harvest prompt</span></div><div class=""><b style="font-size:29.0px">Every 2 h</b><span>stir 5 min</span></div></div></div>
+    </div>
+    <div style="margin-top:40px"><span class="lab">Companion app · live at aruna-id.web.app</span>
+      <img src="_poster/kipas.jpg.png" style="width:100%;height:540px;object-fit:cover;object-position:50% 45%;margin-top:14px;display:block"></div>
+  </div>
+</section>
+
+<section class="row" style="grid-template-columns:1.18fr .82fr">
+  <div>
+    <div class="sh"><span class="idx">03</span><h2>Data &amp; Discussion</h2><span class="lab" style="margin-left:auto">design predictions</span></div>
+    <div class="kpis"><div><b>214<small> L</small></b><span>biogas / day</span></div><div><b>43<small> min</small></b><span>cooking / day</span></div><div><b>3.0<small> kg</small></b><span>LPG saved / month</span></div><div><b>0.72<small> t</small></b><span>CO₂e avoided / year</span></div></div>
+    <div class="charts">
+      <figure><figcaption><span class="idx">A</span><b>Methane kinetics</b></figcaption><img src="_poster/pro_gompertz.png"></figure>
+      <figure><figcaption><span class="idx">B</span><b>Load sensitivity</b></figcaption><img src="_poster/pro_sens.png"></figure>
+    </div>
+    <div class="disc">
+      <p><b>Biodegradability ≈ 61 %:</b> BMP 390 vs Buswell 643 mL CH₄/g VS, within the food-waste range.</p>
+      <p><b>Stability limit:</b> peak OLR 6.8 (HRT 17 d) risks VFA build-up; pH interlock pauses feeding.</p>
+    </div>
+    <div class="charts" style="grid-template-columns:1.2fr .8fr;margin-top:40px">
+      <figure><figcaption><span class="idx">C</span><b>Three load scenarios</b></figcaption><table class="t calc"><thead><tr><th style="width:46%">Parameter</th><th style="width:18%">Home of 4</th><th style="width:18%">Nominal</th><th style="width:18%">Peak</th></tr></thead><tbody><tr><td>Food-waste input (kg/d)</td><td>0.58</td><td>1.5</td><td>3.0</td></tr><tr><td>OLR (kg VS/m³·d)</td><td>1.3</td><td>3.4</td><td>6.8</td></tr><tr><td>HRT (d)</td><td>88</td><td>34</td><td>17</td></tr><tr><td>Biogas (L/d, 60 % CH₄)</td><td>83</td><td>214</td><td>428</td></tr><tr><td>Energy (kWh/d)</td><td>0.49</td><td>1.27</td><td>2.55</td></tr><tr><td>Cooking time (min/d)</td><td>17</td><td>43</td><td>86</td></tr><tr><td>LPG equivalent (kg/month)</td><td>1.2</td><td>3.0</td><td>6.0</td></tr><tr><td>Avoided GHG (t CO₂e/yr)</td><td>0.28</td><td>0.72</td><td>1.44</td></tr></tbody></table></figure>
+      <figure><figcaption><span class="idx">D</span><b>Avoided emissions</b></figcaption><img src="_poster/pro_ghg.png" style="height:600px"></figure>
+    </div>
+    <div class="charts" style="grid-template-columns:1.2fr .8fr;margin-top:40px">
+      <figure><figcaption><span class="idx">F</span><b>Design vs. literature</b></figcaption><table class="t "><thead><tr><th style="width:40%">Indicator</th><th style="width:28%">ARUNA design</th><th style="width:32%">Literature</th></tr></thead><tbody><tr><td>CH₄ in biogas</td><td>≥ 50 %</td><td>50–70 %</td></tr><tr><td>Specific yield</td><td>0.38 m³/kg VS</td><td>0.33–0.49</td></tr><tr><td>OLR (stable)</td><td>3.4 kg VS/m³·d</td><td>2–5 (wet AD)</td></tr><tr><td>Temperature</td><td>30–38 °C</td><td>mesophilic 30–40</td></tr><tr><td>Stove demand</td><td>0.30 m³/h</td><td>0.2–0.45 m³/h</td></tr><tr><td>FOS/TAC</td><td>&lt; 0.4</td><td>&lt; 0.4 stable</td></tr></tbody></table></figure>
+      <figure><figcaption><span class="idx">G</span><b>Limitations</b></figcaption><ol class="num" style="margin-top:12px">
+        <li>Values are <b>design predictions</b>; BMP and field data pending.</li>
+        <li>NDIR needs calibration vs. a gas analyser.</li>
+        <li>Single scale; highland T &lt; 25 °C untested.</li>
+        <li>Digestate N-P-K and pathogen safety not yet analysed.</li></ol></figure>
+    </div>
+
+  </div>
+
+  <div class="concl">
+    <div class="hero"><img src="_poster/cover.png" alt="ARUNA digester with user"></div>
+    <div class="content">
+      <div class="sh"><span class="idx">04</span><h2>Conclusion</h2></div>
+      <div class="novelty">Shred, stir, digest and measure in a 0.19 m² footprint.</div>
+      <ol class="num">
+        <li><b>214 L biogas/day</b> from 1.5 kg food waste.</li>
+        <li><b>43 min</b> cooking/day · <b>0.72 t CO₂e</b>/year avoided.</li>
+        <li><span class="ph">[Confirm H1–H2 with data]</span></li></ol>
+    <figure style="margin-top:44px"><figcaption><span class="idx">E</span><b>Measured results</b><span class="lab" style="margin-left:auto">after testing</span></figcaption><table class="t "><thead><tr><th style="width:50%">Indicator</th><th style="width:22%">Target</th><th style="width:28%">Measured</th></tr></thead><tbody><tr><td>CH₄ content (%)</td><td>≥ 50</td><td><span class="ph">[ ]</span></td></tr><tr><td>Specific yield (m³ CH₄/kg VS)</td><td>≥ 0.30</td><td><span class="ph">[ ]</span></td></tr><tr><td>FOS/TAC</td><td>&lt; 0.4</td><td><span class="ph">[ ]</span></td></tr><tr><td>VS removal (%)</td><td>≥ 70</td><td><span class="ph">[ ]</span></td></tr><tr><td>SUS score</td><td>≥ 68</td><td><span class="ph">[ ]</span></td></tr></tbody></table></figure>
+      <figure style="margin-top:40px"><figcaption><span class="idx">↗</span><b>Impact at scale</b><span class="lab" style="margin-left:auto">1,000 homes of 4</span></figcaption>
+        <div class="kpis" style="grid-template-columns:repeat(3,1fr);margin-bottom:0;border-bottom:0">
+          <div><b style="font-size:105.6px">212<small> t</small></b><span>food waste diverted / yr</span></div>
+          <div><b style="font-size:105.6px">14<small> t</small></b><span>LPG saved / yr</span></div>
+          <div><b style="font-size:105.6px">279<small> t</small></b><span>CO₂e avoided / yr</span></div></div></figure>
+      <div class="qr"><img src="_poster/qr.png"><div><span class="lab">Live app</span><b>aruna-id.web.app</b></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="row" style="grid-template-columns:1fr">
+  <div>
+    <div class="sh"><span class="idx">05</span><h2>Recommendation</h2></div>
+    <div class="strip"><figure><img src="_poster/pf96.png"><figcaption><span class="idx">01</span><b>Feed</b></figcaption></figure><figure><img src="_poster/pf165.png"><figcaption><span class="idx">02</span><b>Digest</b></figcaption></figure><figure><img src="_poster/pf250.png"><figcaption><span class="idx">03</span><b>Monitor</b></figcaption></figure><figure><img src="_poster/pf330.png"><figcaption><span class="idx">04</span><b>Fertilize</b></figcaption></figure><figure><img src="_poster/pf430.png"><figcaption><span class="idx">05</span><b>Cook</b></figcaption></figure></div>
+    <div class="recs"><div><span class="idx">R1</span><p>Fit P, R<sub>m</sub>, λ from BMP and confirm the OLR limit.</p></div><div><span class="idx">R2</span><p>Co-digest garden waste to reach C/N 20–30.</p></div><div><span class="idx">R3</span><p>On-device AI to reject bones, oil and plastic.</p></div><div><span class="idx">R4</span><p>Insulate or solar-heat for highlands < 25 °C.</p></div><div><span class="idx">R5</span><p>Pilot in MBG school kitchens with MRV.</p></div></div>
+  </div>
+</section>
+
+<section class="row" style="grid-template-columns:1fr;padding-top:70px">
+  <div><div class="sh" style="margin-bottom:22px"><span class="idx">06</span><h2 style="font-size:70.4px">References</h2></div><ol class="refs"><li>APHA. (2017). <i>Standard methods for the examination of water and wastewater</i> (23rd ed.), Method 2540. APHA/AWWA/WEF.</li><li>Appels, L., Baeyens, J., Degrève, J., &amp; Dewil, R. (2008). Principles and potential of the anaerobic digestion of waste-activated sludge. <i>Prog. Energy Combust. Sci., 34</i>(6), 755–781.</li><li>Bappenas. (2021). <i>Food loss and waste in Indonesia</i>. Ministry of National Development Planning.</li><li>Brooke, J. (1996). SUS: A “quick and dirty” usability scale. In <i>Usability evaluation in industry</i> (pp. 189–194). Taylor &amp; Francis.</li><li>Buswell, A. M., &amp; Mueller, H. F. (1952). Mechanism of methane fermentation. <i>Ind. Eng. Chem., 44</i>(3), 550–552.</li><li>Chen, Y., Cheng, J. J., &amp; Creamer, K. S. (2008). Inhibition of anaerobic digestion process: A review. <i>Bioresour. Technol., 99</i>(10), 4044–4064.</li><li>IPCC. (2006). <i>2006 IPCC guidelines for national greenhouse gas inventories, Vol. 5: Waste</i>, Ch. 3. IGES.</li><li>IPCC. (2014). <i>Climate change 2014: Synthesis report (AR5)</i>. IPCC.</li><li>KLHK. (2023). <i>SIPSN: Komposisi sampah</i>. https://sipsn.menlhk.go.id</li><li>Mata-Alvarez, J., Macé, S., &amp; Llabrés, P. (2000). Anaerobic digestion of organic solid wastes. <i>Bioresour. Technol., 74</i>(1), 3–16.</li><li>Rajendran, K., Aslanzadeh, S., &amp; Taherzadeh, M. J. (2012). Household biogas digesters: A review. <i>Energies, 5</i>(8), 2911–2942.</li><li>SSWM / Akvopedia. (2019). <i>Biogas combustion</i>. https://sswm.info</li><li>Thiagarajan, S., Semmel, D. S., &amp; Semmel, M. I. (1974). <i>Instructional development for training teachers of exceptional children</i>. Indiana University.</li><li>UNEP. (2024). <i>Food waste index report 2024</i>. United Nations Environment Programme.</li><li>VDI. (2016). <i>VDI 4630: Fermentation of organic materials</i>. Verein Deutscher Ingenieure.</li><li>Weiland, P. (2010). Biogas production: Current state and perspectives. <i>Appl. Microbiol. Biotechnol., 85</i>(4), 849–860.</li><li>Winsen. (n.d.). <i>MH-440D NDIR CH₄ sensor</i> and <i>MQ-4 gas sensor</i> datasheets. Zhengzhou Winsen Electronics.</li><li>Xu, F., Li, Y., Ge, X., Yang, L., &amp; Li, Y. (2018). Anaerobic digestion of food waste: Challenges and opportunities. <i>Bioresour. Technol., 247</i>, 1047–1058.</li><li>Zhang, R., et al. (2007). Characterization of food waste as feedstock for anaerobic digestion. <i>Bioresour. Technol., 98</i>(4), 929–935.</li><li>Zwietering, M. H., Jongenburger, I., Rombouts, F. M., &amp; van 't Riet, K. (1990). Modeling of the bacterial growth curve. <i>Appl. Environ. Microbiol., 56</i>(6), 1875–1881.</li></ol></div>
+</section>
+<div class="foot"><span>Highlighted fields are placeholders · values are design predictions</span><span>3D character: sthaarpit · Sketchfab · CC-BY 4.0</span></div>
+</div></body></html>

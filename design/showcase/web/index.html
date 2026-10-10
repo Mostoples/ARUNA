@@ -1,0 +1,374 @@
+<meta charset="utf-8">
+<title>ARUNA di Dapurmu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#EEF5F1; --bg-2:#F7FBF9; --paper:#FFFFFF;
+  --ink:#10201A; --ink-2:#4A5B52; --muted:#86958D; --line:#DCE7E1;
+  --green:#158A52; --green-2:#0E7A6A; --deep:#0F6B40; --soft:#E3F3EA;
+  --amber:#B8741A; --blue:#2D6BD8;
+  --shadow:0 1px 2px rgba(16,32,26,.05),0 18px 40px -18px rgba(16,32,26,.25);
+  --ease:cubic-bezier(.22,1,.36,1);
+  --sans:"Plus Jakarta Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"DM Mono",ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;overflow-x:hidden}
+#stage{position:fixed;inset:0;z-index:0;background:radial-gradient(120% 80% at 50% 0%,#FFFFFF 0%,var(--bg) 55%,#DDEDE4 100%)}
+#stage canvas{display:block;width:100%;height:100%}
+.track{position:relative;z-index:1;height:1100vh;pointer-events:none}
+
+/* top bar */
+.bar{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(16px,4vw,40px)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.1em;font-size:15px}
+.mark{width:28px;height:28px;border-radius:9px;background:conic-gradient(from 200deg,var(--green),var(--green-2),#22A96A,var(--green));display:grid;place-items:center}
+.mark::after{content:"";width:10px;height:10px;border-radius:50%;background:#fff}
+.prog{display:flex;gap:6px;align-items:center}
+.prog i{width:22px;height:4px;border-radius:9px;background:rgba(16,32,26,.12);overflow:hidden;position:relative}
+.prog i b{position:absolute;inset:0;background:var(--green);transform-origin:left;transform:scaleX(0)}
+.chipnav{font-family:var(--mono);font-size:12px;color:var(--ink-2);background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border:1px solid var(--line);padding:6px 12px;border-radius:99px}
+
+/* panels */
+.panel{position:fixed;z-index:3;max-width:min(440px,calc(100vw - 32px));opacity:0;transform:translateY(24px);transition:opacity .5s var(--ease),transform .7s var(--ease);pointer-events:none}
+.panel.on{opacity:1;transform:none}
+.panel.left{left:clamp(16px,5vw,72px);top:50%;margin-top:-140px}
+.panel.right{right:clamp(16px,5vw,72px);top:50%;margin-top:-140px}
+.tag{display:inline-flex;gap:8px;align-items:center;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);background:rgba(255,255,255,.8);border:1px solid var(--line);padding:6px 12px;border-radius:99px;backdrop-filter:blur(8px)}
+.panel h2{margin:14px 0 10px;font-size:clamp(34px,4.6vw,60px);line-height:1.02;font-weight:800;letter-spacing:-.04em;text-wrap:balance}
+.panel h2 em{font-style:normal;color:var(--green)}
+.panel p{margin:0;font-size:17px;color:var(--ink-2);max-width:36ch}
+.hero h1{margin:14px 0 8px;font-size:clamp(56px,10vw,150px);line-height:.88;font-weight:800;letter-spacing:-.06em}
+.hero h1 span{display:block;color:var(--green)}
+.hint{margin-top:22px;display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.mouse{width:22px;height:34px;border-radius:12px;border:2px solid var(--ink-2);position:relative}
+.mouse::after{content:"";position:absolute;left:50%;top:6px;width:4px;height:7px;margin-left:-2px;border-radius:3px;background:var(--green);animation:wheel 1.6s infinite}
+@keyframes wheel{60%{transform:translateY(9px);opacity:0}100%{opacity:0}}
+
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.stat{background:rgba(255,255,255,.88);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:20px;padding:14px 16px;box-shadow:var(--shadow)}
+.stat b{display:block;font-size:34px;letter-spacing:-.04em;line-height:1}
+.stat span{font-size:13px;color:var(--ink-2)}
+.stat small{display:block;font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:6px}
+
+.steps{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.steps span{font-size:13px;font-weight:700;padding:7px 12px;border-radius:99px;background:var(--paper);border:1px solid var(--line)}
+.steps span.on{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* HUD sensor chips that float near the machine */
+.hud{position:fixed;z-index:3;display:flex;align-items:center;gap:10px;padding:10px 14px 10px 10px;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);opacity:0;transform:scale(.9);transition:opacity .4s,transform .6s var(--ease);pointer-events:none}
+.hud.on{opacity:1;transform:none}
+.hud .ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--soft);color:var(--green)}
+.hud .ic svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hud b{display:block;font-size:18px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.hud span{font-size:12px;color:var(--ink-2)}
+
+.phone{position:fixed;z-index:3;right:clamp(16px,6vw,110px);top:50%;width:min(250px,42vw);aspect-ratio:390/844;margin-top:calc(min(250px,42vw) * -1.08);border-radius:34px;padding:7px;background:#F4F7F5;box-shadow:0 0 0 1px #D2DCD6,0 40px 70px -30px rgba(16,32,26,.45);opacity:0;transform:translateY(40px) rotate(6deg);transition:opacity .5s,transform .8s var(--ease);pointer-events:none}
+.phone.on{opacity:1;transform:rotate(-3deg)}
+.phone img{width:100%;height:100%;object-fit:cover;border-radius:28px;display:block}
+
+.outs{display:grid;gap:10px;margin-top:16px}
+.out{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:12px;background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:18px;padding:10px 14px;box-shadow:var(--shadow)}
+.out .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center}
+.out .ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.out b{font-size:15px}
+.out span{display:block;font-size:12.5px;color:var(--ink-2)}
+.out strong{font-size:22px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+
+.cta{pointer-events:auto;display:inline-flex;align-items:center;gap:10px;margin-top:20px;height:54px;padding:0 22px;border-radius:99px;background:var(--green);color:#fff;font-weight:700;text-decoration:none;box-shadow:0 14px 30px -14px rgba(21,138,82,.9)}
+.cta:focus-visible{outline:3px solid #9fd8b9;outline-offset:3px}
+.credit{position:fixed;left:16px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:4;font-size:11px;color:var(--muted)}
+.credit a{color:inherit}
+
+.loader{position:fixed;inset:0;z-index:9;display:grid;place-items:center;background:var(--bg);transition:opacity .6s}
+.loader.done{opacity:0;pointer-events:none}
+.loader div{display:grid;gap:12px;justify-items:center;font-size:13px;color:var(--ink-2)}
+.loader .ring{width:46px;height:46px;border-radius:50%;border:4px solid var(--soft);border-top-color:var(--green);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media (max-width:760px){
+  .panel.left,.panel.right{left:16px;right:16px;top:auto;bottom:calc(28px + env(safe-area-inset-bottom,0px));margin:0;max-width:none;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:var(--shadow)}
+  .panel.hero{background:none;border:0;box-shadow:none;backdrop-filter:none;padding:0}
+  .panel h2{font-size:30px;margin:10px 0 6px}
+  .panel p{font-size:15px}
+  .phone{top:84px;margin-top:0;width:150px}
+  .hud{display:none}
+  .prog,.credit{display:none}
+  .chipnav{white-space:nowrap}
+  .mobile-credit{display:block!important}
+  .stats .stat b{font-size:26px}
+}
+@media (prefers-reduced-motion:reduce){
+  .panel,.hud,.phone{transition:none}
+  .mouse::after,.loader .ring{animation:none}
+}
+</style>
+
+<div id="stage" aria-hidden="true"></div>
+<div class="loader" id="loader"><div><span class="ring"></span><span id="ldTxt">Memuat dapur 3D…</span></div></div>
+
+<header class="bar">
+  <div class="logo"><span class="mark"></span>ARUNA</div>
+  <div class="prog" id="prog" aria-hidden="true"></div>
+  <span class="chipnav" id="chip">01 / 07</span>
+</header>
+
+<div class="track" id="track"></div>
+
+<!-- 0 HERO -->
+<section class="panel left hero" data-from="0" data-to="0.11">
+  <span class="tag">Smart biodigester rumahan</span>
+  <h1>ARUNA<span>di dapurmu.</span></h1>
+  <p>Ikuti perjalanan sisa makan malam jadi api biru, pupuk, dan kompos. Scroll pelan-pelan.</p>
+  <div class="hint"><span class="mouse"></span>Scroll untuk mulai</div>
+</section>
+
+<!-- 1 MASALAH -->
+<section class="panel right" data-from="0.13" data-to="0.26">
+  <span class="tag">01 · Masalah</span>
+  <h2>Sisa makanan jadi <em>sampah terbesar.</em></h2>
+  <p>Di Indonesia, sisa makanan mendominasi isi TPA dan melepas metana saat membusuk.</p>
+  <div class="stats">
+    <div class="stat"><b>±40%</b><span>sampah nasional berupa sisa makanan</span><small>SIPSN KLHK</small></div>
+    <div class="stat"><b>115–184</b><span>kg makanan terbuang / orang / tahun</span><small>Bappenas, 2021</small></div>
+  </div>
+</section>
+
+<!-- 2 MASUKKAN -->
+<section class="panel left" data-from="0.30" data-to="0.49">
+  <span class="tag">02 · Masukkan</span>
+  <h2>Buka tutup, <em>tuang, selesai.</em></h2>
+  <p>Timbangan dan kamera di dalam mesin mencatat berat dan jenis sisa makanan secara otomatis.</p>
+  <div class="steps"><span class="on">1 Masukkan</span><span>2 Pupuk</span><span>3 Kompos</span></div>
+</section>
+
+<!-- 3 CERNA -->
+<section class="panel left" data-from="0.52" data-to="0.62">
+  <span class="tag">03 · Cerna</span>
+  <h2>Bakteri bekerja <em>±34 hari.</em></h2>
+  <p>Pencacah, pengaduk otomatis, dan sensor suhu, pH, dan metana menjaga fermentasi anaerob tetap ideal.</p>
+</section>
+<div class="hud" data-from="0.53" data-to="0.62" style="right:clamp(16px,14vw,220px);top:30%"><span class="ic"><svg viewBox="0 0 24 24"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg></span><div><b>36,4 °C</b><span>suhu ideal</span></div></div>
+<div class="hud" data-from="0.545" data-to="0.62" style="right:clamp(16px,8vw,140px);top:46%"><span class="ic" style="background:#E9F0FC;color:var(--blue)"><svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span><div><b>58% CH₄</b><span>metana</span></div></div>
+<div class="hud" data-from="0.56" data-to="0.62" style="right:clamp(16px,16vw,260px);top:62%"><span class="ic" style="background:#FBF0DF;color:var(--amber)"><svg viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg></span><div><b>pH 7,1</b><span>hari 12 dari ±34</span></div></div>
+
+<!-- 4 PANTAU -->
+<section class="panel left" data-from="0.64" data-to="0.75">
+  <span class="tag">04 · Pantau</span>
+  <h2>Semua terlihat <em>dari HP.</em></h2>
+  <p>Aplikasi ARUNA mengirim kabar saat pupuk siap, laci kompos penuh, atau gas cukup untuk memasak.</p>
+</section>
+<div class="phone" data-from="0.645" data-to="0.75"><img src="assets/app_home.webp" alt="Tampilan beranda aplikasi ARUNA"></div>
+
+<!-- 5 PANEN -->
+<section class="panel right" data-from="0.78" data-to="0.89">
+  <span class="tag">05 · Panen</span>
+  <h2>Satu dapur, <em>tiga hasil.</em></h2>
+  <div class="outs">
+    <div class="out"><span class="ic" style="background:#E9F0FC;color:var(--blue)"><svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span><div><b>Biogas</b><span>untuk kompor</span></div><strong>±45 mnt</strong></div>
+    <div class="out"><span class="ic" style="background:var(--soft);color:var(--green)"><svg viewBox="0 0 24 24"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></span><div><b>Pupuk cair</b><span>encerkan 1 : 10</span></div><strong>1,4 L</strong></div>
+    <div class="out"><span class="ic" style="background:#FBF0DF;color:var(--amber)"><svg viewBox="0 0 24 24"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg></span><div><b>Kompos</b><span>laci bawah</span></div><strong>30%</strong></div>
+  </div>
+  <p style="margin-top:10px;font-size:12.5px;color:var(--muted)">Angka per siklus adalah target desain prototipe.</p>
+</section>
+
+<!-- 6 CTA -->
+<section class="panel left" data-from="0.92" data-to="1.01">
+  <span class="tag">06 · Mulai</span>
+  <h2>Mulai dari <em>piring malam ini.</em></h2>
+  <p>ARUNA: 44 × 44 cm, setinggi pinggang, beroda. Muat di pojok dapur.</p>
+  <a class="cta" href="https://aruna-id.web.app" target="_blank" rel="noopener">Coba aplikasi ARUNA →</a>
+  <p class="mobile-credit" style="display:none;margin-top:12px;font-size:11px;color:var(--muted)">Model karakter: sthaarpit (Sketchfab, CC-BY 4.0), rig Rigify.</p>
+</section>
+
+<p class="credit">Model karakter: “Casual Male 3D Character – T-Pose” oleh sthaarpit (Sketchfab, CC-BY 4.0), di-rig ulang dengan Rigify.</p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const stage = document.getElementById('stage');
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  stage.appendChild(renderer.domElement);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(32, 1, 0.05, 60);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xcfe6d8, 0.95));
+  const key = new THREE.DirectionalLight(0xffffff, 1.25);
+  key.position.set(-2.5, 4.5, 3.5);
+  key.castShadow = true;
+  key.shadow.mapSize.set(2048, 2048);
+  Object.assign(key.shadow.camera, { left: -3, right: 3, top: 3, bottom: -3, near: .5, far: 12 });
+  key.shadow.radius = 4;
+  scene.add(key);
+  const rim = new THREE.DirectionalLight(0xdff5e8, .55);
+  rim.position.set(2, 3, -3);
+  scene.add(rim);
+  const floor = new THREE.Mesh(new THREE.CircleGeometry(6, 64), new THREE.ShadowMaterial({ opacity: .16 }));
+  floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
+  scene.add(floor);
+
+  // ---------- scroll timeline ----------
+  // stasiun karakter: [mulai, selesai, x, z, rotY, klip, mode]  (koordinat three: depan mesin = +Z)
+  const ST = [
+    [0.00, 0.11, -0.95, 0.80, 0.45, 'Wave', 'loop'],
+    [0.13, 0.26, -0.95, 0.80, 0.30, 'Idle', 'loop'],
+    [0.38, 0.50, 0.00, 0.60, Math.PI, 'Drop', 'scrub'],
+    [0.53, 0.62, 0.78, 0.80, -0.35, 'Idle', 'loop'],
+    [0.645, 0.75, 0.70, 0.80, -0.30, 'Phone', 'loop'],
+    [0.80, 0.88, -0.42, 0.62, Math.PI, 'Pour', 'scrub'],
+    [0.93, 1.00, 0.45, 0.62, -0.15, 'Wave', 'loop'],
+  ];
+  // kamera: [p, pos, target]
+  const CKD = [  // target digeser agar objek 3D berada di sisi seberang panel teks
+    [0.00, [2.30, 1.45, 3.50], [-1.00, 0.85, 0.70]],
+    [0.10, [2.00, 1.50, 3.70], [-1.00, 0.85, 0.70]],
+    [0.20, [0.20, 2.70, 5.00], [0.75, 0.55, 0.00]],
+    [0.32, [-2.40, 1.50, 3.60], [-1.20, 0.90, 0.06]],
+    [0.42, [1.60, 2.10, 2.10], [-0.38, 1.00, 0.58]],
+    [0.50, [1.50, 2.00, 2.00], [-0.36, 1.00, 0.55]],
+    [0.56, [0.05, 1.00, 1.65], [-0.30, 0.92, 0.00]],
+    [0.62, [0.12, 1.05, 1.80], [-0.30, 0.90, 0.00]],
+    [0.69, [1.89, 1.78, 2.67], [0.55, 1.33, 0.60]],
+    [0.75, [1.77, 1.78, 2.55], [0.55, 1.33, 0.60]],
+    [0.83, [-2.91, 1.53, 2.79], [-0.06, 0.78, 0.64]],
+    [0.89, [-2.73, 1.59, 2.91], [-0.06, 0.80, 0.64]],
+    [0.96, [0.39, 1.24, 4.27], [0.15, 1.03, 0.00]],
+    [1.00, [0.39, 1.18, 3.84], [0.15, 1.02, 0.00]],
+  ];
+  // mobile: objek di tengah (panel ada di bawah), kamera sedikit lebih jauh
+  const CKM = [
+    [0.00, [1.30, 1.60, 4.60], [-0.50, 0.55, 0.30]], [0.10, [1.20, 1.60, 4.70], [-0.50, 0.55, 0.30]],
+    [0.20, [0.20, 2.90, 5.60], [-0.20, 0.35, 0.00]], [0.32, [-2.40, 1.60, 3.60], [-0.60, 0.60, 0.40]],
+    [0.42, [1.70, 2.30, 2.40], [0.00, 0.75, 0.30]], [0.50, [1.60, 2.20, 2.30], [0.00, 0.75, 0.25]],
+    [0.56, [0.05, 1.15, 2.10], [0.00, 0.55, 0.00]], [0.62, [0.10, 1.15, 2.20], [0.00, 0.55, 0.00]],
+    [0.69, [2.22, 1.98, 3.41], [0.45, 0.98, 0.60]], [0.75, [2.10, 1.98, 3.28], [0.45, 0.98, 0.60]],
+    [0.83, [-2.73, 1.71, 2.86], [-0.35, 0.53, 0.30]], [0.89, [-2.61, 1.77, 2.98], [-0.35, 0.53, 0.30]],
+    [0.96, [0.32, 1.47, 4.88], [0.20, 0.78, 0.00]], [1.00, [0.32, 1.41, 4.51], [0.20, 0.78, 0.00]],
+  ];
+  const smooth = t => t * t * (3 - 2 * t);
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const lerp3 = (a, b, t) => [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)];
+  function camAt(p) {
+    const CK = innerWidth < 760 ? CKM : CKD;
+    for (let i = 0; i < CK.length - 1; i++) {
+      const [p0, a0, t0] = CK[i], [p1, a1, t1] = CK[i + 1];
+      if (p <= p1) { const t = smooth(Math.max(0, (p - p0) / (p1 - p0))); return [lerp3(a0, a1, t), lerp3(t0, t1, t)]; }
+    }
+    const l = CK[CK.length - 1]; return [l[1], l[2]];
+  }
+  const angLerp = (a, b, t) => { let d = ((b - a + Math.PI) % (2 * Math.PI)) - Math.PI; if (d < -Math.PI) d += 2 * Math.PI; return a + d * t; };
+  function charAt(p) {
+    for (let i = 0; i < ST.length; i++) {
+      const s = ST[i];
+      if (p >= s[0] && p <= s[1]) return { x: s[2], z: s[3], ry: s[4], clip: s[5], mode: s[6], local: (p - s[0]) / (s[1] - s[0]) };
+      const n = ST[i + 1];
+      if (n && p > s[1] && p < n[0]) {
+        const t = (p - s[1]) / (n[0] - s[1]);
+        const x = lerp(s[2], n[2], smooth(t)), z = lerp(s[3], n[3], smooth(t));
+        const dist = Math.hypot(n[2] - s[2], n[3] - s[3]);
+        if (dist < 0.05) return { x, z, ry: angLerp(s[4], n[4], t), clip: 'Idle', mode: 'loop', local: 0 };
+        const head = Math.atan2(n[2] - s[2], n[3] - s[3]);
+        const turnIn = Math.min(1, t / 0.18), turnOut = Math.max(0, (t - 0.82) / 0.18);
+        const ry = turnOut > 0 ? angLerp(head, n[4], turnOut) : angLerp(s[4], head, turnIn);
+        return { x, z, ry, clip: 'Walk', mode: 'walk', local: dist * smooth(t) };
+      }
+    }
+    const l = ST[ST.length - 1]; return { x: l[2], z: l[3], ry: l[4], clip: l[5], mode: l[6], local: 1 };
+  }
+
+  // ---------- load models ----------
+  const loader = new THREE.GLTFLoader();
+  const load = url => new Promise((res, rej) => loader.load(url, res, undefined, rej));
+  let mixer = null, clips = {}, actions = {}, char = null, lidPivot = null, curClip = null;
+  const ldTxt = document.getElementById('ldTxt');
+
+  Promise.all([load('assets/aruna_mesin.json'), load('assets/aruna_char.json')]).then(([m, c]) => {
+    const mesin = m.scene;
+    mesin.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+    scene.add(mesin);
+    // engsel tutup: putar "Tutup" & "Tutup_Pegangan" di sekitar engsel belakang
+    const hinge = new THREE.Vector3(0, 1.126, -0.208);
+    lidPivot = new THREE.Group(); lidPivot.position.copy(hinge); mesin.add(lidPivot);
+    ['Tutup', 'Tutup_Pegangan'].forEach(n => { const o = mesin.getObjectByName(n); if (o) lidPivot.attach(o); });
+
+    char = c.scene;
+    char.scale.setScalar(0.89);
+    char.traverse(o => { if (o.isMesh) { o.castShadow = true; o.frustumCulled = false; } });
+    scene.add(char);
+    mixer = new THREE.AnimationMixer(char);
+    c.animations.forEach(a => { clips[a.name] = a; const ac = mixer.clipAction(a); ac.play(); ac.setEffectiveWeight(0); actions[a.name] = ac; });
+    document.getElementById('loader').classList.add('done');
+    onScroll(); requestAnimationFrame(loop);
+  }).catch(e => { ldTxt.textContent = 'Model 3D gagal dimuat. Muat ulang halaman.'; console.error(e); });
+
+  // ---------- scroll ----------
+  let target = 0, p = 0;
+  const panels = [...document.querySelectorAll('[data-from]')];
+  const prog = document.getElementById('prog'), chip = document.getElementById('chip');
+  const acts = [0, 0.13, 0.30, 0.52, 0.64, 0.78, 0.92];
+  prog.innerHTML = acts.map(() => '<i><b></b></i>').join('');
+  const bars = [...prog.querySelectorAll('b')];
+  function onScroll() {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    target = Math.min(1, Math.max(0, scrollY / Math.max(1, max)));
+    if (reduce) p = target;
+  }
+  addEventListener('scroll', onScroll, { passive: true });
+
+  function resize() {
+    renderer.setSize(innerWidth, innerHeight);
+    camera.aspect = innerWidth / innerHeight;
+    camera.fov = innerWidth < 760 ? 46 : 32;
+    camera.updateProjectionMatrix();
+  }
+  addEventListener('resize', resize); resize();
+
+  const clock = new THREE.Clock();
+  let loopT = 0;
+  function loop() {
+    const dt = Math.min(clock.getDelta(), 0.05);
+    loopT += dt;
+    p += (target - p) * (reduce ? 1 : 0.09);
+
+    const [cp, ct] = camAt(p);
+    camera.position.set(...cp); camera.lookAt(...ct);
+
+    if (char) {
+      const s = charAt(p);
+      char.position.set(s.x, 0, s.z);
+      char.rotation.y = s.ry;
+      for (const n in actions) actions[n].setEffectiveWeight(n === s.clip ? 1 : 0);
+      const a = actions[s.clip], dur = clips[s.clip].duration;
+      if (s.mode === 'loop') a.time = (loopT % dur);
+      else if (s.mode === 'scrub') a.time = Math.min(dur - 0.001, s.local * dur);
+      else if (s.mode === 'walk') a.time = ((s.local / 1.1) * dur) % dur;   // ±1,1 m per siklus
+      a.paused = true;
+      mixer.update(0);
+    }
+    if (lidPivot) {
+      const open = smooth(Math.min(1, Math.max(0, (p - 0.36) / 0.04))) * (1 - smooth(Math.min(1, Math.max(0, (p - 0.50) / 0.03))));
+      lidPivot.rotation.x = (1 - open) * (100 * Math.PI / 180);   // 100° = tertutup
+    }
+
+    panels.forEach(el => { const on = p >= +el.dataset.from && p <= +el.dataset.to; el.classList.toggle('on', on); });
+    let idx = 0; acts.forEach((a, i) => { if (p >= a - 0.005) idx = i; });
+    chip.textContent = String(idx + 1).padStart(2, '0') + ' / 07';
+    bars.forEach((b, i) => { const a0 = acts[i], a1 = acts[i + 1] ?? 1.0001; b.style.transform = `scaleX(${Math.min(1, Math.max(0, (p - a0) / (a1 - a0)))})`; });
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(loop);
+  }
+})();
+</script>

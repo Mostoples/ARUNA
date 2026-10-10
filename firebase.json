@@ -11,8 +11,103 @@
       {
         "source": "**/*.@(css|js|svg|png|jpg|webp)",
         "headers": [
-          { "key": "Cache-Control", "value": "public, max-age=3600" }
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=3600"
+          }
         ]
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/login",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/login.html",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/home",
+        "destination": "/app/#home",
+        "type": 301
+      },
+      {
+        "source": "/home.html",
+        "destination": "/app/#home",
+        "type": 301
+      },
+      {
+        "source": "/monitoring",
+        "destination": "/app/#monitor",
+        "type": 301
+      },
+      {
+        "source": "/monitoring.html",
+        "destination": "/app/#monitor",
+        "type": 301
+      },
+      {
+        "source": "/ai-edukator",
+        "destination": "/app/#tanya",
+        "type": 301
+      },
+      {
+        "source": "/ai-edukator.html",
+        "destination": "/app/#tanya",
+        "type": 301
+      },
+      {
+        "source": "/ensiklopedia",
+        "destination": "/app/#belajar",
+        "type": 301
+      },
+      {
+        "source": "/ensiklopedia.html",
+        "destination": "/app/#belajar",
+        "type": 301
+      },
+      {
+        "source": "/langkah",
+        "destination": "/app/#belajar",
+        "type": 301
+      },
+      {
+        "source": "/langkah.html",
+        "destination": "/app/#belajar",
+        "type": 301
+      },
+      {
+        "source": "/penelitian",
+        "destination": "/app/#belajar",
+        "type": 301
+      },
+      {
+        "source": "/penelitian.html",
+        "destination": "/app/#belajar",
+        "type": 301
+      },
+      {
+        "source": "/perangkat",
+        "destination": "/app/#alat",
+        "type": 301
+      },
+      {
+        "source": "/perangkat.html",
+        "destination": "/app/#alat",
+        "type": 301
+      },
+      {
+        "source": "/profil",
+        "destination": "/app/#alat",
+        "type": 301
+      },
+      {
+        "source": "/profil.html",
+        "destination": "/app/#alat",
+        "type": 301
       }
     ]
   },

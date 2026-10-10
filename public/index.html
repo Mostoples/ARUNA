@@ -1,339 +1,275 @@
-<!DOCTYPE html>
-<html lang="id" data-theme="light">
+<!doctype html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="ARUNA — platform biodigester pintar untuk sekolah. Ubah sisa makanan program MBG menjadi biogas, pupuk, dan media belajar dengan monitoring IoT real-time.">
-  <title>ARUNA — Platform Biodigester Pintar untuk Sekolah</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
-  <script>
-    (function () {
-      try {
-        var t = localStorage.getItem("aruna-theme");
-        if (!t) t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        document.documentElement.setAttribute("data-theme", t);
-      } catch (e) { document.documentElement.setAttribute("data-theme", "light"); }
-    })();
-  </script>
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/pages.css">
-  <link rel="stylesheet" href="assets/css/landing.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ARUNA — Biodigester rumahan pintar</title>
+<meta name="description" content="ARUNA mengubah sisa makanan rumah tangga menjadi biogas untuk memasak, pupuk cair, dan kompos — dipantau sensor dan aplikasi.">
+<meta name="theme-color" content="#158A52">
+<link rel="icon" href="app/img/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F5F8F6;--paper:#fff;--ink:#10201A;--ink-2:#4A5B52;--muted:#7E8D85;--line:#E1E9E4;--green:#158A52;--green-2:#0E7A6A;--deep:#0F5A3A;--soft:#E6F4EC;--mist:#F0F8F3;
+--amber:#B8741A;--amber-soft:#FBF0DF;--blue:#2D6BD8;--blue-soft:#E9F0FC;--shadow:0 1px 2px rgba(16,32,26,.04),0 18px 40px -22px rgba(16,32,26,.25);
+--sans:"Plus Jakarta Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"DM Mono",ui-monospace,Consolas,monospace;--ease:cubic-bezier(.22,1,.36,1)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:3px solid #9fd8b9;outline-offset:3px}
+img{max-width:100%;display:block}
+svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:clamp(16px,4vw,32px)}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}
+.eyebrow::before{content:"";width:18px;height:2px;background:currentColor}
+h1,h2,h3{letter-spacing:-.03em;line-height:1.08;margin:0;text-wrap:balance}
+h2{font-size:clamp(30px,4vw,46px);font-weight:800}
+h2 em{font-style:normal;color:var(--green)}
+.lead{font-size:clamp(16px,1.6vw,19px);color:var(--ink-2);max-width:58ch}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 24px;border-radius:16px;font-weight:700;font-size:16px;text-decoration:none;transition:transform .2s var(--ease),box-shadow .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.pri{background:var(--green);color:#fff;box-shadow:0 14px 28px -14px rgba(21,138,82,.9)}
+.btn.sec{background:var(--paper);border:1px solid var(--line)}
+section{padding-block:clamp(64px,9vw,112px)}
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(245,248,246,.86);backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
+.nav.scrolled{border-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:26px;height:70px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.1em;text-decoration:none}
+.mark{width:28px;height:28px;border-radius:9px;background:conic-gradient(from 200deg,var(--green),var(--green-2),#22A96A,var(--green));display:grid;place-items:center}
+.mark::after{content:"";width:10px;height:10px;border-radius:50%;background:#fff}
+.nav .links{display:flex;gap:22px;margin-left:auto;font-size:14.5px;font-weight:600;color:var(--ink-2)}
+.nav .links a{text-decoration:none} .nav .links a:hover{color:var(--green)}
+.nav .btn{height:44px;padding:0 18px;font-size:14.5px;border-radius:13px}
+@media (max-width:820px){.nav .links{display:none}.nav .btn.pri{margin-left:auto}}
+/* hero */
+.hero{padding-top:clamp(30px,5vw,60px);padding-bottom:40px;background:radial-gradient(70% 60% at 78% 30%,#DFF2E6 0%,rgba(223,242,230,0) 70%)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
+.hero h1{font-size:clamp(40px,6vw,74px);font-weight:800;margin:18px 0 18px}
+.hero h1 span{color:var(--green)}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.hero .note{font-size:12.5px;color:var(--muted);margin-top:14px}
+.hero .art{position:relative;min-height:520px}
+.hero .art img{position:absolute;right:0;bottom:0;height:min(600px,62vw);width:auto;filter:drop-shadow(0 30px 40px rgba(16,32,26,.18))}
+.hero .art::before{content:"";position:absolute;width:78%;aspect-ratio:1;border-radius:50%;left:12%;bottom:6%;background:radial-gradient(circle,#fff 0%,rgba(255,255,255,0) 70%)}
+.float{position:absolute;z-index:2;display:flex;align-items:center;gap:10px;padding:10px 14px 10px 10px;border-radius:16px;background:rgba(255,255,255,.95);box-shadow:var(--shadow);border:1px solid var(--line);font-size:12.5px;color:var(--ink-2);animation:bob 5s ease-in-out infinite}
+.float b{display:block;font-size:16px;color:var(--ink)}
+.ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-size:18px}
+.ic.g{background:var(--soft);color:var(--green)} .ic.b{background:var(--blue-soft);color:var(--blue)} .ic.a{background:var(--amber-soft);color:var(--amber)}
+@keyframes bob{50%{transform:translateY(-8px)}}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero .art{min-height:420px}.hero .art img{left:50%;right:auto;transform:translateX(-50%);height:420px}}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-block:1px solid var(--line);background:var(--paper)}
+.stats div{padding:28px 22px}
+.stats div+div{border-left:1px solid var(--line)}
+.stats b{display:block;font-size:clamp(30px,4vw,44px);font-weight:800;letter-spacing:-.04em;color:var(--deep)}
+.stats span{font-size:14px;color:var(--ink-2);display:block}
+.stats small{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em}
+@media (max-width:760px){.stats{grid-template-columns:1fr 1fr}.stats div:nth-child(3){border-left:0}.stats div:nth-child(n+3){border-top:1px solid var(--line)}}
+/* steps */
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:16px 40px;margin-bottom:40px}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;counter-reset:s}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);transition:transform .3s var(--ease)}
+.step:hover{transform:translateY(-6px)}
+.step img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.step div{padding:16px 16px 20px;counter-increment:s}
+.step div::before{content:"0" counter(s);font-family:var(--mono);font-size:12px;color:var(--green);font-weight:500;letter-spacing:.1em}
+.step h3{font-size:18px;margin:4px 0 6px}
+.step p{margin:0;font-size:14px;color:var(--ink-2)}
+@media (max-width:980px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+/* inside */
+.inside{background:#0C3B2E;color:#F3F7F4}
+.inside .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+.inside h2 em{color:#E89B2D} .inside .lead{color:rgba(243,247,244,.82)} .inside .eyebrow{color:#8FD3AF}
+.inside img{max-height:620px;margin:0 auto;filter:drop-shadow(0 30px 40px rgba(0,0,0,.45))}
+.sens{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:30px;border-top:1px solid rgba(255,255,255,.18)}
+.sens div{padding:16px 16px 16px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.sens div:nth-child(even){padding-left:18px;border-left:1px solid rgba(255,255,255,.12)}
+.sens b{display:block;font-size:16px} .sens span{font-family:var(--mono);font-size:12.5px;color:rgba(243,247,244,.7)}
+@media (max-width:860px){.inside .wrap{grid-template-columns:1fr}}
+/* impact */
+.impact{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.impact div{border-radius:24px;padding:26px 24px;color:#fff;box-shadow:var(--shadow)}
+.impact b{display:block;font-size:clamp(38px,5vw,56px);font-weight:800;letter-spacing:-.04em;line-height:1}
+.impact span{display:block;margin-top:10px;font-size:15px;opacity:.92}
+@media (max-width:860px){.impact{grid-template-columns:1fr 1fr}}
+/* app */
+.appsec .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.appsec img{border-radius:28px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.feat{display:grid;gap:14px;margin-top:26px}
+.feat div{display:flex;gap:14px;align-items:flex-start}
+.feat b{display:block} .feat div div span{display:block;font-size:14.5px;color:var(--ink-2)}
+@media (max-width:860px){.appsec .wrap{grid-template-columns:1fr}}
+/* sdg + cta */
+.sdg{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.sdg div{display:flex;align-items:center;gap:12px;padding:10px 16px 10px 10px;border-radius:16px;background:var(--paper);border:1px solid var(--line)}
+.sdg span{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:800}
+.cta-band{background:linear-gradient(135deg,#158A52,#0E7A6A);color:#fff;border-radius:32px;padding:clamp(32px,5vw,56px);display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
+.cta-band h2{color:#fff;max-width:18ch}
+.cta-band .btn.pri{background:#fff;color:var(--deep)}
+.cta-band .btn.sec{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+footer{padding-block:40px;color:var(--muted);font-size:13.5px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;border-top:1px solid var(--line);padding-top:28px}
+.reveal{transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.pre{opacity:0;transform:translateY(24px)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal.pre{opacity:1;transform:none}}
+
+/* ===== warna, corak & aset 3D ===== */
+.i3d{width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 10px 14px rgba(16,32,26,.18))}
+body{background:#F5F8F6 radial-gradient(rgba(21,138,82,.07) 1.2px,transparent 1.4px) 0 0/22px 22px}
+.hero{background:radial-gradient(60% 55% at 80% 30%,#CDEFD9 0%,rgba(205,239,217,0) 70%),radial-gradient(40% 40% at 8% 90%,#FFE3C8 0%,rgba(255,227,200,0) 70%)}
+.hero .art{isolation:isolate}
+.hero .art::after{content:"";position:absolute;width:300px;height:300px;right:8%;top:4%;border-radius:42% 58% 63% 37%/45% 41% 59% 55%;background:linear-gradient(135deg,#FFD166,#F2A93B);opacity:.35;z-index:-1;animation:morph 12s ease-in-out infinite}
+@keyframes morph{50%{border-radius:58% 42% 37% 63%/55% 59% 41% 45%;transform:rotate(8deg) scale(1.04)}}
+.orbit{position:absolute;z-index:3;width:96px;filter:drop-shadow(0 16px 18px rgba(16,32,26,.22));animation:bob 6s ease-in-out infinite}
+.stats{background:linear-gradient(90deg,#EAF7EF,#FFF4E6 50%,#E9F3FD)}
+.stats div{display:grid;grid-template-columns:1fr auto;column-gap:10px;align-items:start}
+.stats div > *{grid-column:1}
+.stats div .i3d{grid-row:1/4;grid-column:2;width:64px;height:64px}
+#cara{background:linear-gradient(180deg,rgba(255,244,230,.75),rgba(234,247,239,.75));position:relative;overflow:hidden}
+#cara::before{content:"";position:absolute;inset:0;background:repeating-radial-gradient(circle at 100% 0,rgba(21,138,82,.06) 0 2px,transparent 2px 26px);pointer-events:none}
+.step{position:relative}
+.step .i3d{position:absolute;right:10px;top:10px;width:62px;height:62px;background:rgba(255,255,255,.92);border-radius:18px;padding:6px}
+.step:nth-child(1){border-top:5px solid #EF6B57}.step:nth-child(2){border-top:5px solid #14A08C}.step:nth-child(3){border-top:5px solid #3A8DDE}.step:nth-child(4){border-top:5px solid #1FA567}.step:nth-child(5){border-top:5px solid #F2A93B}
+.inside{background:radial-gradient(50% 60% at 15% 40%,#16624A 0%,rgba(22,98,74,0) 70%),repeating-linear-gradient(135deg,rgba(255,255,255,.03) 0 2px,transparent 2px 18px),#0C3B2E}
+.sens div{display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:center}
+.sens .i3d{width:42px;height:42px;grid-row:1/3}
+.impact div{position:relative;overflow:hidden}
+.impact div .i3d{position:absolute;right:-6px;bottom:-8px;width:110px;height:110px}
+.impact div::before{content:"";position:absolute;inset:0;background:radial-gradient(rgba(255,255,255,.14) 1.5px,transparent 1.7px) 0 0/16px 16px}
+.feat .ic{display:none}
+.feat .i3d{width:54px;height:54px}
+.cta-band{position:relative;overflow:hidden;background:linear-gradient(135deg,#158A52,#0E7A6A 55%,#1F9E8A)}
+.cta-band::before{content:"";position:absolute;inset:0;background:repeating-radial-gradient(circle at 0 100%,rgba(255,255,255,.07) 0 2px,transparent 2px 30px)}
+.cta-band > *{position:relative}
+.cta-band .i3d{width:110px;height:110px}
+</style>
 </head>
-<body data-page="landing">
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+  <symbol id="i-act" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></symbol>
+  <symbol id="i-bt" viewBox="0 0 24 24"><path d="m7 7 10 10-5 5V2l5 5L7 17"/></symbol>
+</defs></svg>
 
-  <!-- ===== Navbar ===== -->
-  <header class="land-nav glass">
-    <span class="brand-logo"><svg class="ic"><use href="#i-leaf"/></svg></span>
-    <div><div class="brand-name">ARUNA</div></div>
-    <nav class="land-links" aria-label="Navigasi landing">
-      <a href="#fitur">Fitur</a>
-      <a href="#cara-kerja">Cara Kerja</a>
-      <a href="#testimoni">Testimoni</a>
-      <a href="#faq">FAQ</a>
-    </nav>
-    <div class="land-cta">
-      <button class="neu-btn icon-only theme-toggle" data-theme-toggle aria-label="Ganti mode terang/gelap">
-        <svg class="ic ic-sun"><use href="#i-sun"/></svg>
-        <svg class="ic ic-moon"><use href="#i-moon"/></svg>
-      </button>
-      <a class="neu-btn" href="login.html">Masuk</a>
-      <a class="btn-accent" href="login.html#daftar">Coba Gratis</a>
+<header class="nav" id="nav"><div class="wrap">
+  <a class="brand" href="#top"><span class="mark"></span>ARUNA</a>
+  <nav class="links" aria-label="Navigasi"><a href="#cara">Cara kerja</a><a href="#dalam">Di dalam mesin</a><a href="#dampak">Dampak</a><a href="#aplikasi">Aplikasi</a><a href="/cerita/">Cerita 3D</a></nav>
+  <a class="btn pri" href="/app/">Masuk aplikasi</a>
+</div></header>
+
+<main id="top">
+<section class="hero"><div class="wrap">
+  <div class="reveal">
+    <span class="eyebrow">Biodigester rumahan pintar</span>
+    <h1>Sisa makanan malam ini, <span>api biru</span> untuk masak besok.</h1>
+    <p class="lead">ARUNA mencerna sisa makanan rumah tangga tanpa oksigen menjadi biogas untuk memasak, pupuk cair, dan kompos. Sensor dan aplikasi menjaga prosesnya tetap aman — kamu cukup mengisi dan memanen.</p>
+    <div class="cta"><a class="btn pri" href="/app/#daftar">Coba aplikasinya <svg class="i"><use href="#i-arrow"/></svg></a><a class="btn sec" href="/cerita/"><svg class="i"><use href="#i-play"/></svg>Lihat cerita 3D</a></div>
+    <p class="note">44 × 44 × 112 cm · 1,5 kg sisa makanan/hari · muat di pojok dapur</p>
+  </div>
+  <div class="art">
+    <img src="assets/img/hero.png" alt="Mesin ARUNA di samping penggunanya">
+    <img class="orbit" src="assets/3d/flame-anim.webp" alt="" style="right:0;top:0">
+    <img class="orbit" src="assets/3d/drop-anim.webp" alt="" style="right:42%;bottom:2%;width:78px;animation-delay:1s">
+    <img class="orbit" src="assets/3d/leaf-anim.webp" alt="" style="left:36%;top:-2%;width:84px;animation-delay:2s">
+    <div class="float" style="left:2%;top:18%"><span class="ic b"><svg class="i"><use href="#i-flame"/></svg></span><div><b>±43 menit</b>masak / hari*</div></div>
+    <div class="float" style="left:6%;bottom:16%;animation-delay:1.4s"><span class="ic g"><svg class="i"><use href="#i-drop"/></svg></span><div><b>Pupuk cair</b>+ kompos padat</div></div>
+  </div>
+</div></section>
+
+<div class="stats reveal">
+  <div><img class="i3d" src="assets/3d/bowl.webp" alt=""><b>53 kg</b><span>sisa makanan per orang per tahun di rumah tangga Indonesia</span><small>UNEP 2024</small></div>
+  <div><img class="i3d" src="assets/3d/compost.webp" alt=""><b>14,7 Mt</b><span>sisa makanan rumah tangga per tahun</span><small>UNEP 2024</small></div>
+  <div><img class="i3d" src="assets/3d/leaf.webp" alt=""><b>≈ 40 %</b><span>sampah kota berupa sisa makanan</span><small>SIPSN KLHK 2023</small></div>
+  <div><img class="i3d" src="assets/3d/ch4.webp" alt=""><b>1,7 Gt</b><span>CO₂e dari susut &amp; sisa pangan 2000–2019</span><small>Bappenas 2021</small></div>
+</div>
+
+<section id="cara"><div class="wrap">
+  <div class="head reveal"><div><span class="eyebrow">Cara kerja</span><h2>Lima langkah, <em>dua menit sehari.</em></h2></div>
+    <p class="lead">Alur gravitasi dari atas ke bawah: masukkan di atas, panen di bawah. Mesin mengurus sisanya.</p></div>
+  <div class="steps">
+    <article class="step reveal"><img src="assets/img/step1.jpg" alt=""><img class="i3d" src="assets/3d/bowl.webp" alt=""><div><h3>Masukkan</h3><p>Buka tutup, tuang sisa makanan. Berat dicatat otomatis.</p></div></article>
+    <article class="step reveal"><img src="assets/img/step2.jpg" alt=""><img class="i3d" src="assets/3d/gear.webp" alt=""><div><h3>Cerna</h3><p>Dicacah, diaduk, dicerna bakteri ±34 hari pada 30–38 °C.</p></div></article>
+    <article class="step reveal"><img src="assets/img/step3.jpg" alt=""><img class="i3d" src="assets/3d/phone.webp" alt=""><div><h3>Pantau</h3><p>Status, grafik, dan notifikasi panen langsung di HP.</p></div></article>
+    <article class="step reveal"><img src="assets/img/step4.jpg" alt=""><img class="i3d" src="assets/3d/drop.webp" alt=""><div><h3>Pupuk</h3><p>Ambil pupuk cair dari keran, encerkan 1 : 10.</p></div></article>
+    <article class="step reveal"><img src="assets/img/step5.jpg" alt=""><img class="i3d" src="assets/3d/flame.webp" alt=""><div><h3>Masak</h3><p>Biogas mengalir ke kompor — api biru tanpa LPG.</p></div></article>
+  </div>
+</div></section>
+
+<section class="inside" id="dalam"><div class="wrap">
+  <img class="reveal" src="assets/img/xray.png" alt="Bagian dalam mesin ARUNA dengan label sensor">
+  <div class="reveal">
+    <span class="eyebrow">Di dalam mesin</span>
+    <h2>Dirancang dari <em>kinetika</em>, dijaga oleh sensor.</h2>
+    <p class="lead">Volume 100 L dan waktu tinggal ±34 hari dihitung dari neraca massa dan model Gompertz. Lima sensor dan aturan pengaman otomatis menjaga pencernaan tetap stabil.</p>
+    <div class="sens">
+      <div><img class="i3d" src="assets/3d/therm.webp" alt=""><b>Suhu</b><span>DS18B20 · ±0,5 °C</span></div><div><img class="i3d" src="assets/3d/ch4.webp" alt=""><b>Metana di biogas</b><span>NDIR · 0–100 % vol</span></div>
+      <div><img class="i3d" src="assets/3d/drop.webp" alt=""><b>Keasaman</b><span>probe pH · ideal 6,8–7,5</span></div><div><img class="i3d" src="assets/3d/bowl.webp" alt=""><b>Level &amp; berat</b><span>ultrasonik · load cell</span></div>
+      <div><img class="i3d" src="assets/3d/flame.webp" alt=""><b>Bocor gas</b><span>MQ-4 · katup menutup &gt; 5.000 ppm</span></div><div><img class="i3d" src="assets/3d/gear.webp" alt=""><b>Kontrol</b><span>ESP32-S3 · Wi-Fi · BLE</span></div>
     </div>
-  </header>
+  </div>
+</div></section>
 
-  <main class="land-main">
+<section id="dampak"><div class="wrap">
+  <div class="head reveal"><div><span class="eyebrow">Dampak per unit</span><h2>Dari 1,5 kg sisa makanan <em>setiap hari.</em></h2></div>
+    <p class="lead">Prediksi perhitungan desain (belum hasil ukur) — dipakai sebagai target uji laboratorium dan lapangan.</p></div>
+  <div class="impact reveal">
+    <div style="background:#158A52"><img class="i3d" src="assets/3d/ch4.webp" alt=""><b>214 L</b><span>biogas per hari</span></div>
+    <div style="background:#2D6BD8"><img class="i3d" src="assets/3d/flame.webp" alt=""><b>43 mnt</b><span>memasak per hari</span></div>
+    <div style="background:#E8912D"><img class="i3d" src="assets/3d/gear.webp" alt=""><b>3,0 kg</b><span>LPG dihemat per bulan</span></div>
+    <div style="background:#0E7A6A"><img class="i3d" src="assets/3d/leaf.webp" alt=""><b>0,72 t</b><span>CO₂e terhindar per tahun</span></div>
+  </div>
+  <div class="sdg reveal">
+    <div><span style="background:#C89A08">7</span>Energi bersih</div><div><span style="background:#E08010">11</span>Kota berkelanjutan</div>
+    <div><span style="background:#A07426">12</span>Konsumsi bertanggung jawab</div><div><span style="background:#3F7E44">13</span>Aksi iklim</div>
+  </div>
+</div></section>
 
-    <!-- ===== Hero ===== -->
-    <section class="hero-center">
-      <span class="hero-pill"><span class="tag">BARU</span> AI Edukator — tanya apa saja soal biodigester 🤖</span>
-      <h1>Sisa Makanan Hari Ini,<br><span class="grad">Energi Sekolah Esok Hari.</span></h1>
-      <p class="lead">
-        ARUNA mengubah sisa makanan program MBG menjadi biogas, pupuk, dan bahan ajar —
-        lengkap dengan monitoring IoT real-time, kurikulum, dan asisten AI dalam satu platform.
-      </p>
-      <div class="hero-actions">
-        <a class="btn-accent" href="login.html#daftar">Mulai Gratis <svg class="ic ic-sm"><use href="#i-spark"/></svg></a>
-        <a class="btn-ghost" href="login.html">Lihat Demo</a>
-      </div>
-      <p class="hero-micro">Gratis untuk sekolah program MBG · Tanpa instalasi · Cukup buka browser</p>
-    </section>
-
-    <!-- Mockup produk -->
-    <div class="mock-window glass">
-      <div class="mock-bar">
-        <span class="mock-dots"><i></i><i></i><i></i></span>
-        <span class="mock-url">🔒 aruna-id.web.app/home</span>
-        <span style="width:47px"></span>
-      </div>
-      <div class="mock-body">
-        <div class="mock-side" aria-hidden="true">
-          <div class="mock-nav act"></div>
-          <div class="mock-nav"></div>
-          <div class="mock-nav"></div>
-          <div class="mock-nav"></div>
-          <div class="mock-nav"></div>
-        </div>
-        <div class="mock-main">
-          <div class="mock-stats">
-            <div class="mock-tile"><div class="t">BERAT HARI INI</div><div class="v">2,35 <small>kg</small></div></div>
-            <div class="mock-tile"><div class="t">SUHU DIGESTER</div><div class="v">35,6 <small>°C</small></div></div>
-            <div class="mock-tile"><div class="t">GAS (METANA)</div><div class="v" style="color:var(--good-text)">Normal</div></div>
-            <div class="mock-tile"><div class="t">LEVEL</div><div class="v">75 <small>%</small></div></div>
-          </div>
-          <div class="mock-chart" aria-hidden="true">
-            <svg viewBox="0 0 600 120" preserveAspectRatio="none">
-              <rect class="band" x="0" y="28" width="600" height="52"/>
-              <path class="area" d="M0 72 L60 64 L120 68 L180 55 L240 60 L300 46 L360 52 L420 40 L480 47 L540 38 L600 43 L600 120 L0 120 Z"/>
-              <path class="line" d="M0 72 L60 64 L120 68 L180 55 L240 60 L300 46 L360 52 L420 40 L480 47 L540 38 L600 43"/>
-            </svg>
-          </div>
-        </div>
-      </div>
+<section class="appsec" id="aplikasi" style="padding-top:0"><div class="wrap">
+  <img class="reveal" src="assets/img/app.jpg" alt="Lima layar aplikasi ARUNA">
+  <div class="reveal">
+    <span class="eyebrow">Aplikasi ARUNA</span>
+    <h2>Semua kabar mesin <em>di satu layar.</em></h2>
+    <div class="feat">
+      <div><span class="ic g"><svg class="i"><use href="#i-act"/></svg></span><img class="i3d" src="assets/3d/therm.webp" alt=""><div><b>Monitor real-time</b><span>Suhu, pH, metana, dan isi tangki dengan zona ideal.</span></div></div>
+      <div><span class="ic a"><svg class="i"><use href="#i-bell"/></svg></span><img class="i3d" src="assets/3d/compost.webp" alt=""><div><b>Notifikasi panen</b><span>Dikabari saat pupuk, kompos, atau gas siap.</span></div></div>
+      <div><span class="ic b"><svg class="i"><use href="#i-spark"/></svg></span><img class="i3d" src="assets/3d/ch4.webp" alt=""><div><b>Tanya ARUNA</b><span>Asisten yang menjawab dari data alatmu sendiri.</span></div></div>
+      <div><span class="ic g"><svg class="i"><use href="#i-bt"/></svg></span><img class="i3d" src="assets/3d/phone.webp" alt=""><div><b>Setup lewat Bluetooth</b><span>Hubungkan Wi-Fi alat tanpa kabel atau aplikasi tambahan.</span></div></div>
     </div>
+    <div style="margin-top:28px"><a class="btn pri" href="/app/">Buka aplikasi <svg class="i"><use href="#i-arrow"/></svg></a></div>
+  </div>
+</div></section>
 
-    <!-- ===== Pita angka ===== -->
-    <section class="num-band glass reveal">
-      <div class="num-item"><b data-count="500">0</b><span>porsi MBG/hari yang bisa diolah</span></div>
-      <div class="num-item"><b data-count="80">0</b><span>liter volume digester per unit</span></div>
-      <div class="num-item"><b data-count="9">0</b><span>materi belajar siap pakai</span></div>
-      <div class="num-item"><b data-count="24">0</b><span>jam monitoring tanpa henti</span></div>
-    </section>
+<section style="padding-top:0"><div class="wrap">
+  <div class="cta-band reveal">
+    <div style="display:flex;align-items:center;gap:18px"><img class="i3d" src="assets/3d/leaf-anim.webp" alt=""><h2>Mulai dari piring malam ini.</h2></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn pri" href="/app/#daftar">Buat akun gratis</a><a class="btn sec" href="/cerita/">Lihat cerita 3D</a></div>
+  </div>
+</div></section>
+</main>
 
-    <!-- ===== Fitur (bento) ===== -->
-    <section class="land-sec" id="fitur">
-      <div class="sec-head reveal">
-        <span class="eyebrow">Platform Lengkap</span>
-        <h2>Semua yang Sekolah Butuhkan, Satu Aplikasi</h2>
-        <p>Dari memantau alat sampai mengajar di kelas — tanpa aplikasi tambahan.</p>
-      </div>
-      <div class="bento">
-        <div class="bento-card bento-mon glass reveal">
-          <span class="coin"><svg class="ic"><use href="#i-monitor"/></svg></span>
-          <h3>Monitoring IoT Real-time</h3>
-          <p>Berat sampah, suhu, gas metana, dan level digester langsung dari ESP32 —
-             dengan grafik riwayat, ambang peringatan, dan notifikasi.</p>
-          <div class="bento-visual mini-bars" aria-hidden="true">
-            <i style="height:45%;animation-delay:.05s"></i><i style="height:70%;animation-delay:.1s"></i>
-            <i style="height:52%;animation-delay:.15s"></i><i style="height:85%;animation-delay:.2s"></i>
-            <i style="height:63%;animation-delay:.25s"></i><i style="height:92%;animation-delay:.3s"></i>
-            <i style="height:74%;animation-delay:.35s"></i>
-          </div>
-        </div>
-        <div class="bento-card bento-ai glass reveal">
-          <span class="coin"><svg class="ic"><use href="#i-bot"/></svg></span>
-          <h3>AI Edukator</h3>
-          <p>Asisten belajar yang paham data alatmu — siswa bertanya, AI menjawab dengan konteks nyata.</p>
-          <div class="bento-visual mini-chat" aria-hidden="true">
-            <span class="mini-msg q">Kenapa suhu harus 30–40 °C?</span>
-            <span class="mini-msg a">Itu zona nyaman bakteri mesofilik! Suhu alatmu 35,6 °C — optimal ✅</span>
-          </div>
-        </div>
-        <div class="bento-card bento-st glass reveal">
-          <span class="coin"><svg class="ic"><use href="#i-steps"/></svg></span>
-          <h3>Langkah Sistem</h3>
-          <p>SOP interaktif, fase proses live, dan checklist harian untuk operator.</p>
-        </div>
-        <div class="bento-card bento-bk glass reveal">
-          <span class="coin"><svg class="ic"><use href="#i-book"/></svg></span>
-          <h3>Ensiklopedia</h3>
-          <p>Silabus biogas–kompos–ekonomi sirkular yang selaras dengan pembelajaran.</p>
-        </div>
-        <div class="bento-card bento-fl glass reveal">
-          <span class="coin"><svg class="ic"><use href="#i-flask"/></svg></span>
-          <h3>Daftar Penelitian</h3>
-          <p>Referensi riset untuk karya ilmiah siswa dan pengembangan alat.</p>
-        </div>
-        <div class="bento-card bento-bt glass reveal">
-          <span class="coin"><svg class="ic"><use href="#i-bt"/></svg></span>
-          <p><b>Multi perangkat &amp; Bluetooth.</b> Kelola beberapa unit sekaligus dan atur WiFi alat
-             langsung dari browser lewat koneksi BLE ke ESP32 — tanpa aplikasi tambahan.</p>
-          <a class="btn-ghost" href="login.html" style="flex:none">Coba Sekarang</a>
-        </div>
-      </div>
-    </section>
+<footer><div class="wrap">
+  <span><b style="color:var(--ink)">ARUNA</b> — Anaerobic Recycling and Upcycling of Nutrient-rich food wAste</span>
+  <span>*Angka hasil adalah prediksi desain pada 1,5 kg/hari · Karakter 3D: sthaarpit (Sketchfab, CC-BY 4.0)</span>
+</div></footer>
 
-    <!-- ===== Cara kerja ===== -->
-    <section class="land-sec" id="cara-kerja">
-      <div class="sec-head reveal">
-        <span class="eyebrow">Cara Kerja</span>
-        <h2>Dari Piring Kembali ke Bumi</h2>
-        <p>Empat tahap yang berjalan otomatis — kamu tinggal memantau.</p>
-      </div>
-      <div class="how-grid how-flow">
-        <div class="how-card glass reveal">
-          <span class="coin"><svg class="ic"><use href="#i-leaf"/></svg></span>
-          <h3>Masukkan</h3>
-          <p>Smart hopper menimbang &amp; mencatat sampah otomatis.</p>
-        </div>
-        <div class="how-card glass reveal">
-          <span class="coin"><svg class="ic"><use href="#i-cpu"/></svg></span>
-          <h3>Dicacah</h3>
-          <p>Shredder memperkecil ukuran agar fermentasi cepat.</p>
-        </div>
-        <div class="how-card glass reveal">
-          <span class="coin"><svg class="ic"><use href="#i-flask"/></svg></span>
-          <h3>Fermentasi</h3>
-          <p>7–14 hari tanpa oksigen, dipantau sensor 24 jam.</p>
-        </div>
-        <div class="how-card glass reveal">
-          <span class="coin"><svg class="ic"><use href="#i-flame"/></svg></span>
-          <h3>Panen</h3>
-          <p>Biogas, pupuk cair, dan kompos siap dimanfaatkan.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== Testimoni ===== -->
-    <section class="land-sec" id="testimoni">
-      <div class="sec-head reveal">
-        <span class="eyebrow">Kata Mereka</span>
-        <h2>Disukai Guru, Siswa, &amp; Operator</h2>
-      </div>
-      <div class="testi-grid">
-        <div class="testi-card glass reveal">
-          <span class="testi-stars" aria-label="5 dari 5 bintang">★★★★★</span>
-          <q>Dulu sisa makanan kantin cuma jadi masalah bau. Sekarang jadi bahan praktikum IPA
-             paling ditunggu siswa — datanya real-time, bukan simulasi.</q>
-          <div class="testi-who">
-            <span class="avatar">R</span>
-            <div><b>Bu Ratna</b><span>Guru IPA · SMKN 1 Nusantara</span></div>
-          </div>
-        </div>
-        <div class="testi-card glass reveal">
-          <span class="testi-stars" aria-label="5 dari 5 bintang">★★★★★</span>
-          <q>Checklist harian dan notifikasi gasnya sangat membantu. Saya tahu kondisi alat
-             bahkan sebelum sampai sekolah.</q>
-          <div class="testi-who">
-            <span class="avatar">D</span>
-            <div><b>Pak Dedi</b><span>Operator Alat · Kantin MBG</span></div>
-          </div>
-        </div>
-        <div class="testi-card glass reveal">
-          <span class="testi-stars" aria-label="5 dari 5 bintang">★★★★★</span>
-          <q>Aku suka nanya-nanya ke AI-nya, jawabannya nyambung sama alat di sekolah.
-             Laporan proyekku juga pakai grafik dari aplikasi ini!</q>
-          <div class="testi-who">
-            <span class="avatar">S</span>
-            <div><b>Salsa</b><span>Siswi Kelas XI · Tim Riset Sekolah</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== FAQ ===== -->
-    <section class="land-sec" id="faq">
-      <div class="sec-head reveal">
-        <span class="eyebrow">FAQ</span>
-        <h2>Pertanyaan yang Sering Diajukan</h2>
-      </div>
-      <div class="faq-list">
-        <details class="faq-item glass reveal">
-          <summary>Apakah ARUNA gratis untuk sekolah?</summary>
-          <p>Ya. Aplikasi ARUNA gratis untuk sekolah peserta program MBG. Biaya hanya untuk
-             perangkat keras biodigester BIOSYNC (satu kali).</p>
-        </details>
-        <details class="faq-item glass reveal">
-          <summary>Perlu instal aplikasi di HP?</summary>
-          <p>Tidak. ARUNA berjalan di browser (HP maupun laptop) dan otomatis menyesuaikan tampilan.
-             Cukup buka aruna-id.web.app dan masuk.</p>
-        </details>
-        <details class="faq-item glass reveal">
-          <summary>Bagaimana alat terhubung ke internet?</summary>
-          <p>Unit BIOSYNC memakai ESP32 dengan WiFi sekolah. Pengaturan WiFi dilakukan sekali
-             lewat Bluetooth langsung dari browser — tanpa kabel, tanpa aplikasi tambahan.</p>
-        </details>
-        <details class="faq-item glass reveal">
-          <summary>Apakah biogasnya aman untuk sekolah?</summary>
-          <p>Aman jika SOP diikuti: alat dilengkapi sensor gas MQ-4 dengan ambang peringatan otomatis,
-             dan aplikasi menyediakan checklist keselamatan harian untuk operator.</p>
-        </details>
-      </div>
-    </section>
-
-    <!-- ===== CTA akhir ===== -->
-    <section class="cta-final reveal">
-      <h2>Mulai Ubah Sampah Jadi Manfaat Hari Ini</h2>
-      <p>Buat akun gratis, sambungkan alatmu, dan biarkan data yang mengajar.</p>
-      <a class="btn-light" href="login.html#daftar">Buat Akun Gratis <svg class="ic ic-sm"><use href="#i-spark"/></svg></a>
-    </section>
-
-  </main>
-
-  <!-- ===== Footer ===== -->
-  <footer>
-    <div class="foot-cols">
-      <div class="foot-brand">
-        <div style="display:flex;align-items:center;gap:10px">
-          <span class="brand-logo"><svg class="ic"><use href="#i-leaf"/></svg></span>
-          <span class="brand-name">ARUNA</span>
-        </div>
-        <p>Anaerobic Recycling and Upcycling of Nutrient-rich Food Waste —
-           platform biodigester pintar untuk sekolah program MBG.</p>
-      </div>
-      <div class="foot-col">
-        <h4>Produk</h4>
-        <a href="#fitur">Fitur</a>
-        <a href="#cara-kerja">Cara Kerja</a>
-        <a href="login.html">Masuk</a>
-        <a href="login.html#daftar">Daftar</a>
-      </div>
-      <div class="foot-col">
-        <h4>Belajar</h4>
-        <a href="login.html">Ensiklopedia</a>
-        <a href="login.html">Daftar Penelitian</a>
-        <a href="login.html">AI Edukator</a>
-      </div>
-      <div class="foot-col">
-        <h4>Bantuan</h4>
-        <a href="#faq">FAQ</a>
-        <a href="mailto:mersif.storage1@gmail.com">Kontak Tim</a>
-      </div>
-    </div>
-    <div class="foot-bottom">© 2026 Tim ARUNA · Dibangun dengan 💚 untuk sekolah Indonesia</div>
-  </footer>
-
-  <script src="assets/js/layout.js"></script>
-  <script src="assets/js/theme.js"></script>
-  <script>
-    (function () {
-      "use strict";
-      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      // Scroll reveal
-      if ("IntersectionObserver" in window && !reduce) {
-        var io = new IntersectionObserver(function (entries) {
-          entries.forEach(function (en) {
-            if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
-          });
-        }, { threshold: 0.15 });
-        document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
-      } else {
-        document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
-      }
-
-      // Angka menghitung naik saat terlihat
-      function countUp(el) {
-        var target = parseInt(el.getAttribute("data-count"), 10);
-        if (reduce) { el.textContent = target + "+"; return; }
-        var t0 = performance.now(), dur = 1400;
-        requestAnimationFrame(function step(t) {
-          var p = Math.min(1, (t - t0) / dur);
-          p = 1 - Math.pow(1 - p, 3);
-          el.textContent = Math.round(target * p) + (p === 1 ? "+" : "");
-          if (p < 1) requestAnimationFrame(step);
-        });
-      }
-      if ("IntersectionObserver" in window) {
-        var io2 = new IntersectionObserver(function (entries) {
-          entries.forEach(function (en) {
-            if (en.isIntersecting) { countUp(en.target); io2.unobserve(en.target); }
-          });
-        }, { threshold: 0.6 });
-        document.querySelectorAll("[data-count]").forEach(function (el) { io2.observe(el); });
-      } else {
-        document.querySelectorAll("[data-count]").forEach(countUp);
-      }
-    })();
-  </script>
+<script>
+(() => {
+  const nav = document.getElementById("nav");
+  addEventListener("scroll", () => nav.classList.toggle("scrolled", scrollY > 8), { passive: true });
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+  const els = [...document.querySelectorAll(".reveal")].filter((el) => el.getBoundingClientRect().top > innerHeight);
+  els.forEach((el) => el.classList.add("pre"));
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.remove("pre"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+  els.forEach((el) => io.observe(el));
+})();
+</script>
 </body>
 </html>

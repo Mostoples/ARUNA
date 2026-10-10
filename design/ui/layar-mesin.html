@@ -1,0 +1,581 @@
+<title>Layar Mesin ARUNA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --ground:#EDF2EF;
+  --paper:#FFFFFF;
+  --screen:#F6F9F7;
+  --ink:#12211A;
+  --ink-2:#4A5B52;
+  --muted:#85948B;
+  --line:#E2E9E5;
+  --green:#158A52;
+  --green-2:#0E7A6A;
+  --green-deep:#0F6B40;
+  --green-soft:#E5F3EB;
+  --amber:#B8741A;
+  --amber-soft:#FBF0DF;
+  --blue:#2D6BD8;
+  --blue-soft:#E7EEFB;
+  --red:#C8443A;
+  --shadow:0 1px 2px rgba(18,33,26,.05),0 6px 18px -8px rgba(18,33,26,.12);
+  --sans:"Plus Jakarta Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"DM Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+.page{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:36px 56px;display:grid;gap:28px}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible{outline:3px solid color-mix(in srgb,var(--green) 55%,transparent);outline-offset:3px}
+svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ---------- page header ---------- */
+.head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px 32px}
+.head h1{margin:0;font-size:clamp(26px,3.4vw,38px);font-weight:800;letter-spacing:-.025em;line-height:1.1;text-wrap:balance}
+.head h1 span{color:var(--green)}
+.head p{margin:6px 0 0;color:var(--ink-2);max-width:60ch}
+.spec{display:flex;flex-wrap:wrap;gap:8px}
+.spec span{font-family:var(--mono);font-size:12px;color:var(--ink-2);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+
+/* ---------- hardware ---------- */
+.device{display:flex;gap:22px;align-items:center;padding:22px;border-radius:30px;
+  background:linear-gradient(160deg,#1b9a5d 0%,var(--green) 45%,var(--green-deep) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(0,0,0,.12),0 30px 60px -30px rgba(15,107,64,.55),0 8px 20px -10px rgba(18,33,26,.3)}
+.bezel{flex:1;min-width:0;background:#0C1310;border-radius:16px;padding:10px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.stage{position:relative;width:100%;aspect-ratio:1024/600;overflow:hidden;border-radius:8px;background:var(--screen)}
+.ui{position:absolute;left:0;top:0;width:1024px;height:600px;transform-origin:0 0;transform:scale(var(--s,1))}
+.hw{display:flex;flex-direction:column;align-items:center;gap:10px;width:112px;color:#fff}
+.hw-btn{width:86px;height:86px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fff,#e9eeeb 70%);
+  box-shadow:0 0 0 6px #43d68b,0 0 26px 6px rgba(67,214,139,.55),inset 0 -4px 8px rgba(0,0,0,.12);display:grid;place-items:center;color:var(--green);transition:transform .15s}
+.hw-btn:active{transform:scale(.96)}
+.hw-btn svg{width:30px;height:30px;fill:var(--green);stroke:none}
+.hw small{font-size:12px;font-weight:700;letter-spacing:.14em}
+.hw .led{display:flex;gap:6px;align-items:center;font-size:11px;opacity:.85}
+.hw .led i{width:7px;height:7px;border-radius:50%;background:#7CF0B2;box-shadow:0 0 8px #7CF0B2;animation:blink 2.4s infinite}
+@keyframes blink{50%{opacity:.35}}
+
+/* ---------- switcher under device ---------- */
+.switch{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tab{display:grid;gap:4px;text-align:left;padding:14px 16px;border-radius:16px;background:var(--paper);border:1px solid var(--line);transition:border-color .2s,box-shadow .2s,transform .2s}
+.tab:hover{transform:translateY(-2px)}
+.tab b{display:flex;align-items:center;gap:8px;font-size:15px}
+.tab b svg{color:var(--green);font-size:18px}
+.tab span{font-size:13px;color:var(--ink-2)}
+.tab[aria-selected="true"]{border-color:var(--green);box-shadow:0 0 0 3px var(--green-soft)}
+@media (max-width:760px){
+  .device{flex-direction:column;padding:14px;border-radius:22px}
+  .hw{flex-direction:row;width:auto;gap:16px}
+  .hw-btn{width:60px;height:60px}
+  .switch{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* =========================================================
+   DEVICE UI (fixed 1024x600 canvas, scaled)
+   ========================================================= */
+.ui{display:grid;grid-template-columns:92px 1fr;grid-template-rows:44px 1fr;background:var(--screen);font-size:16px}
+.sb{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 22px 0 18px;border-bottom:1px solid var(--line);background:var(--paper)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.06em;font-size:15px}
+.brand .mark{width:22px;height:22px;border-radius:7px;background:conic-gradient(from 200deg,var(--green),var(--green-2),var(--green));display:grid;place-items:center}
+.brand .mark::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff}
+.brand em{font-style:normal;font-weight:500;letter-spacing:0;color:var(--muted);font-size:14px}
+.sb-r{display:flex;align-items:center;gap:18px;color:var(--ink-2);font-size:14px;font-weight:600}
+.sb-r span{display:flex;align-items:center;gap:6px}
+.sb-r .i{font-size:17px}
+.num{font-variant-numeric:tabular-nums}
+
+.rail{display:flex;flex-direction:column;gap:6px;padding:14px 10px;background:var(--paper);border-right:1px solid var(--line)}
+.nav{display:grid;justify-items:center;gap:4px;padding:12px 4px 10px;border-radius:16px;font-size:12.5px;font-weight:600;color:var(--muted);transition:background .25s,color .25s}
+.nav .i{font-size:24px;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.nav[aria-selected="true"]{background:var(--green-soft);color:var(--green)}
+.nav[aria-selected="true"] .i{transform:translateY(-2px) scale(1.08)}
+.rail .spacer{flex:1}
+.rail .bell{position:relative;display:grid;place-items:center;height:52px;border-radius:14px;color:var(--ink-2);font-size:22px}
+.rail .bell::after{content:"";position:absolute;top:13px;right:24px;width:9px;height:9px;border-radius:50%;background:var(--amber);border:2px solid var(--paper)}
+
+.main{position:relative;overflow:hidden}
+.scr{position:absolute;inset:0;padding:22px 26px 24px;display:grid;gap:18px;opacity:0;visibility:hidden;transform:translateX(18px);transition:opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s .45s}
+.scr.on{opacity:1;visibility:visible;transform:none;transition:opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
+.scr.on .rise{animation:rise .55s cubic-bezier(.2,.8,.2,1) both}
+.scr.on .rise:nth-child(2){animation-delay:.06s}
+.scr.on .rise:nth-child(3){animation-delay:.12s}
+.scr.on .rise:nth-child(4){animation-delay:.18s}
+@keyframes rise{from{opacity:.001;transform:translateY(12px)}}
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.hello{display:flex;align-items:end;justify-content:space-between}
+.hello h2{margin:0;font-size:28px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.hello p{margin:2px 0 0;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:8px 14px;border-radius:999px;background:var(--green-soft);color:var(--green)}
+.pill i{width:8px;height:8px;border-radius:50%;background:currentColor;animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,currentColor 45%,transparent)}100%{box-shadow:0 0 0 9px transparent}}
+.pill.warn{background:var(--amber-soft);color:var(--amber)}
+
+/* beranda */
+.home{grid-template-rows:auto 1fr auto}
+.home-grid{display:grid;grid-template-columns:330px 1fr;gap:18px;min-height:0}
+.ringcard{display:grid;place-items:center;align-content:center;gap:12px;padding:18px}
+.ring{position:relative;width:196px;height:196px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .trk{stroke:var(--green-soft)}
+.ring .val{stroke:url(#gr);stroke-dasharray:578;stroke-dashoffset:578;transition:stroke-dashoffset 1.4s cubic-bezier(.2,.8,.2,1)}
+.ring .ctr{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ring .ctr b{font-size:54px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.ring .ctr b small{font-size:24px;font-weight:700;color:var(--ink-2)}
+.ring .ctr span{font-size:14px;color:var(--muted);font-weight:600}
+.ringcard p{margin:0;font-size:14px;color:var(--ink-2);text-align:center}
+.outs{display:grid;grid-template-rows:repeat(3,1fr);gap:12px}
+.out{display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:16px;padding:12px 18px}
+.ico{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:24px}
+.ico.g{background:var(--green-soft);color:var(--green)}
+.ico.b{background:var(--blue-soft);color:var(--blue)}
+.ico.a{background:var(--amber-soft);color:var(--amber)}
+.out h3{margin:0;font-size:17px;font-weight:700}
+.out p{margin:0;font-size:14px;color:var(--ink-2)}
+.out .v{text-align:right;font-size:28px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.out .v small{font-size:15px;font-weight:700;color:var(--ink-2);margin-left:2px}
+.out .v em{display:block;font-style:normal;font-size:12.5px;font-weight:700;margin-top:6px}
+.ok{color:var(--green)} .mid{color:var(--amber)}
+.cta{display:flex;align-items:center;justify-content:space-between;gap:16px;height:72px;padding:0 12px 0 26px;border-radius:20px;background:var(--green);color:#fff;font-size:20px;font-weight:700;box-shadow:0 10px 24px -10px rgba(21,138,82,.7);transition:transform .15s,background .2s}
+.cta:hover{background:var(--green-deep)}
+.cta:active{transform:scale(.985)}
+.cta span{display:flex;align-items:center;gap:12px}
+.cta small{font-size:14px;font-weight:500;opacity:.8}
+.cta .go{width:52px;height:52px;border-radius:15px;background:rgba(255,255,255,.16);display:grid;place-items:center;font-size:24px}
+.cta:hover .go .i{animation:nudge .6s ease}
+@keyframes nudge{50%{transform:translateX(4px)}}
+
+/* masukkan */
+.input{grid-template-columns:1fr 330px;grid-template-rows:1fr auto}
+.weigh{display:grid;grid-template-rows:auto 1fr auto;padding:22px 26px}
+.weigh .top{display:flex;justify-content:space-between;align-items:center}
+.kg{display:flex;align-items:baseline;gap:10px;align-self:center}
+.kg b{font-size:112px;font-weight:800;letter-spacing:-.05em;line-height:1}
+.kg span{font-size:30px;font-weight:700;color:var(--ink-2)}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px 9px 10px;border-radius:12px;background:var(--screen);border:1px solid var(--line);font-weight:600;font-size:15px;opacity:0;transform:scale(.9);transition:opacity .3s,transform .4s cubic-bezier(.3,1.6,.5,1)}
+.chip.in{opacity:1;transform:none}
+.chip .i{color:#fff;background:var(--green);border-radius:6px;padding:3px;font-size:20px;stroke-width:3}
+.today{display:grid;gap:8px;margin-top:16px}
+.today div{display:flex;justify-content:space-between;font-size:14px;color:var(--ink-2)}
+.bar{height:10px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:inherit;background:var(--green);width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.rules{padding:18px 20px;display:grid;gap:14px;align-content:start}
+.rules h3{margin:0;font-size:16px}
+.rules ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.rules li{display:flex;align-items:center;gap:10px;font-size:15px}
+.rules li .i{font-size:18px;padding:3px;border-radius:7px;stroke-width:3}
+.yes .i{background:var(--green-soft);color:var(--green)}
+.no .i{background:#FBE7E5;color:var(--red)}
+.rules hr{border:0;border-top:1px dashed var(--line);margin:2px 0}
+.actions{grid-column:1/-1;display:grid;grid-template-columns:1fr 200px;gap:14px}
+.ghost{height:72px;border-radius:20px;border:1px solid var(--line);background:var(--paper);font-size:18px;font-weight:700;color:var(--ink-2)}
+
+/* proses */
+.proc{grid-template-rows:auto auto 1fr}
+.phases{display:grid;grid-template-columns:repeat(3,1fr);padding:18px 22px;gap:0;position:relative}
+.ph{display:grid;gap:4px;position:relative;padding-top:30px}
+.ph::before{content:"";position:absolute;top:9px;left:0;right:0;height:4px;background:var(--line)}
+.ph::after{content:"";position:absolute;top:9px;left:0;height:4px;width:var(--p,0%);background:var(--green);transition:width 1.2s cubic-bezier(.2,.8,.2,1) .2s}
+.ph .dot{position:absolute;top:0;left:0;width:22px;height:22px;border-radius:50%;background:var(--paper);border:4px solid var(--line);z-index:1}
+.ph.done .dot{background:var(--green);border-color:var(--green)}
+.ph.now .dot{border-color:var(--green);box-shadow:0 0 0 6px var(--green-soft)}
+.ph b{font-size:16px}
+.ph span{font-size:13.5px;color:var(--ink-2)}
+.metrics{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:14px;min-height:0}
+.met{padding:16px 18px;display:grid;grid-template-rows:auto auto 1fr auto;gap:4px}
+.met .v{font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.met .v small{font-size:18px;color:var(--ink-2);font-weight:700}
+.met .foot{font-size:13px;color:var(--ink-2)}
+.spark{width:100%;height:100%;min-height:90px;overflow:visible}
+.spark text{font-family:var(--mono);font-size:10px;fill:var(--muted)}
+.spark .line{fill:none;stroke:var(--green);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:400;stroke-dashoffset:400}
+.scr.on .spark .line{animation:draw 1.3s cubic-bezier(.2,.8,.2,1) .25s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.scale{position:relative;align-self:center;height:14px;border-radius:99px;background:linear-gradient(90deg,#F2C9A0,#E8E9A8 30%,#CDEBD8 45%,#CDEBD8 65%,#BFD6F3 80%,#C9C3F0)}
+.scale .zone{position:absolute;top:-4px;bottom:-4px;border:2px solid var(--green);border-radius:8px}
+.scale .mk{position:absolute;top:50%;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:var(--paper);border:5px solid var(--green);box-shadow:var(--shadow);left:0;transition:left 1.2s cubic-bezier(.2,.8,.2,1) .3s}
+.ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:8px}
+.stir{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:14px;background:var(--green-soft);color:var(--green-deep);font-size:14.5px;font-weight:600}
+.stir .i{font-size:20px;animation:spin 4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* panen */
+.harvest{grid-template-rows:auto 1fr}
+.hv{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;min-height:0}
+.hc{padding:18px;display:grid;grid-template-rows:auto auto 1fr auto;gap:10px}
+.hc header{display:flex;align-items:center;gap:12px}
+.hc header h3{margin:0;font-size:18px}
+.hc header p{margin:0;font-size:13px;color:var(--ink-2)}
+.big{font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.big small{font-size:18px;color:var(--ink-2);font-weight:700;margin-left:4px}
+.hold{position:relative;overflow:hidden;height:64px;border-radius:18px;background:var(--green-soft);color:var(--green-deep);font-weight:700;font-size:16px;touch-action:none;user-select:none}
+.hold i{position:absolute;inset:0;width:0;background:var(--green);transition:width .1s linear}
+.hold span{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;transition:color .2s}
+.hold.full span,.hold.pouring span{color:#fff}
+.hold.pouring .i{animation:drip .6s ease-in-out infinite}
+@keyframes drip{50%{transform:translateY(3px)}}
+.bottle{align-self:center;display:flex;align-items:end;gap:14px}
+.bottle .jar{width:52px;height:78px;border-radius:12px 12px 14px 14px;border:3px solid #D9A45A;position:relative;overflow:hidden;background:#fff}
+.bottle .jar::before{content:"";position:absolute;top:-3px;left:14px;width:18px;height:8px;border-radius:0 0 4px 4px;background:#D9A45A}
+.bottle .jar i{position:absolute;left:0;right:0;bottom:0;height:var(--h,0%);background:linear-gradient(#E0B05F,#C48A2C);transition:height .1s linear}
+.bottle p{margin:0;font-size:13.5px;color:var(--ink-2);max-width:17ch}
+.drawer{align-self:center;display:grid;gap:10px}
+.drawer .box{height:82px;border-radius:14px;border:2px solid var(--line);position:relative;overflow:hidden;background:var(--screen)}
+.drawer .box i{position:absolute;left:0;right:0;bottom:0;height:var(--h,0%);background:repeating-linear-gradient(135deg,#6B4A2E 0 6px,#5C3F26 6px 12px);transition:height 1.2s cubic-bezier(.2,.8,.2,1) .2s}
+.drawer .box b{position:absolute;left:0;right:0;top:80%;border-top:2px dashed var(--amber)}
+.drawer .box b::after{content:"batas 80%";position:absolute;right:8px;top:-20px;font-family:var(--mono);font-size:11px;color:var(--amber);font-weight:500}
+.drawer p{margin:0;font-size:13.5px;color:var(--ink-2)}
+.gauge{align-self:center;justify-self:center;position:relative;width:190px;height:106px}
+.gauge svg{width:100%;height:100%;overflow:visible}
+.gauge .arc{fill:none;stroke-width:14;stroke-linecap:round}
+.gauge .needle{transform-origin:95px 95px;transform:rotate(-90deg);transition:transform 1.4s cubic-bezier(.3,1.4,.5,1) .3s}
+.gauge .lbl{position:absolute;left:0;right:0;bottom:-2px;text-align:center}
+.valve{display:flex;align-items:center;justify-content:space-between;gap:12px;height:64px;padding:0 10px 0 18px;border-radius:18px;background:var(--screen);border:1px solid var(--line);font-weight:700;font-size:16px}
+.sw{width:66px;height:38px;border-radius:99px;background:#CCD6D1;position:relative;transition:background .25s}
+.sw::after{content:"";position:absolute;top:4px;left:4px;width:30px;height:30px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.2);transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
+.valve[aria-pressed="true"] .sw{background:var(--blue)}
+.valve[aria-pressed="true"] .sw::after{transform:translateX(28px)}
+.valve[aria-pressed="true"] .st{color:var(--blue)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;transition-delay:0s!important}
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1EA565"/><stop offset="1" stop-color="#0E7A6A"/></linearGradient>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-in" viewBox="0 0 24 24"><path d="M12 17V3"/><path d="m6 11 6 6 6-6"/><path d="M19 21H5"/></symbol>
+    <symbol id="i-act" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
+    <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></symbol>
+    <symbol id="i-therm" viewBox="0 0 24 24"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-weight" viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><path d="M6.5 8a2 2 0 0 0-1.905 1.46L2.1 18.5A2 2 0 0 0 4 21h16a2 2 0 0 0 1.925-2.54L19.4 9.5A2 2 0 0 0 17.48 8Z"/></symbol>
+    <symbol id="i-drawer" viewBox="0 0 24 24"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></symbol>
+    <symbol id="i-rot" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+  </defs>
+</svg>
+
+<main class="page">
+  <header class="head">
+    <div>
+      <h1>Layar mesin <span>ARUNA</span></h1>
+      <p>Mockup layar sentuh di modul atas biodigester rumahan. Tampilannya sengaja dibuat sedikit: satu angka utama per layar dan satu tombol besar untuk langkah berikutnya. Ketuk menu di layar untuk mencoba.</p>
+    </div>
+    <div class="spec"><span>7″ IPS · 1024×600</span><span>ESP32-S3</span><span>sentuh kapasitif</span></div>
+  </header>
+
+  <section class="device" aria-label="Panel depan mesin">
+    <div class="bezel">
+      <div class="stage" id="stage">
+        <div class="ui" id="ui">
+          <div class="sb">
+            <div class="brand"><span class="mark"></span>ARUNA <em>· Dapur Rumah</em></div>
+            <div class="sb-r">
+              <span><svg class="i"><use href="#i-therm"/></svg><span class="num">36,4°C</span></span>
+              <span><svg class="i"><use href="#i-wifi"/></svg>Terhubung</span>
+              <span class="num" id="clock">09:41</span>
+            </div>
+          </div>
+
+          <nav class="rail" role="tablist" aria-label="Menu layar">
+            <button class="nav" role="tab" data-go="home" aria-selected="true"><svg class="i"><use href="#i-home"/></svg>Beranda</button>
+            <button class="nav" role="tab" data-go="input" aria-selected="false"><svg class="i"><use href="#i-in"/></svg>Masukkan</button>
+            <button class="nav" role="tab" data-go="proc" aria-selected="false"><svg class="i"><use href="#i-act"/></svg>Proses</button>
+            <button class="nav" role="tab" data-go="harvest" aria-selected="false"><svg class="i"><use href="#i-sprout"/></svg>Panen</button>
+            <div class="spacer"></div>
+            <button class="bell" aria-label="Notifikasi, 1 baru"><svg class="i"><use href="#i-bell"/></svg></button>
+          </nav>
+
+          <div class="main">
+            <!-- BERANDA -->
+            <section class="scr home on" data-scr="home">
+              <div class="hello rise">
+                <div><h2>Selamat pagi, Bu Sari</h2><p>Mesin bekerja normal. Tidak ada yang perlu dilakukan sekarang.</p></div>
+                <span class="pill"><i></i>Mencerna · hari 12 dari 34</span>
+              </div>
+              <div class="home-grid">
+                <div class="card ringcard rise">
+                  <div class="ring">
+                    <svg viewBox="0 0 220 220"><circle class="trk" cx="110" cy="110" r="92" fill="none" stroke-width="18"/><circle class="val" id="ringVal" cx="110" cy="110" r="92" fill="none" stroke-width="18" stroke-linecap="round"/></svg>
+                    <div class="ctr"><b><span class="num" data-count="62">0</span><small>%</small></b><span>isi digester</span></div>
+                  </div>
+                  <p>Masih muat sekitar <b class="num">2,3 kg</b> sisa makanan hari ini</p>
+                </div>
+                <div class="outs">
+                  <div class="card out rise">
+                    <div class="ico b"><svg class="i"><use href="#i-flame"/></svg></div>
+                    <div><h3>Biogas</h3><p>Cukup untuk ±45 menit memasak</p></div>
+                    <div class="v"><span class="num" data-count="12">0</span><small>kPa</small><em class="ok">Siap dipakai</em></div>
+                  </div>
+                  <div class="card out rise">
+                    <div class="ico g"><svg class="i"><use href="#i-drop"/></svg></div>
+                    <div><h3>Pupuk cair</h3><p>Encerkan 1 : 10 sebelum menyiram</p></div>
+                    <div class="v"><span class="num" data-count="1.4" data-dec="1">0</span><small>L</small><em class="ok">Bisa diambil</em></div>
+                  </div>
+                  <div class="card out rise">
+                    <div class="ico a"><svg class="i"><use href="#i-drawer"/></svg></div>
+                    <div><h3>Kompos</h3><p>Kosongkan laci saat 80%</p></div>
+                    <div class="v"><span class="num" data-count="30">0</span><small>%</small><em class="mid">Belum perlu</em></div>
+                  </div>
+                </div>
+              </div>
+              <button class="cta rise" data-go="input">
+                <span><svg class="i"><use href="#i-in"/></svg>Masukkan sisa makanan <small>atau injak pedal</small></span>
+                <span class="go"><svg class="i"><use href="#i-arrow"/></svg></span>
+              </button>
+            </section>
+
+            <!-- MASUKKAN -->
+            <section class="scr input" data-scr="input">
+              <div class="card weigh rise">
+                <div class="top">
+                  <span class="eyebrow">Timbangan</span>
+                  <span class="pill warn" id="wState"><i></i>Menimbang…</span>
+                </div>
+                <div class="kg"><b class="num" id="kg">0,00</b><span>kg</span></div>
+                <div>
+                  <div class="eyebrow" style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><svg class="i" style="font-size:16px"><use href="#i-scan"/></svg>Terdeteksi kamera</div>
+                  <div class="chips" id="chips">
+                    <span class="chip"><svg class="i"><use href="#i-check"/></svg>Nasi</span>
+                    <span class="chip"><svg class="i"><use href="#i-check"/></svg>Sayur bayam</span>
+                    <span class="chip"><svg class="i"><use href="#i-check"/></svg>Kulit pisang</span>
+                    <span class="chip"><svg class="i"><use href="#i-check"/></svg>Ampas teh</span>
+                  </div>
+                  <div class="today">
+                    <div><span>Total hari ini</span><span class="num"><b id="tot">1,06</b> dari 3 kg</span></div>
+                    <div class="bar"><i id="totBar"></i></div>
+                  </div>
+                </div>
+              </div>
+              <div class="card rules rise">
+                <h3>Boleh dimasukkan</h3>
+                <ul>
+                  <li class="yes"><svg class="i"><use href="#i-check"/></svg>Nasi, lauk, sayur</li>
+                  <li class="yes"><svg class="i"><use href="#i-check"/></svg>Kulit buah &amp; ampas</li>
+                  <li class="yes"><svg class="i"><use href="#i-check"/></svg>Ampas kopi &amp; teh</li>
+                </ul>
+                <hr>
+                <h3>Jangan</h3>
+                <ul>
+                  <li class="no"><svg class="i"><use href="#i-x"/></svg>Plastik &amp; karet</li>
+                  <li class="no"><svg class="i"><use href="#i-x"/></svg>Tulang besar &amp; cangkang</li>
+                  <li class="no"><svg class="i"><use href="#i-x"/></svg>Minyak jelantah</li>
+                </ul>
+              </div>
+              <div class="actions rise">
+                <button class="cta" data-go="proc"><span><svg class="i"><use href="#i-rot"/></svg>Tutup &amp; mulai cacah</span><span class="go"><svg class="i"><use href="#i-arrow"/></svg></span></button>
+                <button class="ghost" data-go="home">Batal</button>
+              </div>
+            </section>
+
+            <!-- PROSES -->
+            <section class="scr proc" data-scr="proc">
+              <div class="hello rise">
+                <div><h2>Sedang mencerna</h2><p>Bakteri mengubah sisa makanan jadi gas dan pupuk. Hari ke-12 dari sekitar 34 hari.</p></div>
+                <span class="pill"><i></i>Semua sensor normal</span>
+              </div>
+              <div class="card phases rise">
+                <div class="ph done" style="--p:100%"><span class="dot"></span><b>Penguraian</b><span>Hari 1–5 · selesai</span></div>
+                <div class="ph now" style="--p:70%"><span class="dot"></span><b>Pengasaman</b><span>Hari 6–15 · berjalan</span></div>
+                <div class="ph"><span class="dot"></span><b>Pembentukan gas</b><span>Hari 16–34</span></div>
+              </div>
+              <div class="metrics">
+                <div class="card met rise">
+                  <span class="eyebrow">Suhu · 7 hari</span>
+                  <div class="v num">36,4<small>°C</small></div>
+                  <svg class="spark" viewBox="0 0 300 96" preserveAspectRatio="none" aria-label="Grafik suhu tujuh hari, 34,8 sampai 36,6 derajat">
+                    <rect x="26" y="18" width="274" height="60" fill="#E5F3EB" opacity=".55"/>
+                    <line x1="26" x2="300" y1="18" y2="18" stroke="#E2E9E5"/><line x1="26" x2="300" y1="48" y2="48" stroke="#E2E9E5"/><line x1="26" x2="300" y1="78" y2="78" stroke="#E2E9E5"/>
+                    <text x="0" y="21">38°</text><text x="0" y="51">35°</text><text x="0" y="81">32°</text>
+                    <polyline class="line" points="30,56 74,48 118,43 162,45 206,38 250,42 294,40"/>
+                    <circle cx="294" cy="40" r="5" fill="#fff" stroke="#158A52" stroke-width="3"/>
+                  </svg>
+                  <span class="foot">Zona hijau = ideal 32–38 °C</span>
+                </div>
+                <div class="card met rise">
+                  <span class="eyebrow">Keasaman</span>
+                  <div class="v num">pH 7,1</div>
+                  <div>
+                    <div class="scale"><span class="zone" style="left:32%;width:28%"></span><span class="mk" data-left="44%"></span></div>
+                    <div class="ticks"><span>6,0</span><span>7,0</span><span>8,5</span></div>
+                  </div>
+                  <span class="foot">Ideal 6,8–7,5</span>
+                </div>
+                <div class="card met rise">
+                  <span class="eyebrow">Kadar metana</span>
+                  <div class="v num">58<small>% CH₄</small></div>
+                  <div style="align-self:center;display:grid;gap:8px">
+                    <div class="bar" style="height:14px"><i data-w="58%" style="background:var(--blue)"></i></div>
+                    <div class="ticks"><span>0</span><span>target &gt;50</span><span>100</span></div>
+                  </div>
+                  <span class="foot">Gas bisa menyala stabil</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- PANEN -->
+            <section class="scr harvest" data-scr="harvest">
+              <div class="hello rise">
+                <div><h2>Ambil hasil</h2><p>Pupuk cair dan biogas siap. Kompos belum perlu dikosongkan.</p></div>
+                <span class="pill"><i></i>2 dari 3 siap</span>
+              </div>
+              <div class="hv">
+                <div class="card hc rise">
+                  <header><div class="ico g"><svg class="i"><use href="#i-drop"/></svg></div><div><h3>Pupuk cair</h3><p>Ceruk tengah · langkah 2</p></div></header>
+                  <div class="big num"><span id="poured">0,0</span><small>/ 1,4 L</small></div>
+                  <div class="bottle"><div class="jar" id="jar"><i></i></div><p>Letakkan botol di bawah keran, lalu tahan tombol.</p></div>
+                  <button class="hold" id="hold"><i></i><span><svg class="i"><use href="#i-drop"/></svg><b id="holdTxt">Tahan untuk mengalirkan</b></span></button>
+                </div>
+                <div class="card hc rise">
+                  <header><div class="ico a"><svg class="i"><use href="#i-drawer"/></svg></div><div><h3>Kompos</h3><p>Laci bawah · langkah 3</p></div></header>
+                  <div class="big num">30<small>% penuh</small></div>
+                  <div class="drawer"><div class="box" id="box"><i></i><b></b></div><p>Perkiraan penuh dalam 9 hari. Kami beri tahu saat siap.</p></div>
+                  <div class="valve" style="justify-content:center;color:var(--muted);font-weight:600">Belum perlu dikosongkan</div>
+                </div>
+                <div class="card hc rise">
+                  <header><div class="ico b"><svg class="i"><use href="#i-flame"/></svg></div><div><h3>Biogas</h3><p>Katup sisi kanan</p></div></header>
+                  <div class="big num">±45<small>menit masak</small></div>
+                  <div class="gauge">
+                    <svg viewBox="0 0 190 106">
+                      <path class="arc" d="M 15 95 A 80 80 0 0 1 175 95" stroke="#E2E9E5"/>
+                      <path class="arc" d="M 55 25.7 A 80 80 0 0 1 135 25.7" stroke="#CDEBD8"/>
+                      <g class="needle" id="needle"><line x1="95" y1="95" x2="95" y2="30" stroke="#12211A" stroke-width="4" stroke-linecap="round"/><circle cx="95" cy="95" r="8" fill="#12211A"/></g>
+                    </svg>
+                    <div class="lbl"><b class="num" style="font-size:15px">12 kPa</b></div>
+                  </div>
+                  <button class="valve" id="valve" aria-pressed="false"><span class="st" id="valveTxt">Katup tertutup</span><span class="sw"></span></button>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hw" aria-hidden="true">
+      <div class="hw-btn"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></svg></div>
+      <small>MULAI</small>
+      <span class="led"><i></i>normal</span>
+    </div>
+  </section>
+
+  <div class="switch" role="tablist" aria-label="Pilih layar">
+    <button class="tab" role="tab" data-go="home" aria-selected="true"><b><svg class="i"><use href="#i-home"/></svg>Beranda</b><span>Satu lihat: isi mesin, gas, pupuk, kompos.</span></button>
+    <button class="tab" role="tab" data-go="input" aria-selected="false"><b><svg class="i"><use href="#i-in"/></svg>Masukkan</b><span>Timbang otomatis, kamera kenali jenis sampah.</span></button>
+    <button class="tab" role="tab" data-go="proc" aria-selected="false"><b><svg class="i"><use href="#i-act"/></svg>Proses</b><span>Tahap fermentasi dengan bahasa sehari-hari.</span></button>
+    <button class="tab" role="tab" data-go="harvest" aria-selected="false"><b><svg class="i"><use href="#i-sprout"/></svg>Panen</b><span>Tahan untuk alirkan pupuk, buka katup gas.</span></button>
+  </div>
+</main>
+
+<script>
+(() => {
+  const stage = document.getElementById('stage'), ui = document.getElementById('ui');
+  const fit = () => ui.style.setProperty('--s', stage.clientWidth / 1024);
+  new ResizeObserver(fit).observe(stage); fit();
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fmt = (v, d = 0) => v.toLocaleString('id-ID', { minimumFractionDigits: d, maximumFractionDigits: d });
+  const tween = (ms, fn) => {
+    if (reduce) { fn(1); return; }
+    const t0 = performance.now();
+    const step = t => { const p = Math.min(1, (t - t0) / ms); fn(1 - Math.pow(1 - p, 3)); if (p < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  };
+
+  const clock = document.getElementById('clock');
+  const tick = () => clock.textContent = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
+  tick(); setInterval(tick, 15000);
+
+  const enter = {
+    home(s) {
+      document.getElementById('ringVal').style.strokeDashoffset = 578 * (1 - .62);
+      s.querySelectorAll('[data-count]').forEach(el => {
+        const to = +el.dataset.count, d = +(el.dataset.dec || 0);
+        tween(1200, p => el.textContent = fmt(to * p, d));
+      });
+    },
+    input(s) {
+      const kg = document.getElementById('kg'), st = document.getElementById('wState');
+      const chips = [...s.querySelectorAll('.chip')], tot = document.getElementById('tot'), bar = document.getElementById('totBar');
+      chips.forEach(c => c.classList.remove('in'));
+      st.className = 'pill warn'; st.innerHTML = '<i></i>Menimbang…';
+      bar.style.width = (1.06 / 3 * 100) + '%'; tot.textContent = '1,06';
+      tween(1600, p => kg.textContent = fmt(.84 * p + (p < 1 ? Math.sin(p * 30) * .02 * (1 - p) : 0), 2));
+      chips.forEach((c, i) => setTimeout(() => c.classList.add('in'), reduce ? 0 : 500 + i * 260));
+      setTimeout(() => {
+        st.className = 'pill'; st.innerHTML = '<i></i>Stabil';
+        tot.textContent = '1,90'; bar.style.width = (1.9 / 3 * 100) + '%';
+      }, reduce ? 0 : 1700);
+    },
+    proc(s) {
+      s.querySelectorAll('.ph').forEach(p => { const v = p.style.getPropertyValue('--p'); p.style.setProperty('--p', '0%'); requestAnimationFrame(() => requestAnimationFrame(() => p.style.setProperty('--p', v))); });
+      s.querySelectorAll('.mk').forEach(m => { m.style.left = '0'; requestAnimationFrame(() => requestAnimationFrame(() => m.style.left = m.dataset.left)); });
+      s.querySelectorAll('.bar i[data-w]').forEach(b => { b.style.width = 0; requestAnimationFrame(() => requestAnimationFrame(() => b.style.width = b.dataset.w)); });
+    },
+    harvest() {
+      document.getElementById('box').style.setProperty('--h', '0%');
+      requestAnimationFrame(() => requestAnimationFrame(() => document.getElementById('box').style.setProperty('--h', '30%')));
+      document.getElementById('needle').style.transform = 'rotate(-90deg)';
+      requestAnimationFrame(() => requestAnimationFrame(() => document.getElementById('needle').style.transform = `rotate(${-90 + 12 / 20 * 180}deg)`));
+    }
+  };
+
+  const show = id => {
+    document.querySelectorAll('[data-scr]').forEach(s => {
+      const on = s.dataset.scr === id;
+      if (on && !s.classList.contains('on')) { s.classList.add('on'); enter[id]?.(s); }
+      else if (!on) s.classList.remove('on');
+    });
+    document.querySelectorAll('.nav[data-go], .tab[data-go]').forEach(b => b.setAttribute('aria-selected', b.dataset.go === id));
+  };
+  document.addEventListener('click', e => { const b = e.target.closest('[data-go]'); if (b) show(b.dataset.go); });
+  enter.home(document.querySelector('[data-scr=home]'));
+
+  // tahan untuk mengalirkan pupuk
+  const hold = document.getElementById('hold'), fill = hold.querySelector('i'), jar = document.getElementById('jar');
+  const poured = document.getElementById('poured'), holdTxt = document.getElementById('holdTxt');
+  let L = 0, timer = null;
+  const render = () => {
+    const p = L / 1.4;
+    fill.style.width = p * 100 + '%'; jar.style.setProperty('--h', p * 100 + '%');
+    poured.textContent = fmt(L, 1);
+  };
+  const start = () => {
+    if (timer || L >= 1.4) return;
+    hold.classList.add('pouring'); holdTxt.textContent = 'Mengalir…';
+    timer = setInterval(() => {
+      L = Math.min(1.4, L + .02); render();
+      if (L >= 1.4) { stop(); hold.classList.add('full'); holdTxt.textContent = 'Botol terisi · tekan untuk ulang'; }
+    }, 40);
+  };
+  const stop = () => {
+    clearInterval(timer); timer = null; hold.classList.remove('pouring');
+    if (L < 1.4) holdTxt.textContent = L > 0 ? 'Tahan lagi untuk lanjut' : 'Tahan untuk mengalirkan';
+  };
+  hold.addEventListener('pointerdown', e => {
+    if (L >= 1.4) { L = 0; hold.classList.remove('full'); render(); holdTxt.textContent = 'Tahan untuk mengalirkan'; return; }
+    hold.setPointerCapture(e.pointerId); start();
+  });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(t => hold.addEventListener(t, stop));
+  hold.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); start(); } });
+  hold.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') stop(); });
+
+  const valve = document.getElementById('valve'), vt = document.getElementById('valveTxt');
+  valve.addEventListener('click', () => {
+    const on = valve.getAttribute('aria-pressed') !== 'true';
+    valve.setAttribute('aria-pressed', on); vt.textContent = on ? 'Katup terbuka · gas mengalir' : 'Katup tertutup';
+  });
+})();
+</script>

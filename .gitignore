@@ -9,3 +9,17 @@ firebase-debug.*.log
 
 # Node
 node_modules/
+
+# showcase: frame render & cache (dibuat ulang oleh skrip)
+design/showcase/video/frames/
+design/showcase/video/usecase.blend*
+design/showcase/deck/_cache/
+design/showcase/deck/_png_*/
+design/showcase/print/_assets/
+design/showcase/char/*.blend1
+design/competition/node_modules/
+design/competition/_poster/
+design/blender/_anim/
+design/blender/_anim.log
+design/blender/_icons_qa.png
+*.blend1

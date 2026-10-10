@@ -1,0 +1,533 @@
+<title>ARUNA Mobile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --ground:#EAF0EC;
+  --bg:#F5F8F6;
+  --paper:#FFFFFF;
+  --ink:#10201A;
+  --ink-2:#4A5B52;
+  --muted:#8C9A92;
+  --line:#E4EBE7;
+  --green:#158A52;
+  --green-2:#0E7A6A;
+  --green-deep:#0F6B40;
+  --green-soft:#E6F4EC;
+  --green-mist:#F0F8F3;
+  --amber:#B8741A;
+  --amber-soft:#FBF0DF;
+  --blue:#2D6BD8;
+  --blue-soft:#E9F0FC;
+  --red:#C8443A;
+  --shadow:0 1px 2px rgba(16,32,26,.04),0 8px 22px -12px rgba(16,32,26,.14);
+  --sans:"Plus Jakarta Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"DM Mono",ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.45}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0}
+svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- gallery page ---------- */
+.page{max-width:2200px;margin:0 auto;padding-inline:24px;padding-block:40px 64px;display:grid;gap:32px}
+.intro{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px 40px}
+.intro h1{margin:0;font-size:clamp(28px,3.4vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.05}
+.intro h1 span{color:var(--green)}
+.intro p{margin:8px 0 0;color:var(--ink-2);max-width:62ch}
+.legend{display:flex;flex-wrap:wrap;gap:8px}
+.legend span{font-family:var(--mono);font-size:12px;background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:5px 11px;color:var(--ink-2)}
+.rail{display:flex;gap:28px;overflow-x:auto;padding:6px 4px 20px;scroll-snap-type:x mandatory}
+.shot{flex:none;display:grid;gap:14px;scroll-snap-align:start}
+.shot figcaption{display:grid;gap:2px;padding-left:4px}
+.shot figcaption b{font-size:15px}
+.shot figcaption span{font-size:13px;color:var(--ink-2);max-width:36ch}
+.phone{width:390px;height:844px;border-radius:52px;overflow:hidden;position:relative;background:var(--bg);
+  box-shadow:0 0 0 10px #F9FBFA,0 0 0 11px #D5DDD8,0 40px 70px -30px rgba(16,32,26,.35)}
+@media (max-width:460px){
+  .phone{transform:scale(.82);transform-origin:0 0;margin-right:-70px;margin-bottom:-152px}
+}
+
+.renders{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:16px}
+.renders figure{margin:0;display:grid;gap:8px}
+.renders img{display:block;width:100%;height:auto;border-radius:22px;border:1px solid var(--line)}
+.renders figcaption{font-size:13px;color:var(--ink-2);padding-left:4px}
+.sub{margin:8px 0 0;font-size:13px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+body.solo .renders,body.solo .sub{display:none}
+
+/* solo = mode screenshot (index.html#home dsb.) */
+body.solo{background:var(--bg)}
+body.solo .intro,body.solo figcaption{display:none}
+body.solo .page{padding:0;max-width:none}
+body.solo .rail{padding:0;overflow:visible}
+body.solo .shot{display:none}
+body.solo .shot.pick{display:block}
+body.solo .phone{border-radius:0;box-shadow:none}
+body.solo *{animation:none!important;transition:none!important}
+
+/* ---------- app shell ---------- */
+.sbar{position:absolute;top:0;left:0;right:0;height:54px;display:flex;align-items:center;justify-content:space-between;padding:4px 30px 0 36px;font-weight:700;font-size:16px;z-index:5}
+.sbar .isl{position:absolute;left:50%;top:11px;width:122px;height:35px;margin-left:-61px;border-radius:20px;background:#000}
+.sbar .ic{display:flex;gap:6px;align-items:center}
+.sbar svg{height:13px;width:auto}
+.home-ind{position:absolute;left:50%;bottom:8px;width:136px;height:5px;margin-left:-68px;border-radius:9px;background:#10201A;z-index:6}
+.scroll{position:absolute;inset:54px 0 0 0;overflow:hidden;padding:6px 20px 110px;display:flex;flex-direction:column;gap:16px}
+.tabs{position:absolute;left:0;right:0;bottom:0;height:88px;padding:8px 14px 26px;display:grid;grid-template-columns:repeat(5,1fr);background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-top:1px solid var(--line);z-index:4}
+.tab{display:grid;justify-items:center;align-content:start;gap:3px;font-size:11px;font-weight:600;color:var(--muted)}
+.tab .i{font-size:22px}
+.tab .pip{display:grid;place-items:center;width:52px;height:30px;border-radius:99px}
+.tab.on{color:var(--green)}
+.tab.on .pip{background:var(--green-soft)}
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+.row{display:flex;align-items:center}
+.sp{flex:1}
+.ibtn{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--paper);border:1px solid var(--line);font-size:20px;color:var(--ink-2);position:relative}
+.ibtn .dot{position:absolute;top:10px;right:11px;width:8px;height:8px;border-radius:50%;background:var(--amber);border:2px solid var(--paper)}
+.sec{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.sec h3{margin:0;font-size:17px;font-weight:800;letter-spacing:-.01em}
+.sec a{font-size:13px;font-weight:700;color:var(--green);text-decoration:none}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:5px 10px;border-radius:99px;background:var(--green-soft);color:var(--green)}
+.chip i{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(21,138,82,.45)}100%{box-shadow:0 0 0 7px rgba(21,138,82,0)}}
+.chip.amber{background:var(--amber-soft);color:var(--amber)}
+.chip.blue{background:var(--blue-soft);color:var(--blue)}
+.chip.grey{background:var(--bg);color:var(--ink-2)}
+.ico{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:19px}
+.ico.g{background:var(--green-soft);color:var(--green)}
+.ico.b{background:var(--blue-soft);color:var(--blue)}
+.ico.a{background:var(--amber-soft);color:var(--amber)}
+.ico.t{background:#E3F2EF;color:var(--green-2)}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.bar{height:7px;border-radius:9px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:inherit;background:var(--green)}
+.btn{height:56px;border-radius:18px;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:700;font-size:16px}
+.btn.pri{background:var(--green);color:#fff;box-shadow:0 12px 24px -12px rgba(21,138,82,.8)}
+.btn.sec2{background:var(--paper);border:1px solid var(--line)}
+
+/* ---------- 1. masuk ---------- */
+.s-login{background:linear-gradient(180deg,#E3F3EA 0%,#F2F9F5 46%,var(--paper) 62%)}
+.s-login .scroll{padding:0 24px 40px;gap:0}
+.login-brand{display:flex;align-items:center;gap:8px;font-weight:800;letter-spacing:.08em;font-size:14px;margin-top:8px}
+.mark{width:26px;height:26px;border-radius:8px;background:conic-gradient(from 200deg,var(--green),var(--green-2),#22A96A,var(--green));display:grid;place-items:center}
+.mark::after{content:"";width:9px;height:9px;border-radius:50%;background:#fff}
+.hero-m{position:relative;height:420px;margin:0 -24px;display:grid;place-items:center}
+.hero-m::before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,#fff 0%,rgba(255,255,255,0) 70%);top:60px}
+.hero-m img{position:relative;height:410px;width:auto;filter:drop-shadow(0 20px 26px rgba(16,32,26,.12))}
+.hero-m::after{content:"";position:absolute;bottom:14px;left:50%;width:190px;height:26px;margin-left:-95px;border-radius:50%;background:radial-gradient(closest-side,rgba(16,32,26,.22),rgba(16,32,26,0))}
+.float{position:absolute;display:flex;align-items:center;gap:10px;padding:9px 13px 9px 9px;border-radius:16px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);box-shadow:var(--shadow);border:1px solid var(--line);font-size:12px;color:var(--ink-2)}
+.float b{display:block;font-size:15px;color:var(--ink)}
+.float .ico{width:32px;height:32px;font-size:16px;border-radius:10px}
+.f1{left:20px;top:150px;animation:bob 4s ease-in-out infinite}
+.f2{right:18px;top:250px;animation:bob 4s ease-in-out 1.2s infinite}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.login-copy h2{margin:6px 0 8px;font-size:30px;line-height:1.12;font-weight:800;letter-spacing:-.03em;text-wrap:balance}
+.login-copy h2 span{color:var(--green)}
+.login-copy p{margin:0;color:var(--ink-2);font-size:15px}
+.dots{display:flex;gap:6px;margin:18px 0 20px}
+.dots i{width:8px;height:8px;border-radius:9px;background:var(--line)}
+.dots i.on{width:24px;background:var(--green)}
+.login-btns{display:grid;gap:10px}
+.gmark{width:20px;height:20px;border-radius:50%;background:conic-gradient(#EA4335 0 25%,#FBBC05 0 50%,#34A853 0 75%,#4285F4 0);display:grid;place-items:center}
+.gmark::after{content:"";width:10px;height:10px;border-radius:50%;background:#fff}
+.login-foot{text-align:center;font-size:14px;color:var(--ink-2);margin-top:14px}
+.login-foot b{color:var(--green)}
+
+/* ---------- 2. beranda ---------- */
+.hello{display:flex;align-items:center;gap:12px}
+.avatar{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,#FCE3C2,#F3C38E);display:grid;place-items:center;font-weight:800;color:#8A5418;font-size:17px}
+.hello small{display:block;color:var(--muted);font-size:13px;font-weight:600}
+.hello b{font-size:20px;letter-spacing:-.02em}
+.dev{display:grid;grid-template-columns:118px 1fr;gap:14px;padding:12px}
+.dev .pic{height:150px;border-radius:16px;background:linear-gradient(160deg,#E6F4EC,#F4FAF6);display:grid;place-items:end center;overflow:hidden}
+.dev .pic{position:relative}
+.dev .pic::after{content:"";position:absolute;bottom:6px;left:50%;width:80px;height:12px;margin-left:-40px;border-radius:50%;background:radial-gradient(closest-side,rgba(16,32,26,.2),rgba(16,32,26,0))}
+.dev .pic img{position:relative;z-index:1;height:140px;width:auto;margin-bottom:6px}
+.dev .info{display:grid;align-content:space-between;padding:4px 2px}
+.dev h4{margin:4px 0 0;font-size:18px;letter-spacing:-.02em}
+.dev .id{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.dev .prog{display:grid;gap:6px;font-size:12.5px;color:var(--ink-2)}
+.dev .prog div:first-child{display:flex;justify-content:space-between}
+.dev .prog b{color:var(--ink)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.st{padding:13px 14px;display:grid;gap:8px}
+.st .top{display:flex;align-items:center;justify-content:space-between}
+.st .lbl{font-size:12.5px;color:var(--ink-2);font-weight:600}
+.st .v{font-size:24px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.st .v small{font-size:13px;color:var(--ink-2);font-weight:700;margin-left:2px}
+.st svg.sp2{width:100%;height:26px}
+.mini-ring{width:34px;height:34px;transform:rotate(-90deg)}
+.harv{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.hv{padding:10px 12px;display:grid;grid-template-columns:auto 1fr;align-items:center;column-gap:8px}
+.hv .ico{grid-row:span 2;width:30px;height:30px;font-size:15px;border-radius:10px}
+.hv b{font-size:15px;letter-spacing:-.02em;line-height:1.2}
+.hv span:not(.ico){font-size:11px;color:var(--ink-2);font-weight:600}
+.stats .st{padding:12px 14px;gap:6px}
+.dev .pic img,.devhero img,.hero-m img{background:none}
+.tip{display:flex;gap:12px;align-items:flex-start;padding:14px;background:var(--green-mist);border:1px dashed #BFE0CC;border-radius:18px;font-size:13.5px;color:var(--ink-2)}
+.tip b{color:var(--ink)}
+
+/* ---------- 3. monitoring ---------- */
+.ttl h2{margin:0;font-size:28px;font-weight:800;letter-spacing:-.03em}
+.ttl p{margin:2px 0 0;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);padding:4px;border-radius:14px;background:#E9EFEB}
+.seg b{height:36px;border-radius:11px;display:grid;place-items:center;font-size:13.5px;font-weight:700;color:var(--ink-2)}
+.seg b.on{background:var(--paper);color:var(--ink);box-shadow:0 2px 6px rgba(16,32,26,.1)}
+.chart{padding:16px 16px 12px}
+.chart .hd{display:flex;justify-content:space-between;align-items:flex-start}
+.chart .big{font-size:32px;font-weight:800;letter-spacing:-.03em;line-height:1.05}
+.chart .big small{font-size:16px;color:var(--ink-2)}
+.delta{font-size:12.5px;font-weight:700;color:var(--green)}
+.chart svg{width:100%;height:auto;display:block;margin-top:6px;overflow:visible}
+.chart text{font-family:var(--mono);font-size:10px;fill:var(--muted)}
+.list{padding:4px 14px}
+.li{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+.li:first-child{border-top:0}
+.li b{display:block;font-size:14.5px}
+.li span{font-size:12px;color:var(--muted)}
+.li .val{text-align:right;font-weight:800;font-size:16px}
+
+/* ---------- 4. chat ---------- */
+.s-chat{background:var(--bg)}
+.chat-hd{display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--line);margin:0 -20px;padding-inline:20px}
+.bot{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#1FA567,var(--green-2));display:grid;place-items:center;color:#fff;font-size:20px;box-shadow:0 8px 16px -8px rgba(14,122,106,.7)}
+.chat-hd b{font-size:16.5px;display:block}
+.chat-hd div span{font-size:12.5px;color:var(--green);font-weight:600}
+.day{align-self:center;font-size:11.5px;font-weight:700;color:var(--muted);background:var(--paper);border:1px solid var(--line);padding:4px 10px;border-radius:99px}
+.msg{max-width:82%;padding:11px 14px;font-size:14px;line-height:1.5;border-radius:20px}
+.msg.me{align-self:flex-end;background:var(--green);color:#fff;border-bottom-right-radius:6px}
+.msg.ai{align-self:flex-start;background:var(--paper);border:1px solid var(--line);border-bottom-left-radius:6px;box-shadow:var(--shadow)}
+.msg.ai ul{margin:6px 0 0;padding-left:18px}
+.msg.ai li{margin:2px 0}
+.data{margin-top:10px;display:grid;gap:6px;padding:10px;border-radius:14px;background:var(--bg);border:1px solid var(--line)}
+.data div{display:flex;align-items:center;justify-content:space-between;font-size:12.5px}
+.data .k{display:flex;align-items:center;gap:6px;color:var(--ink-2);font-weight:600}
+.time{font-size:10.5px;color:var(--muted);margin-top:-10px}
+.time.r{align-self:flex-end}
+.typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px;background:var(--paper);border:1px solid var(--line);border-radius:18px;border-bottom-left-radius:6px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:ty 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes ty{30%{transform:translateY(-4px);background:var(--green)}}
+.composer{position:absolute;left:0;right:0;bottom:0;padding:10px 16px 34px;background:linear-gradient(180deg,rgba(245,248,246,0),var(--bg) 22%);display:grid;gap:10px;z-index:4}
+.sugg{display:flex;gap:8px;overflow:hidden}
+.sugg span{flex:none;font-size:12.5px;font-weight:600;padding:8px 12px;border-radius:99px;background:var(--paper);border:1px solid var(--line);color:var(--ink-2)}
+.inp{display:flex;align-items:center;gap:8px;height:54px;padding:0 6px 0 16px;border-radius:18px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow);color:var(--muted);font-size:14.5px}
+.send{width:42px;height:42px;border-radius:13px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:19px}
+
+/* ---------- 5. alat ---------- */
+.devhero{position:relative;height:250px;border-radius:26px;overflow:hidden;background:radial-gradient(120% 90% at 70% 10%,#FFFFFF 0%,#E8F5EE 55%,#D6EDE0 100%);border:1px solid var(--line)}
+.devhero img{position:absolute;right:10px;bottom:8px;height:238px;z-index:1}
+.devhero::after{content:"";position:absolute;right:40px;bottom:4px;width:130px;height:18px;border-radius:50%;background:radial-gradient(closest-side,rgba(16,32,26,.2),rgba(16,32,26,0))}
+.devhero .txt{position:absolute;left:18px;top:18px;bottom:18px;display:flex;flex-direction:column;gap:6px;width:180px}
+.devhero h4{margin:6px 0 0;font-size:24px;letter-spacing:-.03em;line-height:1.1}
+.devhero .id{font-family:var(--mono);font-size:11.5px;color:var(--ink-2)}
+.devhero .kv{margin-top:auto;display:grid;gap:4px;font-size:12.5px;color:var(--ink-2)}
+.devhero .kv b{color:var(--ink)}
+.conn{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cn{padding:12px 14px;display:flex;gap:10px;align-items:center}
+.cn b{display:block;font-size:14px}
+.cn span{font-size:12px;color:var(--muted)}
+.set{padding:2px 14px}
+.set .li .sw{margin-left:auto}
+.sw{width:50px;height:30px;border-radius:99px;background:#D3DCD7;position:relative;flex:none}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+.sw.on{background:var(--green)}
+.sw.on::after{left:23px}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.acts .btn{height:50px;font-size:14px}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#158A52" stop-opacity=".22"/><stop offset="1" stop-color="#158A52" stop-opacity="0"/></linearGradient>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-act" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+    <symbol id="i-therm" viewBox="0 0 24 24"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></symbol>
+    <symbol id="i-drawer" viewBox="0 0 24 24"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></symbol>
+    <symbol id="i-weight" viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><path d="M6.5 8a2 2 0 0 0-1.905 1.46L2.1 18.5A2 2 0 0 0 4 21h16a2 2 0 0 0 1.925-2.54L19.4 9.5A2 2 0 0 0 17.48 8Z"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 12.5-8.58 3.91a2 2 0 0 1-1.66 0L2 12.5"/><path d="m22 17.5-8.58 3.91a2 2 0 0 1-1.66 0L2 17.5"/></symbol>
+    <symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></symbol>
+    <symbol id="i-bt" viewBox="0 0 24 24"><path d="m7 7 10 10-5 5V2l5 5L7 17"/></symbol>
+    <symbol id="i-rot" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-power" viewBox="0 0 24 24"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.77.04"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></symbol>
+    <symbol id="sig" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor"/></symbol>
+    <symbol id="wf" viewBox="0 0 16 12"><path d="M8 11.5 5.6 8.9a3.4 3.4 0 0 1 4.8 0zM3.5 6.8a6.4 6.4 0 0 1 9 0l-1.5 1.5a4.3 4.3 0 0 0-6 0zM1.2 4.5a9.6 9.6 0 0 1 13.6 0l-1.4 1.4a7.6 7.6 0 0 0-10.8 0z" fill="currentColor"/></symbol>
+    <symbol id="bat" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="17" height="9" rx="2" fill="currentColor"/><path d="M25 4.5v4c.8-.3 1.5-1.1 1.5-2s-.7-1.7-1.5-2z" fill="currentColor" opacity=".45"/></symbol>
+  </defs>
+</svg>
+
+<template id="sbar"><div class="sbar"><span>9:41</span><span class="isl"></span><span class="ic"><svg viewBox="0 0 18 12"><use href="#sig"/></svg><svg viewBox="0 0 16 12"><use href="#wf"/></svg><svg viewBox="0 0 27 13"><use href="#bat"/></svg></span></div><div class="home-ind"></div></template>
+
+<main class="page">
+  <header class="intro">
+    <div>
+      <h1>Aplikasi <span>ARUNA</span> untuk HP</h1>
+      <p>Mockup lima layar utama aplikasi pendamping biodigester rumahan: masuk, beranda, monitoring, tanya AI, dan pengaturan alat. Tema putih, satu warna aksen hijau, angka besar yang bisa dibaca sekilas.</p>
+    </div>
+    <div class="legend"><span>390 × 844 pt</span><span>Plus Jakarta Sans</span><span>#158A52</span></div>
+  </header>
+
+  <section class="renders" aria-label="Render 3D">
+    <figure><img src="renders/mockup_kipas.jpg" alt="Lima layar aplikasi ARUNA di HP yang berdiri membentuk kipas"><figcaption>Render Blender · lima layar berdiri</figcaption></figure>
+    <figure><img src="renders/mockup_flatlay.jpg" alt="Lima HP dengan layar aplikasi ARUNA tampak dari atas"><figcaption>Render Blender · flat-lay tampak atas</figcaption></figure>
+  </section>
+  <p class="sub">Layar asli · geser ke samping</p>
+
+  <div class="rail">
+    <!-- 1 MASUK -->
+    <figure class="shot" id="login" style="margin:0">
+      <div class="phone s-login">
+        <div class="scroll">
+          <div class="login-brand"><span class="mark"></span>ARUNA</div>
+          <div class="hero-m">
+            <img src="img/mesin.png" alt="Mesin biodigester ARUNA">
+            <div class="float f1"><span class="ico b"><svg class="i"><use href="#i-flame"/></svg></span><div><b class="num">±45 mnt</b>gas masak / hari</div></div>
+            <div class="float f2"><span class="ico g"><svg class="i"><use href="#i-drop"/></svg></span><div><b class="num">1,4 L</b>pupuk cair</div></div>
+          </div>
+          <div class="login-copy">
+            <h2>Sisa makanan jadi <span>gas &amp; pupuk</span> untuk rumahmu</h2>
+            <p>Pantau mesin ARUNA dari HP. Kami kabari saat pupuk siap diambil atau laci kompos penuh.</p>
+          </div>
+          <div class="dots"><i class="on"></i><i></i><i></i></div>
+          <div class="login-btns">
+            <button class="btn pri">Mulai sekarang <svg class="i"><use href="#i-arrow"/></svg></button>
+            <button class="btn sec2"><span class="gmark"></span>Masuk dengan Google</button>
+          </div>
+          <div class="login-foot">Sudah punya akun? <b>Masuk</b></div>
+        </div>
+      </div>
+      <figcaption><b>Masuk</b><span>Foto mesin langsung di layar pertama, dua angka hasil, satu tombol utama.</span></figcaption>
+    </figure>
+
+    <!-- 2 BERANDA -->
+    <figure class="shot" id="home" style="margin:0">
+      <div class="phone">
+        <div class="scroll">
+          <div class="hello">
+            <div class="avatar">S</div>
+            <div><small>Selamat pagi,</small><b>Bu Sari</b></div>
+            <span class="sp"></span>
+            <button class="ibtn" aria-label="Notifikasi"><svg class="i"><use href="#i-bell"/></svg><span class="dot"></span></button>
+          </div>
+
+          <div class="card dev">
+            <div class="pic"><img src="img/mesin.png" alt=""></div>
+            <div class="info">
+              <div>
+                <span class="chip"><i></i>Online</span>
+                <h4>ARUNA Dapur</h4>
+                <span class="id">ARN-2201</span>
+              </div>
+              <div class="prog">
+                <div><span>Mencerna</span><span><b>hari 12</b> dari 34</span></div>
+                <div class="bar"><i style="width:43%"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sec"><h3>Kondisi sekarang</h3><a>Detail</a></div>
+          <div class="stats">
+            <div class="card st">
+              <div class="top"><span class="lbl">Suhu</span><span class="ico g" style="width:28px;height:28px;font-size:15px;border-radius:9px"><svg class="i"><use href="#i-therm"/></svg></span></div>
+              <div class="v num">36,4<small>°C</small></div>
+              <svg class="sp2" viewBox="0 0 140 26" preserveAspectRatio="none"><path d="M0 18 L20 15 L40 12 L60 13 L80 8 L100 10 L120 7 L140 8 L140 26 L0 26Z" fill="url(#ga)"/><path d="M0 18 L20 15 L40 12 L60 13 L80 8 L100 10 L120 7 L140 8" fill="none" stroke="#158A52" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+            </div>
+            <div class="card st">
+              <div class="top"><span class="lbl">Isi digester</span>
+                <svg class="mini-ring" viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" fill="none" stroke="#E6F4EC" stroke-width="5"/><circle cx="18" cy="18" r="14" fill="none" stroke="#158A52" stroke-width="5" stroke-linecap="round" stroke-dasharray="88" stroke-dashoffset="33.4"/></svg></div>
+              <div class="v num">62<small>%</small></div>
+              <span class="lbl" style="font-weight:500">Muat ±2,3 kg lagi</span>
+            </div>
+            <div class="card st">
+              <div class="top"><span class="lbl">Gas metana</span><span class="ico b" style="width:28px;height:28px;font-size:15px;border-radius:9px"><svg class="i"><use href="#i-flame"/></svg></span></div>
+              <div class="v num">58<small>% CH₄</small></div>
+              <div class="bar"><i style="width:58%;background:var(--blue)"></i></div>
+            </div>
+            <div class="card st">
+              <div class="top"><span class="lbl">Sampah hari ini</span><span class="ico a" style="width:28px;height:28px;font-size:15px;border-radius:9px"><svg class="i"><use href="#i-weight"/></svg></span></div>
+              <div class="v num">1,9<small>kg</small></div>
+              <div class="bar"><i style="width:63%;background:var(--amber)"></i></div>
+            </div>
+          </div>
+
+          <div class="sec"><h3>Siap dipanen</h3></div>
+          <div class="harv">
+            <div class="card hv"><span class="ico b"><svg class="i"><use href="#i-flame"/></svg></span><b class="num">45 mnt</b><span>Biogas</span></div>
+            <div class="card hv"><span class="ico g"><svg class="i"><use href="#i-drop"/></svg></span><b class="num">1,4 L</b><span>Pupuk</span></div>
+            <div class="card hv"><span class="ico a"><svg class="i"><use href="#i-drawer"/></svg></span><b class="num">30%</b><span>Kompos</span></div>
+          </div>
+        </div>
+        <nav class="tabs">
+          <span class="tab on"><span class="pip"><svg class="i"><use href="#i-home"/></svg></span>Beranda</span>
+          <span class="tab"><span class="pip"><svg class="i"><use href="#i-act"/></svg></span>Monitor</span>
+          <span class="tab"><span class="pip"><svg class="i"><use href="#i-spark"/></svg></span>Tanya</span>
+          <span class="tab"><span class="pip"><svg class="i"><use href="#i-book"/></svg></span>Belajar</span>
+          <span class="tab"><span class="pip"><svg class="i"><use href="#i-cpu"/></svg></span>Alat</span>
+        </nav>
+      </div>
+      <figcaption><b>Beranda</b><span>Status alat, empat angka sensor, dan hasil yang siap diambil dalam satu layar.</span></figcaption>
+    </figure>
+
+    <!-- 3 MONITORING -->
+    <figure class="shot" id="monitor" style="margin:0">
+      <div class="phone">
+        <div class="scroll">
+          <div class="row ttl">
+            <div><h2>Monitoring</h2><p><span class="chip" style="padding:3px 8px"><i></i>Live</span>ARUNA Dapur · 10 dtk lalu</p></div>
+          </div>
+          <div class="seg"><b class="on">24 Jam</b><b>7 Hari</b><b>30 Hari</b></div>
+
+          <div class="card chart">
+            <div class="hd">
+              <div><span class="eyebrow">Suhu digester</span><div class="big num">36,4<small>°C</small></div></div>
+              <span class="delta">▲ 0,2° dari kemarin</span>
+            </div>
+            <svg viewBox="0 0 330 150" aria-label="Grafik suhu 24 jam, 34,9 sampai 36,6 derajat">
+              <rect x="28" y="22" width="302" height="92" fill="#E6F4EC" opacity=".5"/>
+              <line x1="28" x2="330" y1="22" y2="22" stroke="#E4EBE7"/><line x1="28" x2="330" y1="68" y2="68" stroke="#E4EBE7"/><line x1="28" x2="330" y1="114" y2="114" stroke="#E4EBE7"/>
+              <text x="0" y="25">38°</text><text x="0" y="71">35°</text><text x="0" y="117">32°</text>
+              <text x="28" y="140">00</text><text x="100" y="140">06</text><text x="172" y="140">12</text><text x="244" y="140">18</text><text x="330" y="140" text-anchor="end">kini</text>
+              <path d="M30 70 C50 66 62 60 80 62 S112 58 130 54 S160 50 178 46 S210 44 228 48 S262 44 280 42 S306 43 318 43 L318 114 L30 114Z" fill="url(#ga)"/>
+              <path d="M30 70 C50 66 62 60 80 62 S112 58 130 54 S160 50 178 46 S210 44 228 48 S262 44 280 42 S306 43 318 43" fill="none" stroke="#158A52" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="318" x2="318" y1="43" y2="114" stroke="#158A52" stroke-dasharray="3 3"/>
+              <circle cx="318" cy="43" r="5.5" fill="#fff" stroke="#158A52" stroke-width="3"/>
+              <g transform="translate(252 4)"><rect width="64" height="24" rx="8" fill="#10201A"/><text x="32" y="16" text-anchor="middle" style="fill:#fff;font-size:11px;font-family:var(--sans);font-weight:700">36,4 °C</text></g>
+            </svg>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px">Area hijau = rentang ideal 32–38 °C</div>
+          </div>
+
+          <div class="card chart">
+            <div class="hd">
+              <div><span class="eyebrow">Metana harian</span><div class="big num">58<small>%</small></div></div>
+              <span class="chip blue">Api stabil</span>
+            </div>
+            <svg viewBox="0 0 330 110" aria-label="Kadar metana tujuh hari naik dari 41 ke 58 persen">
+              <line x1="0" x2="330" y1="42" y2="42" stroke="#2D6BD8" stroke-dasharray="4 4" opacity=".6"/>
+              <text x="0" y="14">target 50%</text>
+              <g fill="#DCE6FA">
+                <rect x="8" y="41.5" width="30" height="46.5" rx="7"/><rect x="54" y="37" width="30" height="51" rx="7"/><rect x="100" y="32.5" width="30" height="55.5" rx="7"/><rect x="146" y="29" width="30" height="59" rx="7"/><rect x="192" y="25.5" width="30" height="62.5" rx="7"/><rect x="238" y="23.5" width="30" height="64.5" rx="7"/>
+              </g>
+              <rect x="284" y="22" width="30" height="66" rx="7" fill="#2D6BD8"/>
+              <g text-anchor="middle"><text x="23" y="104">Sen</text><text x="69" y="104">Sel</text><text x="115" y="104">Rab</text><text x="161" y="104">Kam</text><text x="207" y="104">Jum</text><text x="253" y="104">Sab</text><text x="299" y="104" style="fill:#10201A;font-weight:500">Min</text></g>
+            </svg>
+          </div>
+
+          <div class="card list">
+            <div class="li"><span class="ico t"><svg class="i"><use href="#i-flask"/></svg></span><div><b>Keasaman</b><span>ideal 6,8 – 7,5</span></div><span class="sp"></span><div class="val num">pH 7,1</div></div>
+            <div class="li"><span class="ico b"><svg class="i"><use href="#i-gauge"/></svg></span><div><b>Tekanan gas</b><span>agak rendah</span></div><span class="sp"></span><div class="val num">12 kPa</div></div>
+          </div>
+        </div>
+        <nav class="tabs">
+          <span class="tab"><span class="pip"><svg class="i"><use href="#i-home"/></svg></span>Beranda</span>
+          <span class="tab on"><span class="pip"><svg class="i"><use href="#i-act"/></svg></span>Monitor</span>
+          <span class="tab"><span class="pip"><svg class="i"><use href="#i-spark"/></svg></span>Tanya</span>
+          <span class="tab"><span class="pip"><svg class="i"><use href="#i-book"/></svg></span>Belajar</span>
+          <span class="tab"><span class="pip"><svg class="i"><use href="#i-cpu"/></svg></span>Alat</span>
+        </nav>
+      </div>
+      <figcaption><b>Monitoring</b><span>Grafik dengan zona ideal, jadi pengguna tahu "normal" tanpa hafal angka.</span></figcaption>
+    </figure>
+
+    <!-- 4 TANYA -->
+    <figure class="shot" id="chat" style="margin:0">
+      <div class="phone s-chat">
+        <div class="scroll" style="gap:14px;padding-bottom:150px">
+          <div class="chat-hd">
+            <button class="ibtn" style="width:40px;height:40px" aria-label="Kembali"><svg class="i"><use href="#i-left"/></svg></button>
+            <span class="bot"><svg class="i"><use href="#i-spark"/></svg></span>
+            <div><b>Tanya ARUNA</b><span>● Asisten biodigester</span></div>
+          </div>
+          <span class="day">Hari ini</span>
+          <div class="msg me">Kulit telur boleh dimasukkan ke mesin?</div>
+          <span class="time r">08.12</span>
+          <div class="msg ai">Boleh, asal <b>dihancurkan dulu</b> sampai halus. Cangkang utuh lama terurai dan bisa mengganjal pencacah.
+            <ul><li>Maksimal segenggam per hari</li><li>Campur dengan sisa sayur</li></ul></div>
+          <div class="msg me">Kok api biogas saya kecil ya?</div>
+          <span class="time r">08.14</span>
+          <div class="msg ai">Aku cek data alatmu:
+            <div class="data">
+              <div><span class="k"><svg class="i" style="color:var(--green)"><use href="#i-check"/></svg>Metana</span><b class="num">58% · bagus</b></div>
+              <div><span class="k"><svg class="i" style="color:var(--amber)"><use href="#i-gauge"/></svg>Tekanan</span><b class="num" style="color:var(--amber)">12 kPa · rendah</b></div>
+            </div>
+            <div style="margin-top:8px">Gasnya bagus, tapi stoknya belum penuh. Tunggu ±3 jam sebelum memasak.</div>
+          </div>
+        </div>
+        <div class="composer">
+          <div class="sugg"><span>Cara pakai pupuk cair</span><span>Kapan kosongkan kompos?</span><span>Bau tidak sedap</span></div>
+          <div class="inp"><svg class="i" style="font-size:20px"><use href="#i-plus"/></svg><span class="sp">Tulis pertanyaanmu…</span><svg class="i" style="font-size:20px;margin-right:4px"><use href="#i-mic"/></svg><span class="send"><svg class="i"><use href="#i-send"/></svg></span></div>
+        </div>
+      </div>
+      <figcaption><b>Tanya ARUNA</b><span>AI menjawab dengan membaca data sensor alat pengguna sendiri.</span></figcaption>
+    </figure>
+
+    <!-- 5 ALAT -->
+    <figure class="shot" id="device" style="margin:0">
+      <div class="phone">
+        <div class="scroll">
+          <div class="row ttl"><div><h2>Alat saya</h2><p>1 alat terhubung</p></div><span class="sp"></span><button class="ibtn" aria-label="Tambah alat"><svg class="i"><use href="#i-plus"/></svg></button></div>
+          <div class="devhero">
+            <img src="img/mesin.png" alt="Mesin ARUNA">
+            <div class="txt">
+              <span class="chip" style="align-self:flex-start"><i></i>Online</span>
+              <h4>ARUNA Dapur</h4>
+              <span class="id">ARN-2201 · v1.4.2</span>
+              <div class="kv"><span>Kapasitas <b>3 kg/hari</b></span><span>Daya <b class="num">38 W</b></span><span>Aktif <b>41 hari</b></span></div>
+            </div>
+          </div>
+          <div class="conn">
+            <div class="card cn"><span class="ico g"><svg class="i"><use href="#i-wifi"/></svg></span><div><b>WiFi</b><span>Sinyal kuat</span></div></div>
+            <div class="card cn"><span class="ico b"><svg class="i"><use href="#i-bt"/></svg></span><div><b>Bluetooth</b><span>Siap dipakai</span></div></div>
+          </div>
+          <div class="sec"><h3>Pengaturan</h3></div>
+          <div class="card set">
+            <div class="li"><span class="ico g"><svg class="i"><use href="#i-rot"/></svg></span><div><b>Pengaduk otomatis</b><span>Tiap 2 jam · berikutnya 10.30</span></div><span class="sw on"></span></div>
+            <div class="li"><span class="ico t"><svg class="i"><use href="#i-moon"/></svg></span><div><b>Mode malam senyap</b><span>22.00 – 05.00</span></div><span class="sw"></span></div>
+            <div class="li"><span class="ico a"><svg class="i"><use href="#i-bell"/></svg></span><div><b>Kabari saat siap panen</b><span>Pupuk, kompos, gas</span></div><span class="sw on"></span></div>
+          </div>
+          <div class="acts">
+            <button class="btn sec2"><svg class="i" style="color:var(--green)"><use href="#i-weight"/></svg>Kalibrasi</button>
+            <button class="btn sec2"><svg class="i" style="color:var(--red)"><use href="#i-power"/></svg>Mulai ulang</button>
+          </div>
+        </div>
+        <nav class="tabs">
+          <span class="tab"><span class="pip"><svg class="i"><use href="#i-home"/></svg></span>Beranda</span>
+          <span class="tab"><span class="pip"><svg class="i"><use href="#i-act"/></svg></span>Monitor</span>
+          <span class="tab"><span class="pip"><svg class="i"><use href="#i-spark"/></svg></span>Tanya</span>
+          <span class="tab"><span class="pip"><svg class="i"><use href="#i-book"/></svg></span>Belajar</span>
+          <span class="tab on"><span class="pip"><svg class="i"><use href="#i-cpu"/></svg></span>Alat</span>
+        </nav>
+      </div>
+      <figcaption><b>Alat saya</b><span>Koneksi WiFi/Bluetooth dan tiga pengaturan yang benar-benar dipakai.</span></figcaption>
+    </figure>
+  </div>
+</main>
+
+<script>
+(() => {
+  const tpl = document.getElementById('sbar');
+  document.querySelectorAll('.phone').forEach(p => p.prepend(tpl.content.cloneNode(true)));
+  const pick = location.hash.slice(1);
+  if (pick && document.getElementById(pick)) {
+    document.body.classList.add('solo');
+    document.getElementById(pick).classList.add('pick');
+  }
+})();
+</script>
